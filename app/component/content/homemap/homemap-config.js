@@ -1,11 +1,13 @@
 import gConfig from '../../common/gConfig';
+
 let gTColor = new gConfig().getSiteObj().gTColor;//主题色
+
 let option = {
     backgroundColor: '#317ab7',
     animation: true,
-    animationDuration: 1000,
+    animationDuration: 2000,
     animationEasing: 'cubicInOut',
-    animationDurationUpdate: 1000,
+    animationDurationUpdate: 2000,
     animationEasingUpdate: 'cubicInOut',
     color: ['rgba(30,144,255,1)', 'lime'],
     tooltip: {
@@ -23,7 +25,8 @@ let option = {
             saveAsImage: {}
         }
     },
-    series: [{
+    series: [
+    {
         name: '长江经济带',
         type: 'map',
         roam: true,

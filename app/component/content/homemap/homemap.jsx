@@ -16,18 +16,50 @@ class Homemap extends React.Component{
 	 * [componentDidMount 已经插入真实DOM]
 	 */
 	componentDidMount(){
+		if(__DEV__) console.info("componentDidMount");
+
 		this.myChart = echarts.init(document.getElementById("homemap"));
         this.myChart.showLoading();
         util.getJson("/app/common/echarts/china.json").then((chinaJson)=>{
-        	this.myChart.hideLoading();
+        	if(!chinaJson) return;
+
         	echarts.registerMap('china', chinaJson);
         	
-			if(__DEV__) console.info(chinaJson);
+			// if(__DEV__) console.log(chinaJson);
 
-            this.initMap(homemapEhartsConfig);
-        },function(error){
+			util.getJson("/app/component/content/homemap/provInfo.json").then((provInfoJson)=>{
+        		this.myChart.hideLoading();
+
+				homemapEhartsConfig.series[0].tooltip.formatter = function(params) {
+                	var info = provInfoJson.filter(function(item) {
+                		return item.province.trim() == params.name;
+            		})[0];
+            			
+                	if (typeof params.value == 'number' && info) {
+                	    return params.name + '<br/>地理位置：' + info.geo_location + '<br/>省会：' + info.capital +
+                	        '<br/>面积：' + info.area + '<br/>地区：' + info.district + '<br/>气候：' + info.climatetype;
+                	} else {
+                	    return params.name;
+                	}
+            	};
+			}).then(()=>{
+            	this.initMap(homemapEhartsConfig);//即使没有获取也要初始化
+			}).catch(()=>{
+        		if(__DEV__) console.error("错误",error);
+			})
+
+        },(error)=>{
         	if(__DEV__) console.error("错误",error);
         })
+
+      // window.onresize = this.initMap(homemapEhartsConfig);
+	  
+	}
+	componentDidUpdate(){
+		if(__DEV__) console.info("componentDidUpdate");
+		window.onresize = ()=>{
+			this.initMap(homemapEhartsConfig);
+		}
 	}
 	initMap(option){
 		this.myChart.setOption(option);
