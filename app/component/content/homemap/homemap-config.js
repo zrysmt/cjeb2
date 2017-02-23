@@ -111,7 +111,7 @@ option = {
     {
         name: '长江经济带',
         type: 'map',
-        roam: true,
+        roam: false,
         center: [112, 28],
         zoom: 3,
         mapType: 'china',

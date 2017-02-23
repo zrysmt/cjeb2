@@ -38,5 +38,8 @@
     "webpack-dev-server": "^1.16.2"
   },
   "author": "Zhao Ruyi",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "echarts-liquidfill": "^1.0.4"
+  }
 }

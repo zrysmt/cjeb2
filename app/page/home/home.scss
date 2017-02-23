@@ -1,0 +1,27 @@
+$oneHeight:450px;
+$hoIntroTop:10%;
+$hoIntroLeft:12%;
+$hoIntroRight:0;
+
+#home-page{
+}
+#ho-intro{
+	position:relative;
+	height:$oneHeight;
+	#ho-intro-l,#ho-intro-r{
+		position: absolute;
+		top:$hoIntroTop;
+		width:28%;
+		.liquid-chart:first-child{
+			margin-bottom: 50px;
+		}
+	}
+	#ho-intro-l{
+		left:$hoIntroLeft;
+	}
+	#ho-intro-r{
+		position: absolute;
+		right:$hoIntroRight;
+	}
+
+} 

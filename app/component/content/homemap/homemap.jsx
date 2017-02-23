@@ -16,7 +16,6 @@ class Homemap extends React.Component{
 	 * [componentDidMount 已经插入真实DOM]
 	 */
 	componentDidMount(){
-		if(__DEV__) console.info("componentDidMount");
 
 		this.myChart = echarts.init(document.getElementById("homemap"));
         this.myChart.showLoading();
