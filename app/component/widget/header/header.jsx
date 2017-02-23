@@ -3,11 +3,11 @@ import {Link} from 'react-router';
 
 import gConfig from '../../common/gConfig';
 
+import './menu.scss';
+
 let config = new gConfig();
 const menuLis = config.getMenuLis();
 const siteObj = config.getSiteObj();
-
-import './menu.scss';
 
 class MenuLi extends React.Component{
 	render(){

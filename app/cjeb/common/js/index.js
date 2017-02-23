@@ -3,13 +3,34 @@ seajs.config({
     'base': './modules/'
 });
 
-//esl.js配置  
-// require.config({
-//   baseUrl: './modules/',
-// });  
-
 define(function(require) {
-
+    //加载css和html片段
+   /* loadHtmlCss('map', 'mapview');
+    loadHtmlCss('menu', 'menubar');
+    loadHtmlCss('subTitle', 'subTitle');
+    loadHtmlCss('indlist', 'indlist');
+    loadHtmlCss('chartwin', 'charts');
+    loadHtmlCss('datawin', 'datamgr');*/
+    $('#map').html(require('../../modules/mapview/mapview.html'));
+    require('../../modules/mapview/mapview.css')
+    $('#menu').html(require('../../modules/menubar/menubar.html'));
+    require('../../modules/menubar/menubar.css')
+    $('#subTitle').html(require('../../modules/subTitle/subTitle.html'));
+    require('../../modules/subTitle/subTitle.css')
+    $('#indlist').html(require('../../modules/indlist/indlist.html'));
+    require('../../modules/indlist/indlist.css')
+    $('#chartwin').html(require('../../modules/charts/charts.html'));
+    require('../../modules/charts/charts.css')
+    $('#datawin').html(require('../../modules/datamgr/datamgr.html'));
+    require('../../modules/datamgr/datamgr.css')
+    function loadHtmlCss(id, file) {
+        if(!$('#' + id).html()){
+            var html = require('../../modules/' + file + '/' + file + '.html');
+            $('#' + id).html(html);
+            console.info(html,'../../modules/' + file + '/' + file + '.html');
+            require('../../modules/' + file + '/' + file + '.css');
+        }
+    }
     //统一引进子模块的脚本
     require('menubar/menubar');
     var Eventful = require('mixin/Eventful');
@@ -55,8 +76,8 @@ define(function(require) {
         gl_tab = tab;
         gl_year = $(obj).text() == '水资源' ? 2012 : 2008;
         gl_cnty = '上海市';
-        subTitleMod.init(obj);//子标题
-        indlistMod.init(obj);//左边指标初始化
+        subTitleMod.init(obj); //子标题
+        indlistMod.init(obj); //左边指标初始化
         // chartsMod.init(obj); 
         intermapMod.init(obj); //默认第一个绘制，初始化
         // intermapMod.renderInteractMap(gl_tab,gl_tab,gl_year);
@@ -74,7 +95,7 @@ define(function(require) {
             intermapMod.renderInteractMap(gl_tab, gl_ind, year_cnty);
             // intermapMod.init();
         } else if (type == 'datamgr') {
-            datamgrMod.init(gl_tab,year_cnty);
+            datamgrMod.init(gl_tab, year_cnty);
         } else {
             chartsMod.addval2chart(gl_ind, year_cnty, gl_tab, type);
         }
@@ -94,8 +115,8 @@ define(function(require) {
     function chartsMod_initbox(type) {
         subTitleMod.initbox(type);
     }
-    
-    function datamgrMod_initbox(type){
+
+    function datamgrMod_initbox(type) {
         subTitleMod.initbox(type);
     }
     // function modelMod_modelclick() {

@@ -11,8 +11,14 @@ const menuLis = [
 ];
 const siteObj = {
 	title:'"长江经济带"数据库平台',
+	v1Url:"https://ccgis.cn/cjeb",
 	gTColor:"#48c78f",
 	cBColor:"#3e3843"
+};
+const echartsConfig={
+	bgColor:"#003366",
+	tColor:"#66cc99",
+	hColor:"#339966"
 };
 class gConfig{
 	getMenuLis(){
@@ -23,6 +29,9 @@ class gConfig{
 	}
 	getProjectName(){
 		return projectName;
+	}
+	getEchartsConfig(){
+		return echartsConfig;
 	}
 }
 

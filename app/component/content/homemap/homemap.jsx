@@ -37,7 +37,7 @@ class Homemap extends React.Component{
             			
                 	if (typeof params.value == 'number' && info) {
                 	    return params.name + '<br/>地理位置：' + info.geo_location + '<br/>省会：' + info.capital +
-                	        '<br/>面积：' + info.area + '<br/>地区：' + info.district + '<br/>气候：' + info.climatetype;
+                	        '<br/>面积：' + info.area + '<br/>地区：' + info.district + '<br/>气候：' + info.climateType;
                 	} else {
                 	    return params.name;
                 	}

@@ -75,14 +75,14 @@ let util = {
             client.send();
 
             function handler() {
-              if (this.readyState !== 4) {
-                return;
-              }
-              if (this.status === 200) {
-                resolve(this.response);
-              } else {
-                reject(new Error(this.statusText));
-              }
+                if (this.readyState !== 4) {
+                  return;
+                }
+                if (this.status === 200) {
+                  resolve(this.response);
+                } else {
+                  reject(new Error(this.statusText));
+                }
             };
           });
 
