@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Header from '../../component/widget/header/header';
+import Footer from '../../component/widget/footer/footer';
 import Homemap from '../../component/content/homemap/homemap';
 import Bdmap from '../../component/content/bdmap/bdmap';
 import LiquidChart from '../../component/content/liquidchart/liquidchart';
@@ -39,6 +40,7 @@ class Home extends React.Component{
 				<div id="ho-func">
 					<Homefuncpage/>
 				</div>
+				<Footer/>
 			</div>
 		)
 	}
