@@ -5,6 +5,8 @@ import Homemap from '../../component/content/homemap/homemap';
 import Bdmap from '../../component/content/bdmap/bdmap';
 import LiquidChart from '../../component/content/liquidchart/liquidchart';
 
+import Homefuncpage from './homefuncpage';
+
 import './home.scss';
 
 class Home extends React.Component{
@@ -35,6 +37,7 @@ class Home extends React.Component{
 					</div>
 				</div>
 				<div id="ho-func">
+					<Homefuncpage/>
 				</div>
 			</div>
 		)
