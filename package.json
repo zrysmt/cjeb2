@@ -40,6 +40,8 @@
   "author": "Zhao Ruyi",
   "license": "ISC",
   "dependencies": {
-    "echarts-liquidfill": "^1.0.4"
+    "closure-util": "^1.18.0",
+    "echarts-liquidfill": "^1.0.4",
+    "openlayers": "^4.0.1"
   }
 }

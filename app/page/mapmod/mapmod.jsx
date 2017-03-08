@@ -1,13 +1,18 @@
 import React from 'react';
 
 import Header from '../../component/widget/header/header';
+import Olbasemap from '../../component/content/olmap/olbasemap';
+
+import './mapmod.scss';
 
 class Mapmod extends React.Component{
 	render(){
 		return(
-			<div id="map">
+			<div id="map-page">
 				<Header/>
-				这是地图模块
+				<div className="margin-top-header">
+					<Olbasemap/>
+				</div>
 			</div>
 		)
 	}

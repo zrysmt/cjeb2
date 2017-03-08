@@ -79,7 +79,8 @@ module.exports = {
           exclude: /node_modules/,
           loader: 'url?limit=8192'
       }
-    ]
+    ],
+    noParse: [path.join(__dirname, "node_modules/openlayers/dist/ol.js")]
   },
   postcss: [
       autoprefixer

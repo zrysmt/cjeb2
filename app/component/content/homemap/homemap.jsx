@@ -65,7 +65,7 @@ class Homemap extends React.Component{
 	}
 	render(){
 		return(
-			<div id="homemap"></div>
+			<div id="homemap" className="margin-top-header"></div>
 		)
 	}
 }
