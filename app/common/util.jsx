@@ -52,13 +52,36 @@ let util = {
      * [debounceAdapt 动态计算媒体查询]
      * @param  {Number} designWidth [标准设计稿尺寸]
 	 * @param  {Number} rem2px      [标准设计稿下1rem等于多少px]
-	 * @return {[null]}             []
      */
     debounceAdapt(designWidth = 640,rem2px = 100) {
     	this.adapt(designWidth,rem2px);//屏幕自适应处理
 		window.onresize = this.debounce(() => {
 			this.adapt(designWidth,rem2px);
 		},200,false);
+    },
+    /**
+     * [adaptHeight 高度自适应]
+     * @param  {[String]} domId       [控制dom高度的id]
+     * @param  {[Number]} otherHeight [除了domId其余部分高度]
+     * @param  {[Number]} threshold [时间间隔]
+     */
+    adaptHeight(domId,otherHeight,threshold = 300){
+        let mapDom,bodyHeight ;
+        otherHeight = parseFloat(otherHeight)||0;
+        mapDom = document.getElementById(domId);
+        mapDom.style.height = getHeight()+"px";
+       
+        window.onresize = this.debounce(()=>{
+            if(__DEV__) console.log(mapDom.style.height);
+            mapDom.style.height = getHeight()+"px";
+        },threshold);
+
+        function getHeight(){
+            var height = 500;//最好设置个最小
+            if(document.documentElement.clientHeight > 500)
+                height = document.documentElement.clientHeight - otherHeight;
+            return height;
+        }
     },
     /**
      * [getJSON 获取json文件]
