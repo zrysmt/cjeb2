@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CSS布局实践-居中对齐</title>
+    <style>
+    .parent {
+        width: 400px;
+        height: 80px;
+        background-color: red;
+        margin-bottom: 5px;
+    }
+    
+    .child {
+        height: 50%;
+        background-color: blue;
+        color: #fff;
+    }
+    /* 水平居中 */
+    .parent1 {
+        text-align: center;
+    }
+    
+    .child1 {
+        display: inline-block;
+    }
+    
+    .child2 {
+        width: 200px;
+        margin: 0 auto;
+    }
+    
+    .child3 {
+        display: table;
+        margin: 0 auto;
+    }
+    
+    .parent4 {
+        position: relative;
+    }
+    
+    .child4 {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%);
+    }
+    
+    .parent5 {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .parent6 {
+        display: flex;
+    }
+    
+    .child6 {
+        margin: 0 auto;
+    }
+    /* 垂直居中 */
+    .parent7 {
+        display: table-cell;
+        vertical-align: middle;
+        line-height: 20px;
+    }
+    
+    .parent8 {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 20px;
+    }
+    
+    .parent9 {
+        display: flex;
+        align-items: center;
+    }
+    
+    .parent10 {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+    }
+    /* 水平垂直全部居中 */
+    .child10 {
+        display: inline-block;
+    }
+    
+    .parent11 {
+        position: relative;
+    }
+    
+    .child11 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    .parent12 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    </style>
+</head>
+
+<body>
+    <h3>水平居中</h3>
+    <div class="parent parent1">
+        <div class="child child1">使用inline-block 和 text-align实现</div>
+    </div>
+    <div class="parent parent2">
+        <div class="child child2">使用width和margin:0 auto来实现</div>
+    </div>
+    <div class="parent parent3">
+        <div class="child child3">使用table实现</div>
+    </div>
+    <div class="parent parent4">
+        <div class="child child4">使用绝对定位实现</div>
+    </div>
+    <div class="parent parent5">
+        <div class="child child5">使用flex布局justify-content:center</div>
+    </div>
+    <div class="parent parent6">
+        <div class="child child6">使用flex布局和margin</div>
+    </div>
+    <h3>垂直居中</h3>
+    <div class="parent parent7">
+        <div class="child child7">使用display: inline-block和vertical-align</div>
+    </div>
+    <div class="parent parent8" style="margin-top:5px;">
+        <div class="child child8">使用display: table-cell和vertical-align</div>
+    </div>
+    <div class="parent parent9">
+        <div class="child child9">使用flex实现</div>
+    </div>
+    <h3>水平垂直全部居中</h3>
+    <div class="parent parent10">
+        <div class="child child10">利用vertical-align,text-align,inline-block实现</div>
+    </div>
+    <div class="parent parent11" style="margin-top:5px;">
+        <div class="child child11">利用绝对定位实现</div>
+    </div>
+    <div class="parent parent12">
+        <div class="child child12">利用flex实现</div>
+    </div>
+</body>
+
+</html>

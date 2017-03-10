@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		function optionalChaining(obj, chain) {
+			var chainArr,objChain = undefined,len;
+			chainArr = chain.split('.');
+			len = chainArr.length;
+			for (var i = 0; i < len; i++) {
+				objChain = obj[chainArr[i]];
+				if(i==len-1){
+					return objChain;
+				}
+				if(objChain){
+					obj = objChain;
+				} else{
+					return objChain;
+				}	
+			}
+
+		}
+		var user = {
+			address:{
+				street:"No.969 West WenYi Road"
+			}
+		}
+		var a = optionalChaining(user, 'address.street');
+		console.log(a);
+	</script>
+</body>
+</html>
