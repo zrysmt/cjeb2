@@ -52,9 +52,9 @@ class LiquidChart extends React.Component{
 	constructor(props){
 		super(props);
 	}
-	propTypes:{
+	/*propTypes:{
 		data:React.PropTypes.string.isRequired
-	}
+	}*/
 	static get defaultProps(){
 		return{
 			data:0,
@@ -80,4 +80,9 @@ class LiquidChart extends React.Component{
 		)
 	}
 }
+
+LiquidChart.propTypes ={
+	data:React.PropTypes.string.isRequired
+}
+
 export default LiquidChart;
