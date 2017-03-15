@@ -24,13 +24,10 @@ class Toolbar extends React.Component{
         this.handleClickOfArea = this.handleClickOfArea.bind(this);
     }
     handleClickOfPan(){
-    	let dragPan;
-    	dragPan = new ol.interaction.DragPan();
-    	if(!dragPan.getActive()) dragPan.setActive(true);
-    	document.getElementById("map").style.cursor = "pointer";
+    	Eventful.dispatch('pan');
     }
     handleClickOfZoomtoall(){
-    	Eventful.dispatch('zoomtoall');
+        Eventful.dispatch('zoomtoall');
     }
     handleClickOfDistance(){
     	Eventful.dispatch('distance');
