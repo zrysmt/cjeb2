@@ -111,6 +111,44 @@ let util = {
 
          return promise;
         
+    },
+    /*showTipWin(text,time = 500,style={width:"100px",height:"100px"}){
+        let div = document.createElement('div'); 
+        div.style.display = "absolute";
+        div.style.width = style.width;
+        div.style.height = style.height;
+        div.style.
+    },*/
+    /**
+     * [cloneObj 深拷贝对象]
+     * @param  {[Object]} obj [被拷贝的对象]
+     * @return {[Object]}     [返回拷贝后的对象]
+     */
+    cloneObj(obj){
+        let newObj,s;
+        if(typeof obj!== 'object') return;
+        newObj = obj.constructor === Object ? {} : [];
+        if(window.JSON){
+            s = JSON.stringify(obj);
+            newObj = JSON.parse(s);
+        }else{
+            if(newObj.constructor === Array){
+                newObj.concat(obj);
+            }else{
+                for(let o in obj){
+                   newObj[i] = obj[i]; 
+                } 
+            }
+        }
+
+        return newObj;
+    },
+    byClassName(className,index){
+        if(index !== undefined) return document.getElementsByClassName(className)[index];
+        return document.getElementsByClassName(className);
+    },
+    ByIdName(id){
+        return document.getElementById(id);
     }
     
 }
