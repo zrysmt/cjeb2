@@ -149,6 +149,33 @@ let util = {
     },
     ByIdName(id){
         return document.getElementById(id);
+    },
+    /**
+     * [getScript 异步加载script]
+     * @param  {[String]} url [script地址]
+     * @return {[Promise]}     [promise]
+     */
+    getScript(url){
+        let promise = new Promise((resolve,reject)=>{
+            let script = document.createElement('script');
+            script.type = 'text/javascript';
+
+            script.onreadystatechange = ()=>{
+                if(this.readyState=='complete'){
+                    resolve();
+                }
+            }
+            script.onload = ()=>{
+                resolve();
+            }
+            script.onerror = ()=>{
+                reject();
+            }
+            script.src = url;
+            document.getElementsByTagName('head')[0].appendChild(script);
+        })
+
+        return promise;
     }
     
 }
