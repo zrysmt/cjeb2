@@ -3,24 +3,24 @@
  * @Date 2017-3-22
  */
 import ol from 'openlayers';
-
+import saveAs from 'file-saver';
 import util from '../../../common/util.jsx';
 
 class PrintbarAction{
 	print2Img(map){
-		util.getScript('../../../app/common/jslibs/fileSaver.min.js').then(()=>{
+		// util.getScript('../../../app/common/jslibs/fileSaver.min.js').then(()=>{
 			map.once('postcompose', function(event) {
-          	var canvas = event.context.canvas;
-          	if (navigator.msSaveBlob) {
-           		navigator.msSaveBlob(canvas.msToBlob(), 'map.png');
-            } else {
-            	canvas.toBlob(function(blob) {
-              		saveAs(blob, 'map.png');
-           		});
-          	}
-        });
+          		var canvas = event.context.canvas;
+          		if (navigator.msSaveBlob) {
+           			navigator.msSaveBlob(canvas.msToBlob(), 'map.png');
+            	} else {
+            		canvas.toBlob(function(blob) {
+            	  		saveAs(blob, 'map.png');
+           			});
+          		}
+       		});
         	map.renderSync();
-		});
+		// });
 	}
 	print2Pdf(map,bglayer){
 		let dims = {
