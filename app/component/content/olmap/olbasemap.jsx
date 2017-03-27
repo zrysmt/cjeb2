@@ -54,7 +54,7 @@ class Olbasemap extends React.Component{
                 url: olConfig.tianMap.vecLabel||"http://t2.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}"
             })*/
         });
-        this.vecLabelLayer.setZIndex(999);
+        // this.vecLabelLayer.setZIndex(999);
         this.map = map = new ol.Map({
             target: 'map',
             layers: [this.vecLayer,this.vecLabelLayer],
@@ -101,9 +101,9 @@ class Olbasemap extends React.Component{
         Eventful.subscribe('add-baidumap-sat',()=>maptypebarAction.layerCtl('add-baidumap-sat',map));
         Eventful.subscribe('remove-baidumap-sat',()=>maptypebarAction.layerCtl('remove-baidumap-sat',map));
         Eventful.subscribe('add-amap',()=>maptypebarAction.layerCtl('add-amap',map));
-        Eventful.subscribe('remove-amap',()=>maptypebarAction.layerCtl('remove-amap',map));
-        Eventful.subscribe('add-amap-sat',()=>maptypebarAction.layerCtl('add-amap-sat',map));
-        Eventful.subscribe('remove-amap-sat',()=>maptypebarAction.layerCtl('remove-amap-sat',map));
+        Eventful.subscribe('remove-amap',()=>maptypebarAction.layerCtl('remove-amap',map,""));
+        Eventful.subscribe('add-amap-sat',()=>maptypebarAction.layerCtl('add-amap-sat',map,""));
+        Eventful.subscribe('remove-amap-sat',()=>maptypebarAction.layerCtl('remove-amap-sat',map,""));
     }
     /****************************************************************/
     handleEditbar(){
