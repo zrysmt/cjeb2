@@ -101,9 +101,13 @@ class Olbasemap extends React.Component{
         Eventful.subscribe('add-baidumap-sat',()=>maptypebarAction.layerCtl('add-baidumap-sat',map));
         Eventful.subscribe('remove-baidumap-sat',()=>maptypebarAction.layerCtl('remove-baidumap-sat',map));
         Eventful.subscribe('add-amap',()=>maptypebarAction.layerCtl('add-amap',map));
-        Eventful.subscribe('remove-amap',()=>maptypebarAction.layerCtl('remove-amap',map,""));
-        Eventful.subscribe('add-amap-sat',()=>maptypebarAction.layerCtl('add-amap-sat',map,""));
-        Eventful.subscribe('remove-amap-sat',()=>maptypebarAction.layerCtl('remove-amap-sat',map,""));
+        Eventful.subscribe('remove-amap',()=>maptypebarAction.layerCtl('remove-amap',map));
+        Eventful.subscribe('add-amap-sat',()=>maptypebarAction.layerCtl('add-amap-sat',map));
+        Eventful.subscribe('remove-amap-sat',()=>maptypebarAction.layerCtl('remove-amap-sat',map));
+        Eventful.subscribe('add-osm',()=>maptypebarAction.layerCtl('add-osm',map));
+        Eventful.subscribe('remove-osm',()=>maptypebarAction.layerCtl('remove-osm',map));
+        Eventful.subscribe('add-bingmap',()=>maptypebarAction.layerCtl('add-bingmap',map));
+        Eventful.subscribe('remove-bingmap',()=>maptypebarAction.layerCtl('remove-bingmap',map));
     }
     /****************************************************************/
     handleEditbar(){

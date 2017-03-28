@@ -9,7 +9,8 @@ import BaiduMapSource from './ext/baidumap.js';//加载进来就行
 import TianMapSource from './ext/tianmap.js'; 
 import AMapSource from './ext/amap.js'; 
 
-let img,imgLabel,vecLayer,vecLabelLayer,baiduMap,baiduMapSat,aMap,aMapSat;
+let img,imgLabel,vecLayer,vecLabelLayer,baiduMap,baiduMapSat,
+    aMap,aMapSat,osm,bingMap;
 
 class MaptypebarAction{
     /**
@@ -143,6 +144,37 @@ class MaptypebarAction{
                 if(aMapSat){
                     map.removeLayer(aMapSat);
                     aMapSat = null;
+                } 
+            break;
+            case "add-osm":
+                if(osm) return;
+                osm = new ol.layer.Tile({
+                    title: "OSM",
+                    source: new ol.source.OSM()
+                });
+                map.addLayer(osm);
+            break;
+            case "remove-osm":
+                if(osm){
+                    map.removeLayer(osm);
+                    osm = null;
+                } 
+            break;
+            case "add-bingmap":
+                if(bingMap) return;
+                bingMap = new ol.layer.Tile({
+                    title: "Bing地图",
+                    source: new ol.source.BingMaps({
+                        key: 'AgiU9gCjKNfaR2yFSDfLw8e9zUlAYisRvRC2_L-LsGYN2bII5ZUvorfP3QJvxmjn', //自己申请的key
+                        imagerySet: 'Road'// Aerial, AerialWithLabels, or Road.
+                    })
+                });
+                map.addLayer(bingMap);
+            break;
+            case "remove-bingmap":
+                if(bingMap){
+                    map.removeLayer(bingMap);
+                    bingMap = null;
                 } 
             break;
         }
