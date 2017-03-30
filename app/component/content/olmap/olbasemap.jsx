@@ -43,21 +43,17 @@ class Olbasemap extends React.Component{
             center: ol.proj.fromLonLat(olConfig.initialView.center||[104, 30]),
             zoom: olConfig.initialView.zoom || 5,
         });
-        this.vecLayer = new ol.layer.Tile({
-            source: new ol.source.TianMap() /*new ol.source.XYZ({
-                attributions: [attribution],
-                url: olConfig.tianMap.vec||"http://t2.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}"
-            })*/
+        this.initLayer = new ol.layer.Tile({
+            source: new ol.source.BaiduMap() 
+            // source: new ol.source.TianMap({mapType:"sat"}) 
         });
-        this.vecLabelLayer =  new ol.layer.Tile({
-            source:  new ol.source.TianMap({mapType:"label"})/*new ol.source.XYZ({
-                url: olConfig.tianMap.vecLabel||"http://t2.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}"
-            })*/
-        });
+        /*this.initLayer2 =  new ol.layer.Tile({
+            source:  new ol.source.TianMap({mapType:"satLabel"})
+        });*/
         // this.vecLabelLayer.setZIndex(999);
         this.map = map = new ol.Map({
             target: 'map',
-            layers: [this.vecLayer,this.vecLabelLayer],
+            layers: [this.initLayer/*,this.initLayer2*/],
             view: view,
             controls: ol.control.defaults().extend([
                 new ol.control.FullScreen(), //全屏控件
@@ -85,29 +81,29 @@ class Olbasemap extends React.Component{
     }
     handleMaptypebar(){
         let map = this.map;
-        let vecLayer = this.vecLayer;
-        let vecLabelLayer = this.vecLabelLayer;
+        let initLayer = this.initLayer||"";
+        let initLayer2 = this.initLayer2||"";
 
-        Eventful.subscribe('remove-vec',()=>maptypebarAction.layerCtl('remove-vec',map,vecLayer));
-        Eventful.subscribe('add-vec',()=>maptypebarAction.layerCtl('add-vec',map,vecLayer));
-        Eventful.subscribe('remove-vec-label',()=>maptypebarAction.layerCtl('remove-vec-label',map,vecLabelLayer));
-        Eventful.subscribe('add-vec-label',()=>maptypebarAction.layerCtl('add-vec-label',map,vecLabelLayer));
-        Eventful.subscribe('remove-img',()=>maptypebarAction.layerCtl('remove-img',map));
+        Eventful.subscribe('remove-vec',()=>maptypebarAction.layerCtl('remove-vec',map,initLayer));
+        Eventful.subscribe('add-vec',()=>maptypebarAction.layerCtl('add-vec',map));
+        Eventful.subscribe('remove-vec-label',()=>maptypebarAction.layerCtl('remove-vec-label',map,initLayer2));
+        Eventful.subscribe('add-vec-label',()=>maptypebarAction.layerCtl('add-vec-label',map));
+        Eventful.subscribe('remove-img',()=>maptypebarAction.layerCtl('remove-img',map,initLayer));
         Eventful.subscribe('add-img',()=>maptypebarAction.layerCtl('add-img',map));
-        Eventful.subscribe('remove-img-label',()=>maptypebarAction.layerCtl('remove-img-label',map));
+        Eventful.subscribe('remove-img-label',()=>maptypebarAction.layerCtl('remove-img-label',map,initLayer2));
         Eventful.subscribe('add-img-label',()=>maptypebarAction.layerCtl('add-img-label',map));
         Eventful.subscribe('add-baidumap',()=>maptypebarAction.layerCtl('add-baidumap',map));
-        Eventful.subscribe('remove-baidumap',()=>maptypebarAction.layerCtl('remove-baidumap',map));
+        Eventful.subscribe('remove-baidumap',()=>maptypebarAction.layerCtl('remove-baidumap',map,initLayer));
         Eventful.subscribe('add-baidumap-sat',()=>maptypebarAction.layerCtl('add-baidumap-sat',map));
-        Eventful.subscribe('remove-baidumap-sat',()=>maptypebarAction.layerCtl('remove-baidumap-sat',map));
+        Eventful.subscribe('remove-baidumap-sat',()=>maptypebarAction.layerCtl('remove-baidumap-sat',map,initLayer));
         Eventful.subscribe('add-amap',()=>maptypebarAction.layerCtl('add-amap',map));
-        Eventful.subscribe('remove-amap',()=>maptypebarAction.layerCtl('remove-amap',map));
+        Eventful.subscribe('remove-amap',()=>maptypebarAction.layerCtl('remove-amap',map,initLayer));
         Eventful.subscribe('add-amap-sat',()=>maptypebarAction.layerCtl('add-amap-sat',map));
-        Eventful.subscribe('remove-amap-sat',()=>maptypebarAction.layerCtl('remove-amap-sat',map));
+        Eventful.subscribe('remove-amap-sat',()=>maptypebarAction.layerCtl('remove-amap-sat',map,initLayer));
         Eventful.subscribe('add-osm',()=>maptypebarAction.layerCtl('add-osm',map));
-        Eventful.subscribe('remove-osm',()=>maptypebarAction.layerCtl('remove-osm',map));
+        Eventful.subscribe('remove-osm',()=>maptypebarAction.layerCtl('remove-osm',map,initLayer));
         Eventful.subscribe('add-bingmap',()=>maptypebarAction.layerCtl('add-bingmap',map));
-        Eventful.subscribe('remove-bingmap',()=>maptypebarAction.layerCtl('remove-bingmap',map));
+        Eventful.subscribe('remove-bingmap',()=>maptypebarAction.layerCtl('remove-bingmap',map,initLayer));
     }
     /****************************************************************/
     handleEditbar(){

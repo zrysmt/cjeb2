@@ -9,6 +9,8 @@ import util from '../../../common/util';
 import gConfig from '../../common/gConfig';
 import homemapEhartsConfig from './homemap-config.js'; 
 
+import chinaJson from '../../../common/echarts/china.json';
+import provInfoJson from './provInfo.json';
 import './homemap.scss';
 
 class Homemap extends React.Component{
@@ -18,16 +20,16 @@ class Homemap extends React.Component{
 	componentDidMount(){
 
 		this.myChart = echarts.init(document.getElementById("homemap"));
-        this.myChart.showLoading();
-        util.getJson("/app/common/echarts/china.json").then((chinaJson)=>{
+        // this.myChart.showLoading();
+        // util.getJson("/app/common/echarts/china.json").then((chinaJson)=>{
         	if(!chinaJson) return;
 
         	echarts.registerMap('china', chinaJson);
         	
-			// if(__DEV__) console.log(chinaJson);
+			if(__DEV__) console.log(chinaJson);
 
-			util.getJson("/app/component/content/homemap/provInfo.json").then((provInfoJson)=>{
-        		this.myChart.hideLoading();
+			// util.getJson("/app/component/content/homemap/provInfo.json").then((provInfoJson)=>{
+        		// this.myChart.hideLoading();
 
 				homemapEhartsConfig.series[0].tooltip.formatter = function(params) {
                 	var info = provInfoJson.filter(function(item) {
@@ -41,15 +43,15 @@ class Homemap extends React.Component{
                 	    return params.name;
                 	}
             	};
-			}).then(()=>{
+			// }).then(()=>{
             	this.initMap(homemapEhartsConfig);//即使没有获取也要初始化
-			}).catch(()=>{
+			/*}).catch(()=>{
         		if(__DEV__) console.error("错误",error);
 			})
 
         },(error)=>{
         	if(__DEV__) console.error("错误",error);
-        })
+        })*/
 
       // window.onresize = this.initMap(homemapEhartsConfig);
 	  

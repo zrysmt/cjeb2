@@ -23,14 +23,14 @@ class MaptypebarAction{
             
         switch(ctlType){
             case 'remove-vec':
-                map.removeLayer(layer);
+                if(layer)map.removeLayer(layer);
                 if(vecLayer){
                     map.removeLayer(vecLayer);
                     vecLayer = null;
                 }
             break;
             case 'remove-vec-label': 
-                map.removeLayer(layer);
+                if(layer)map.removeLayer(layer);
                 if(vecLabelLayer){
                     map.removeLayer(vecLabelLayer);
                     vecLabelLayer = null;
@@ -57,6 +57,7 @@ class MaptypebarAction{
                 map.addLayer(vecLabelLayer);
             break;
             case 'remove-img':
+                if(layer)map.removeLayer(layer);
                 if(img){
                     map.removeLayer(img);
                     img = null;
@@ -74,6 +75,7 @@ class MaptypebarAction{
                 map.addLayer(img);
             break;
             case 'remove-img-label':
+                if(layer)map.removeLayer(layer);
                 if(imgLabel){
                     map.removeLayer(imgLabel);
                     imgLabel = null;  
@@ -99,6 +101,7 @@ class MaptypebarAction{
                 map.addLayer(baiduMap);
             break;
             case "remove-baidumap":
+                if(layer)map.removeLayer(layer);
                 if(baiduMap){
                     map.removeLayer(baiduMap);
                     baiduMap = null;
@@ -113,6 +116,7 @@ class MaptypebarAction{
                 map.addLayer(baiduMapSat);
             break;
             case "remove-baidumap-sat":
+                if(layer)map.removeLayer(layer);
                 if(baiduMapSat){
                     map.removeLayer(baiduMapSat);
                     baiduMapSat = null;
@@ -127,6 +131,7 @@ class MaptypebarAction{
                 map.addLayer(aMap);
             break;
             case "remove-amap":
+                if(layer)map.removeLayer(layer);
                 if(aMap){
                     map.removeLayer(aMap);
                     aMap = null;
@@ -141,6 +146,7 @@ class MaptypebarAction{
                 map.addLayer(aMapSat);
             break;
             case "remove-amap-sat":
+                if(layer)map.removeLayer(layer);
                 if(aMapSat){
                     map.removeLayer(aMapSat);
                     aMapSat = null;
@@ -155,6 +161,7 @@ class MaptypebarAction{
                 map.addLayer(osm);
             break;
             case "remove-osm":
+                if(layer)map.removeLayer(layer);
                 if(osm){
                     map.removeLayer(osm);
                     osm = null;
@@ -166,12 +173,13 @@ class MaptypebarAction{
                     title: "Bing地图",
                     source: new ol.source.BingMaps({
                         key: 'AgiU9gCjKNfaR2yFSDfLw8e9zUlAYisRvRC2_L-LsGYN2bII5ZUvorfP3QJvxmjn', //自己申请的key
-                        imagerySet: 'Road'// Aerial, AerialWithLabels, or Road.
+                        imagerySet: 'Road'// Aerial,AerialWithLabels,Birdseye,BirdseyeWithLabelsor Road.
                     })
                 });
                 map.addLayer(bingMap);
             break;
             case "remove-bingmap":
+                if(layer)map.removeLayer(layer);
                 if(bingMap){
                     map.removeLayer(bingMap);
                     bingMap = null;

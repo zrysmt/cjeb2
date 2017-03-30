@@ -11,9 +11,10 @@ const menuLis = [
 ];
 const siteObj = {
 	title:'"长江经济带"数据库平台',
-	v1Url:"https://ccgis.cn/cjeb",
+	v1Url:"https://ccgis.cn/cjeb/",
 	gTColor:"#48c78f",
-	cBColor:"#3e3843"
+	cBColor:"#3e3843",
+	relativeUrl:"/cjeb/2/"
 };
 const echartsConfig={
 	bgColor:"#003366",

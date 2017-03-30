@@ -9,7 +9,8 @@ class Homefunc extends React.Component{
 	render(){
 		let hfObj,imgUrl,spanArr=[];
 		hfObj = this.props.hfObj;
-		imgUrl = "./app/page/home/"+hfObj.imgUrl;
+		// imgUrl = "./app/page/home/"+hfObj.imgUrl;
+		imgUrl = "./"+hfObj.imgUrl;
 		for(let key in hfObj){
 			if(key.includes("span")) spanArr.push(hfObj[key]);
 		}
@@ -26,7 +27,7 @@ class Homefunc extends React.Component{
 						})
 					}
 					</div>
-					<img alt="图片" src={imgUrl} width={hfObj.style.width} height={hfObj.style.height}/>
+					<img alt="图片" src={require(imgUrl)} width={hfObj.style.width} height={hfObj.style.height}/>
 				</div>
 			</div>
 		)

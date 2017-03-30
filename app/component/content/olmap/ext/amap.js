@@ -8,7 +8,7 @@
  * Usage：使用
    ```
     var aMapSat = new ol.layer.Tile({
-        title: "天地图卫星",
+        title: "高德地图卫星",
         source: new ol.source.AMap({mapType:"sat"})
     });
     map.addLayer(aMapSat);

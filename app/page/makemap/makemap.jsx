@@ -8,7 +8,7 @@ class Makemap extends React.Component{
 			<div id="makemap">
 				<Header/>
 				<div className="margin-top-header">
-					这是综合制图
+					开发中...敬请期待
 				</div>
 			</div>
 		)
