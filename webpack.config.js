@@ -8,9 +8,15 @@ var projectName = "cjeb2";
 var cjebAssetsFolder = '/assets/' + projectName + '/';
 var cjebTemplateFolder = '/template/' + projectName + '/';
 
+
 // 定义当前是否处于开发debug阶段
 var isDebug = JSON.stringify(JSON.parse(process.env.DEBUG || 'false'));
-
+var webRoot = JSON.stringify(JSON.parse(process.env.WEBROOT || 'false'));//是否是一般的服务器地址
+if(webRoot === 'true'){
+    cjebAssetsFolder = '';
+    cjebTemplateFolder = '';
+    isDebug = 'false';
+}
 // 根据isDebug变量定义相关config变量
 var configVarObj = {};
 if(isDebug === 'true') {
@@ -23,7 +29,7 @@ if(isDebug === 'true') {
 } else {
     console.log('I am in releasing............');
     configVarObj = {
-        htmlPath: './template/' + projectName + '/index.html',  // 定义输出html文件路径
+        htmlPath: cjebTemplateFolder + '/index.html',  // 定义输出html文件路径
         devtool: ''
     };
 }
@@ -37,18 +43,19 @@ module.exports = {
           'react',
           'react-dom',
           'react-router/lib/Router',
-          'react-router/lib/browserHistory',
+          'react-router/lib/hashHistory',
+          'react-router/lib/useRouterHistory',
           'echarts',
-          'jquery'
+          // 'jquery'
       ]
   },
   output: {
     // 文件输出目录
     path: path.resolve(__dirname, 'output'),
     // 输出文件名
-    filename: cjebAssetsFolder + 'js/[name].min.js?[hash]',
+    filename: cjebAssetsFolder + 'js'+'/[name].min.js?[hash]',
     // cmd、amd异步加载脚本配置名称
-    chunkFilename: cjebAssetsFolder + 'js/[name].chunk.js?[hash]',
+    chunkFilename: cjebAssetsFolder + 'js'+'/[name].chunk.js?[hash]',
     publicPath: ''
   },
   module: {
@@ -77,8 +84,9 @@ module.exports = {
       {
           test: /\.(png|jpg)$/,
           exclude: /node_modules/,
-          loader: 'url?limit=8192'
-      }
+          loader: 'url?limit=8192&name=imgs/[hash:8].[name].[ext]'
+      },
+      {  test: /\.json$/,exclude: /node_modules/,loader: 'json-loader'},
     ],
     noParse: [path.join(__dirname, "node_modules/openlayers/dist/ol.js")]
   },
@@ -98,7 +106,7 @@ module.exports = {
       // ajax 代理到6000端口
       proxy: {
           '/cjeb2/interface/**': {
-              target: 'http://127.0.0.1:6000',
+              target: 'http://127.0.0.1:4001',
               secure: false
           }
       },
@@ -122,12 +130,13 @@ module.exports = {
       }),
       // new ExtractTextPlugin("output/[name].css"),//独立css文件
       new webpack.optimize.CommonsChunkPlugin('vendors', cjebAssetsFolder + 'js/[name].chunk.js?[hash]'),
-      new webpack.ProvidePlugin({
+     /* new webpack.ProvidePlugin({
          "$": "jquery"
-      }),
+      }),*/
       //定义全局变量
       new webpack.DefinePlugin({
-          __DEV__: isDebug   
+          __DEV__: isDebug,
+          __WEBROOT__:webRoot   
       })
   ]
 };

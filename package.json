@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "SET DEBUG=true && webpack-dev-server --history-api-fallback --progress --profile --inline --colors --hot --port 4000",
     "build": "SET DEBUG=false && webpack --progress --profile --colors",
-    "Mac-build": "DEBUG=false && webpack --progress --profile --colors"
+    "Mac-build": "DEBUG=false && webpack --progress --profile --colors",
+    "webroot": "SET WEBROOT=true &&SET DEBUG=false && webpack --progress --profile --colors"
   },
   "devDependencies": {
     "autoprefixer": "^6.5.3",
@@ -24,6 +25,7 @@
     "history": "^1.17.0",
     "html-webpack-plugin": "^2.24.1",
     "jquery": "^2.2.4",
+    "json-loader": "^0.5.4",
     "jsx-loader": "^0.13.2",
     "node-sass": "^4.5.0",
     "open-browser-webpack-plugin": "0.0.1",
