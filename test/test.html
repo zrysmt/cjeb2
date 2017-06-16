@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+		var arr = [1,6,8,34,20,10];
+		function main(arr,sortType){
+		 	return	arr.sort(function(num1,num2){
+				if(sortType == "desc"){
+					return num1 < num2; 
+				}else{
+					return num1 > num2; 
+				}
+			})
+		}
+		function main2(arr){
+			if(arr.length <= 1){
+				return arr;
+			}
+			var leftArr = [],rightArr = [];
+			var p = arr[0];
+			for (var i = 1; i < arr.length; i++) {
+				if(arr[i] < p){	
+					leftArr.push(arr[i]);
+				}else if(arr[i] > p){
+					rightArr.push(arr[i]);
+				}
+			}
+			return [].concat(main2(leftArr),p,main2(rightArr));
+		}
+		function main3(arr){
+			for (var i = 0,len = arr.length; i < len; i++) {
+				for (var j = i + 1; j < len; j++) {
+					if(arr[i] > arr[j]){
+						var temp = arr[i];
+						arr[i] = arr[j];
+						arr[j] = temp;
+					}	
+				}
+			}
+			return arr;
+		}
+		console.log(main2(arr));
+		console.log(main3(arr));
+		// console.log(main(arr,"desc"));//降
+		// console.log(main(arr));//升
+		
+		let promise = new Promise((resolve,reject)=>{
+			let xhr = new xmlHttpRequest();
+			xhr.open(url,()=>{
+				xhr.onreadystatechange = ()=>{
+					if(xhr.state = "4" && xhr.){ //成功
+						resolve(xhr.responseText());
+					}else if(){  //失败
+						reject(xhr.responseText());
+					}
+				}
+			})
+			xhr.send();
+		})
+
+		promise.then(()=>{
+			
+		})
+	</script>
+</body>
+</html>
