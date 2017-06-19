@@ -1,6 +1,8 @@
 import React from 'react';
 
 import Header from '../../component/widget/header/header';
+import SFooter from '../../component/widget/sfooter/sfooter';
+import Lmap from '../../component/content/lmap/lmap';
 
 class Makemap extends React.Component{
 	render(){
@@ -8,8 +10,10 @@ class Makemap extends React.Component{
 			<div id="makemap">
 				<Header/>
 				<div className="margin-top-header">
-					开发中...敬请期待
+					<Lmap>
+					</Lmap>
 				</div>
+				<SFooter/>
 			</div>
 		)
 	}
