@@ -39,7 +39,9 @@ class Lbasemap extends React.Component{
 		}
 		L.control.scale().addTo(map); //比例尺	    	
     }
-
+    componentWillUnmount(){
+    	this.map.remove();
+    }
 	render(){
 		return(
 			<div id="lmap">
