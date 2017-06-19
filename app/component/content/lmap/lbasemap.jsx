@@ -7,6 +7,9 @@ import './lbasemap.scss';
 import React from 'react';
 import L from 'leaflet';
 
+import "../../../common/css/Control.OSMGeocoder.css";
+import "../../../common/leaflet-plugin/Control.OSMGeocoder.js";
+
 import util from '../../../common/util.jsx';
 import Eventful from '../../../common/eventful.js';
 
@@ -15,6 +18,7 @@ import mapTypes from './maptypes.js';
 class Lbasemap extends React.Component{
 	constructor(props){
         super(props);
+
     }
     componentWillMount(){
     }
@@ -37,10 +41,24 @@ class Lbasemap extends React.Component{
 			let type = mapTypes[mapTypeProps];
 			type.addTo(map);
 		}
-		L.control.scale().addTo(map); //比例尺	    	
+			   
+		let editableLayers = new L.FeatureGroup();
+		let drawnItems = editableLayers.addTo(map); 
+
+		if(this.props.scale&&this.props.scale==="true") L.control.scale().addTo(map); //比例尺
+		if(this.props.osmGeocoder&&this.props.osmGeocoder==="true") this.osmGeocoderGen();
+	
     }
     componentWillUnmount(){
     	this.map.remove();
+    }
+    osmGeocoderGen(){
+    	let osmGeocoder = new L.Control.OSMGeocoder({
+    		collapsed: false,
+    		position: 'topright',
+    		text: 'Search',
+		});
+		osmGeocoder.addTo(map);
     }
 	render(){
 		return(
