@@ -11,7 +11,7 @@ class Lmap extends React.Component{
 	render(){
 		return(
 			<div id="lmap">
-				<Lbasemap>
+				<Lbasemap mapType="geoq_normalm3">
 				</Lbasemap>
 			</div>
 		)

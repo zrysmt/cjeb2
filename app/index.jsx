@@ -20,7 +20,10 @@ if(__WEBROOT__){
   		basename:  gConfigClass.getSiteObj().relativeUrl        // 根目录名
 	});	
 }else{
-	appHistory = hashHistory;
+	// appHistory = hashHistory;
+	appHistory = useRouterHistory(createHashHistory)({
+		queryKey: false
+	});
 } 
 
 
