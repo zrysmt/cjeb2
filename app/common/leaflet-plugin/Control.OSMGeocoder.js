@@ -1,3 +1,4 @@
+
 if (typeof console == "undefined") {
 	this.console = { log: function (msg) { /* do nothing since it would otherwise break IE */} };
 }
@@ -103,8 +104,8 @@ L.Control.OSMGeocoder = L.Control.extend({
 		console.log("is LatLon?: "+q);
 		//N 53° 13.785' E 010° 23.887'
 		//re = /[NS]\s*(\d+)\D*(\d+\.\d+).?\s*[EW]\s*(\d+)\D*(\d+\.\d+)\D*/;
-		re = /([ns])\s*(\d+)\D*(\d+\.\d+).?\s*([ew])\s*(\d+)\D*(\d+\.\d+)/i;
-		m = re.exec(q.toLowerCase());
+		var re = /([ns])\s*(\d+)\D*(\d+\.\d+).?\s*([ew])\s*(\d+)\D*(\d+\.\d+)/i;
+		var m = re.exec(q.toLowerCase());
 		//showRegExpResult(m);
 		if ((m != undefined)) return m;
 		else return null;
