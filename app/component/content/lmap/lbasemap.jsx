@@ -1,6 +1,14 @@
 /**
  * 可视化模块 leaflet底图
  * @Date 2017-6-19
+ *  [mapType] 地图类型
+ *  [osmGeocoder] 是否显示osmGeocoder
+ *  [scale]  是否显示比例尺
+ *  [maptypebar] 是否显示地图切换按钮
+ *  [center] 中心点坐标 
+ *  [zoom]   zoomLevel
+ * <Lbasemap mapType="geoq_normalm3" scale="true" osmGeocoder="true" maptypebar="true">
+ *  </Lbasemap>
  */
 import './lbasemap.scss';
 
@@ -18,7 +26,10 @@ import mapTypes from './maptypes.js';
 class Lbasemap extends React.Component{
 	constructor(props){
         super(props);
-
+        this.state = {
+            center:[30,104],
+            zoom:5
+        };
     }
     componentWillMount(){
     }
@@ -33,6 +44,7 @@ class Lbasemap extends React.Component{
 		let zoom =  this.props.zoom||5;
 		map.setView(center,zoom); 
 		this.map = map;
+        //地图底图类型
 		let mapTypeProps = this.props.mapType;
 		if(!mapTypeProps){
 			let osm = mapTypes.osm;

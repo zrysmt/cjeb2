@@ -2,8 +2,10 @@
  * 可视化模块 leaflet实现
  * @Date 2017-6-19
  *  mapType 地图类型
+ *  scale  是否显示比例尺
  *  osmGeocoder 是否显示osmGeocoder
- * <Lbasemap mapType="geoq_normalm3" scale="true" osmGeocoder="true">
+ *  maptypebar 是否显示地图切换按钮
+ * <Lbasemap mapType="geoq_normalm3" scale="true" osmGeocoder="true" maptypebar="true">
  *	</Lbasemap>
  * 
  */
