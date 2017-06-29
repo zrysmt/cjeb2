@@ -7,6 +7,7 @@ import Home from './page/home/home';
 import Indview from './page/indview/indview';
 import Makemap from './page/makemap/makemap';
 import Mapmod from './page/mapmod/mapmod';
+import Twothreemap from './page/twothreemap/twothreemap';
 
 let gConfigClass = new gConfig();
 
@@ -31,6 +32,7 @@ let routes = (
 		<Route path="/indview" component={Indview} onEnter={indviewEnter}>
 			{/*<Redirect  from="/" to='/123'/>*/}
 		</Route>
+		<Route path="/twothreemap" component={Twothreemap}/>
 		<Route path="/makemap" component={Makemap}/>
 		<Route path="/mapmod" component={Mapmod}/>
 	</Route>

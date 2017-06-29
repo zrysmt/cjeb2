@@ -4,7 +4,7 @@
   "description": "the Changjiang River",
   "main": "index.js",
   "scripts": {
-    "dev": "SET DEBUG=true && webpack-dev-server --history-api-fallback --progress --profile --inline --colors --hot --port 4000 --open",
+    "dev": "SET DEBUG=true && webpack-dev-server --history-api-fallback --progress --profile --inline --colors --hot --host 127.0.0.1 --port 4000 --open",
     "build": "SET DEBUG=false && webpack --progress --profile --colors",
     "Mac-build": "DEBUG=false && webpack --progress --profile --colors",
     "webroot": "SET WEBROOT=true &&SET DEBUG=false && webpack --progress --profile --colors"
