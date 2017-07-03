@@ -3,80 +3,82 @@
  *
  * @class BaiduSphericalMercator
  */
-L.Projection.BaiduSphericalMercator = {
-    /**
-     * Project latLng to point coordinate
-     *
-     * @method project
-     * @param {Object} latLng coordinate for a point on earth
-     * @return {Object} leafletPoint point coordinate of L.Point
-     */
-    project: function(latLng) {
-        var projection = new BMap.MercatorProjection();
-        var originalPoint = new BMap.Point(latLng.lng, latLng.lat);
-        //var baiduPoint = window.translatePoint(originalPoint);
-        var point = projection.lngLatToPoint(originalPoint);
-        var leafletPoint = new L.Point(point.x, point.y);
-        return leafletPoint;
-    },
+import L from 'leaflet';
 
-    /**
-     * unproject point coordinate to latLng
-     *
-     * @method unproject
-     * @param {Object} bpoint baidu point coordinate
-     * @return {Object} latitude and longitude
-     */
-    unproject: function (bpoint) {
-        var projection= new BMap.MercatorProjection();
-        var point = projection.pointToLngLat(
-            new BMap.Pixel(bpoint.x, bpoint.y)
-        );
-        var latLng = new L.LatLng(point.lat, point.lng);
-        return latLng;
-    },
+// L.Projection.BaiduSphericalMercator = {
+//     /**
+//      * Project latLng to point coordinate
+//      *
+//      * @method project
+//      * @param {Object} latLng coordinate for a point on earth
+//      * @return {Object} leafletPoint point coordinate of L.Point
+//      */
+//     project: function(latLng) {
+//         var projection = new BMap.MercatorProjection();
+//         var originalPoint = new BMap.Point(latLng.lng, latLng.lat);
+//         //var baiduPoint = window.translatePoint(originalPoint);
+//         var point = projection.lngLatToPoint(originalPoint);
+//         var leafletPoint = new L.Point(point.x, point.y);
+//         return leafletPoint;
+//     },
 
-    /**
-     * Don't know how it used currently.
-     *
-     * However, I guess this is the range of coordinate.
-     * Range of pixel coordinate is gotten from
-     * BMap.MercatorProjection.lngLatToPoint(180, -90) and (180, 90)
-     * After getting max min value of pixel coordinate, use
-     * pointToLngLat() get the max lat and Lng.
-     */
-    bounds: (function () {
-        var MAX_X= 20037726.37;
-        var MIN_Y= -11708041.66;
-        var MAX_Y= 12474104.17;
-        var bounds = L.bounds(
-            [-MAX_X, MIN_Y], //-180, -71.988531
-            [MAX_X, MAX_Y]  //180, 74.000022
-        );
-        var MAX = 33554432;
-        bounds = new L.Bounds(
-            [-MAX, -MAX],
-            [MAX, MAX]
-        );
-        return bounds;
-    })()
-};
+//     /**
+//      * unproject point coordinate to latLng
+//      *
+//      * @method unproject
+//      * @param {Object} bpoint baidu point coordinate
+//      * @return {Object} latitude and longitude
+//      */
+//     unproject: function (bpoint) {
+//         var projection= new BMap.MercatorProjection();
+//         var point = projection.pointToLngLat(
+//             new BMap.Pixel(bpoint.x, bpoint.y)
+//         );
+//         var latLng = new L.LatLng(point.lat, point.lng);
+//         return latLng;
+//     },
 
-/**
- * Coordinate system for Baidu EPSGB3857
- *
- * @class EPSGB3857
- */
-L.CRS.EPSGB3857 = L.extend({}, L.CRS, {
-    code: 'EPSG:B3857',
-    projection: L.Projection.BaiduSphericalMercator,
+//     *
+//      * Don't know how it used currently.
+//      *
+//      * However, I guess this is the range of coordinate.
+//      * Range of pixel coordinate is gotten from
+//      * BMap.MercatorProjection.lngLatToPoint(180, -90) and (180, 90)
+//      * After getting max min value of pixel coordinate, use
+//      * pointToLngLat() get the max lat and Lng.
+     
+//     bounds: (function () {
+//         var MAX_X= 20037726.37;
+//         var MIN_Y= -11708041.66;
+//         var MAX_Y= 12474104.17;
+//         var bounds = L.bounds(
+//             [-MAX_X, MIN_Y], //-180, -71.988531
+//             [MAX_X, MAX_Y]  //180, 74.000022
+//         );
+//         var MAX = 33554432;
+//         bounds = new L.Bounds(
+//             [-MAX, -MAX],
+//             [MAX, MAX]
+//         );
+//         return bounds;
+//     })()
+// };
 
-    transformation: (function () {
-        var z = -18 - 8;
-        var scale = Math.pow(2, z);
-        return new L.Transformation(scale, 0.5, -scale, 0.5);
-    }())
-});
+// /**
+//  * Coordinate system for Baidu EPSGB3857
+//  *
+//  * @class EPSGB3857
+//  */
+// L.CRS.EPSGB3857 = L.extend({}, L.CRS, {
+//     code: 'EPSG:B3857',
+//     projection: L.Projection.BaiduSphericalMercator,
+
+//     transformation: (function () {
+//         var z = -18 - 8;
+//         var scale = Math.pow(2, z);
+//         return new L.Transformation(scale, 0.5, -scale, 0.5);
+//     }())
+// });
 
 /**
  * Tile layer for Baidu Map

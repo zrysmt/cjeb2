@@ -18,6 +18,8 @@ if(webRoot === 'true'){
     isDebug = 'false';
 }
 // 根据isDebug变量定义相关config变量
+if(process.argv[1].indexOf('webpack-dev-server') !== -1 ) isDebug = 'true'; //兼容mac端
+
 var configVarObj = {};
 if(isDebug === 'true') {
     console.log('I am in debuging............');
@@ -110,7 +112,7 @@ module.exports = {
               secure: false
           }
       },
-      host: '0.0.0.0'
+      host: '127.0.0.1'
   },
   plugins: [
       new HtmlwebpackPlugin({
