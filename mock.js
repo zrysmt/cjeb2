@@ -1,46 +1,46 @@
-/**
- * @file mock
- * @author .....
- */
-
-var fs = require('fs');
-
-var path = require('path');
-
 var express = require('express');
-
+var bodyParser = require('body-parser');
+var request = require('request');
 
 var app = express();
+app.use(bodyParser.json());
+app.listen(8888);
+console.log('server start');
 
-var port = 6000;
 
-var pathes = __dirname.split(path.sep);
+var home = require('./mock/home/home.json');
+var indview = require('./mock/indview/indview.json');
 
-pathes.pop();
-
-app.get('/', function (req, res) {
-    res.send('server ok!');
+//解决跨域
+app.all('*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+    res.header("X-Powered-By",' 3.2.1')
+    if(req.method=="OPTIONS"){
+       res.send(200);/*让options请求快速返回*/
+    }else{
+        next();
+    }
 });
 
-// ========================================= 接口配置 begin
-(function () {
-    var readFile = function (file) {
-        return JSON.parse(fs.readFileSync('./mock/' + file, 'utf-8'));
-    };
-    // mock1
-    app.get('/agri/interface/home', function (req, res) {
-        res.json(readFile('home/home.json'));
-    });
-    app.get('/agri/interface/detail', function (req, res) {
-        res.json(readFile('detail/detail.json'));
-    });
-
-})();
-// ========================================= 接口配置 end
-
-app.use(express.static(pathes.join(path.sep)));
-
-// 监听端口
-app.listen(port);
-
-console.log('成功启动：' + port);
+// get方式
+app.get('/home', function (req, res) {
+    res.send(home);
+});
+app.get('/indview/:host',function(req,res){
+    res.send(display);
+    /*request('http://'+req.params.host+':8888/display', {timeout: 500}, function (error, response, body) {
+        if(error){
+            var json = {}
+            json.Error = error.code
+            res.json(json)
+        }else if (response.statusCode == 200) {
+            res.json(body)
+        }else{
+            var json = {}
+            json.statusCode = response.statusCode
+            res.json(json)
+        }
+    });*/
+})
