@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "SET DEBUG=true &&SET WEBROOT=true&& webpack-dev-server --history-api-fallback --progress --profile --inline --colors --hot --host 127.0.0.1 --port 4000 --open",
-    "mac-dev": "DEBUG=true &&WEBROOT=true&& webpack-dev-server --history-api-fallback --progress --profile --inline --colors --hot --host 127.0.0.1 --port 4000 --open",
+    "mac-dev": "DEBUG=true  WEBROOT=true webpack-dev-server --history-api-fallback --progress --profile --inline --colors --hot --host 127.0.0.1 --port 4000 --open",
     "build": "SET DEBUG=false && webpack --progress --profile --colors",
     "mac-build": "DEBUG=false && webpack --progress --profile --colors",
     "webroot": "SET WEBROOT=true &&SET DEBUG=false && webpack --progress --profile --colors"
@@ -20,7 +20,7 @@
     "bundle-loader": "^0.5.4",
     "css-loader": "^0.16.0",
     "echarts": "^3.3.2",
-    "express": "^4.15.3",
+    "express": "^4.14.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "fs": "0.0.1-security",
