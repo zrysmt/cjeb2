@@ -112,7 +112,7 @@ module.exports = {
       // ajax 代理到6000端口
       proxy: {
           '/**': {
-              target: 'http://127.0.0.1:6000',
+              target: 'http://127.0.0.1:8000',
               secure: false
           }
       },
