@@ -5,8 +5,8 @@ var autoprefixer = require('autoprefixer');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var projectName = "cjeb2";
-var cjebAssetsFolder = '/assets/' + projectName + '/';
-var cjebTemplateFolder = '/template/' + projectName + '/';
+var assetsFolder = '';
+var templateFolder = '';
 
 
 // 定义当前是否处于开发debug阶段
@@ -35,7 +35,7 @@ if(isDebug === 'true') {    //for debug
 } else {                     //for release
     console.log('I am in releasing............');
     configVarObj = {
-        htmlPath: cjebTemplateFolder + '/index.html',  // 定义输出html文件路径
+        htmlPath: path.join(__dirname, 'output' + templateFolder + '/index.html'),  // 定义输出html文件路径
         devtool: ''
     };
 }
@@ -59,9 +59,9 @@ module.exports = {
     // 文件输出目录
     path: path.resolve(__dirname, 'output'),
     // 输出文件名
-    filename: cjebAssetsFolder + 'js'+'/[name].min.js?[hash]',
+    filename: assetsFolder + 'js'+'/[name].min.js?[hash]',
     // cmd、amd异步加载脚本配置名称
-    chunkFilename: cjebAssetsFolder + 'js'+'/[name].chunk.js?[hash]',
+    chunkFilename: assetsFolder + 'js'+'/[name].chunk.js?[hash]',
     publicPath: ''
   },
   module: {
@@ -101,17 +101,17 @@ module.exports = {
   ],
   devtool: configVarObj.devtool,// 生成sourcemap,便于开发调试
   resolve: {
-      extensions: ['.js', '.jsx', '.json']
+      extensions: ['','.js', '.jsx', '.json']
   },
   // enable dev server
   devServer: {
       historyApiFallback: true,
-      hot: false,
+      hot: true,
       inline: true,
       progress: true,
       // ajax 代理到6000端口
       proxy: {
-          '/cjeb2/interface/**': {
+          '/**': {
               target: 'http://127.0.0.1:6000',
               secure: false
           }
@@ -135,7 +135,7 @@ module.exports = {
           }
       }),
       // new ExtractTextPlugin("output/[name].css"),//独立css文件
-      new webpack.optimize.CommonsChunkPlugin('vendors', cjebAssetsFolder + 'js/[name].chunk.js?[hash]'),
+      new webpack.optimize.CommonsChunkPlugin('vendors', assetsFolder + 'js/[name].chunk.js?[hash]'),
      /* new webpack.ProvidePlugin({
          "$": "jquery"
       }),*/
