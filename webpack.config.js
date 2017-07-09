@@ -12,23 +12,27 @@ var cjebTemplateFolder = '/template/' + projectName + '/';
 // 定义当前是否处于开发debug阶段
 var isDebug = JSON.stringify(JSON.parse(process.env.DEBUG || 'false'));
 var webRoot = JSON.stringify(JSON.parse(process.env.WEBROOT || 'false'));//是否是一般的服务器地址
-if(webRoot === 'true'){
-    cjebAssetsFolder = '';
-    cjebTemplateFolder = '';
-    isDebug = 'false';
+
+if (webRoot === 'true') {  //for normal server
+    assetsFolder = '';
+    templateFolder = '';
+}else{                     //for PHP
+    assetsFolder = '/assets/' + projectName + '/';
+    templateFolder = '/template/' + projectName + '/';
 }
+
 // 根据isDebug变量定义相关config变量
 if(process.argv[1].indexOf('webpack-dev-server') !== -1 ) isDebug = 'true'; //兼容mac端
 
 var configVarObj = {};
-if(isDebug === 'true') {
+if(isDebug === 'true') {    //for debug
     console.log('I am in debuging............');
     configVarObj = {
         htmlPath: 'index.html',  // 定义输出html文件路径
         // devtool: 'cheap-source-map' // 生成sourcemap,便于开发调试
         devtool: 'eval' // 生成sourcemap,便于开发调试
     };
-} else {
+} else {                     //for release
     console.log('I am in releasing............');
     configVarObj = {
         htmlPath: cjebTemplateFolder + '/index.html',  // 定义输出html文件路径
@@ -97,7 +101,7 @@ module.exports = {
   ],
   devtool: configVarObj.devtool,// 生成sourcemap,便于开发调试
   resolve: {
-      extensions: ['', '.js', '.jsx', '.json']
+      extensions: ['.js', '.jsx', '.json']
   },
   // enable dev server
   devServer: {
@@ -108,7 +112,7 @@ module.exports = {
       // ajax 代理到6000端口
       proxy: {
           '/cjeb2/interface/**': {
-              target: 'http://127.0.0.1:4001',
+              target: 'http://127.0.0.1:6000',
               secure: false
           }
       },
