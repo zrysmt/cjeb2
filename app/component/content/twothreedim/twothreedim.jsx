@@ -5,6 +5,7 @@ import './twothreedim.scss';
 
 import React from 'react';
 import Lbasemap from '../lmap/lbasemap';
+import Threemap from '../threemap/threemap';
 
 class Twothreedim extends React.Component{
 	render(){
@@ -15,7 +16,7 @@ class Twothreedim extends React.Component{
 					</Lbasemap>
 				</div>
 				<div id="threedim" className="right-container">
-
+					<Threemap/>
 				</div>
 			</div>
 		)

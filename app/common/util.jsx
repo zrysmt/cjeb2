@@ -84,6 +84,30 @@ let util = {
         }
     },
     /**
+     * [adaptMinHeight 最小高度自适应]
+     * @param  {[String]} domId       [控制dom高度的id]
+     * @param  {[Number]} otherHeight [除了domId其余部分高度]
+     * @param  {[Number]} threshold [时间间隔]
+     */
+    adaptMinHeight(domId,otherHeight,threshold = 300){
+        let mapDom,bodyHeight ;
+        otherHeight = parseFloat(otherHeight)||0;
+        mapDom = document.getElementById(domId);
+        mapDom.style.minHeight = getHeight()+"px";
+       
+        window.onresize = this.debounce(()=>{
+            if(__DEV__) console.log(mapDom.style.height);
+            mapDom.style.minHeight = getHeight()+"px";
+        },threshold);
+
+        function getHeight(){
+            var height = 500;//最好设置个最小
+            if(document.documentElement.clientHeight > 500)
+                height = document.documentElement.clientHeight - otherHeight;
+            return height;
+        }
+    },
+    /**
      * [getJSON 获取json文件]
      * @param  {[String]} url [url地址]
      * @return {[Promise]}     [promise]
