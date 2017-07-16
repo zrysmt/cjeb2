@@ -55,9 +55,9 @@ class Threemap extends React.Component{
         webGLRenderer.render(scene,camera);
 
         function createMesh(geom) {
-            let planetTexture = THREE.TextureLoader(require("./assets/textures/planets/Earth.png"));
-            let specularTexture = THREE.TextureLoader(require("./assets/textures/planets/EarthSpec.png"));
-            let normalTexture = THREE.TextureLoader(require("./assets/textures/planets/EarthNormal.png"));
+            let planetTexture = THREE.TextureLoader(require("./assets/imgs/planets/Earth.png"));
+            let specularTexture = THREE.TextureLoader(require("./assets/imgs/planets/EarthSpec.png"));
+            let normalTexture = THREE.TextureLoader(require("./assets/imgs/planets/EarthNormal.png"));
 
 
             let planetMaterial = new THREE.MeshPhongMaterial();
