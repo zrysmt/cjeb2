@@ -4,6 +4,9 @@
 import React from 'react';
 import * as THREE from 'three';
 import Orbitcontrols from 'three-orbitcontrols';
+import '../../../common/threejslibs/Projector.js';
+import '../../../common/threejslibs/CanvasRenderer.js';
+import Stats from '../../../common/threejslibs/stats.min.js';
 
 import util from '../../../common/util.jsx';
 
@@ -13,69 +16,92 @@ class Threemap extends React.Component{
 		this.initThree();
 	}
 	initThree(){
-		let scene =  new THREE.Scene();
+		let stats;
+		let camera, scene, renderer;
+		let group;
+		let mouseX = 0, mouseY = 0;
+		let container = document.getElementById('WebGL-output');
+		let width = container.clientWidth,height = container.clientHeight;
+		let windowHalfX = width / 2;
+		let windowHalfY = height / 2;
+		init();
+		animate();
+		function init() {
+			
+			camera = new THREE.PerspectiveCamera( 60, width / height, 1, 2000 );
+			camera.position.z = 500;
+			scene = new THREE.Scene();
+			group = new THREE.Group();
+			scene.add( group );
+			// earth
+			let loader = new THREE.TextureLoader();
+			let planetTexture = require("./assets/imgs/planets/Earth.png");
 
-		let webGLContainer = document.querySelector('#WebGL-output');
-		let width = webGLContainer.clientWidth,height = webGLContainer.clientHeight;
-		let camera = new THREE.PerspectiveCamera(45,  width/height , 0.1, 1000);
-
-		// create a render and set the size
-        let webGLRenderer = new THREE.WebGLRenderer();
-        webGLRenderer.setClearColor(new THREE.Color(0x000, 1.0));
-        webGLRenderer.setSize(width, height);
-        webGLRenderer.shadowMap.enabled;
-
-        let sphere = createMesh(new THREE.SphereGeometry(10, 40, 40));
-        // add the sphere to the scene
-        scene.add(sphere);
-
-        // position and point the camera to the center of the scene
-        camera.position.x = -10;
-        camera.position.y = 15;
-        camera.position.z = 25;
-
-        camera.lookAt(new THREE.Vector3(0, 0, 0));
-
-        var orbitControls = new /*THREE.OrbitControls*/Orbitcontrols(camera);
-        orbitControls.autoRotate = false;
-        var clock = new THREE.Clock();
-        //环境光
-        var ambi = new THREE.AmbientLight(0x000000);
-        scene.add(ambi);
-        //点光源
-        var spotLight = new THREE.DirectionalLight(0xffffff);
-        spotLight.position.set(550, 100, 550);
-        spotLight.intensity = 0.6;
-
-        scene.add(spotLight);
-
-        // add the output of the renderer to the html element
-        document.getElementById("WebGL-output").appendChild(webGLRenderer.domElement);
-
-        webGLRenderer.render(scene,camera);
-
-        function createMesh(geom) {
-            let planetTexture = THREE.TextureLoader(require("./assets/imgs/planets/Earth.png"));
-            let specularTexture = THREE.TextureLoader(require("./assets/imgs/planets/EarthSpec.png"));
-            let normalTexture = THREE.TextureLoader(require("./assets/imgs/planets/EarthNormal.png"));
-
-
-            let planetMaterial = new THREE.MeshPhongMaterial();
-            planetMaterial.specularMap = specularTexture;
-            planetMaterial.specular = new THREE.Color(0x4444aa);
-
-
-            planetMaterial.normalMap = normalTexture;
-            planetMaterial.map = planetTexture;
-			//  planetMaterial.shininess = 150;
-
-
-            // create a multimaterial
-            let mesh = THREE.SceneUtils.createMultiMaterialObject(geom, [planetMaterial]);
-
-            return mesh;
-        }
-
+			loader.load( planetTexture, function ( texture ) {
+				let geometry = new THREE.SphereGeometry( 200, 20, 20 );
+				let material = new THREE.MeshBasicMaterial( { map: texture, overdraw: 0.5 } );
+				let mesh = new THREE.Mesh( geometry, material );
+				group.add( mesh );
+			} );
+			// shadow
+			let canvas = document.createElement( 'canvas' );
+			canvas.width = 128;
+			canvas.height = 128;
+			let context = canvas.getContext( '2d' );
+			let gradient = context.createRadialGradient(
+				canvas.width / 2,
+				canvas.height / 2,
+				0,
+				canvas.width / 2,
+				canvas.height / 2,
+				canvas.width / 2
+			);
+			gradient.addColorStop( 0.1, 'rgba(210,210,210,1)' );
+			gradient.addColorStop( 1, 'rgba(255,255,255,1)' );
+			context.fillStyle = gradient;
+			context.fillRect( 0, 0, canvas.width, canvas.height );
+			let texture = new THREE.CanvasTexture( canvas );
+			let geometry = new THREE.PlaneBufferGeometry( 300, 300, 3, 3 );
+			let material = new THREE.MeshBasicMaterial( { map: texture, overdraw: 0.5 } );
+			let mesh = new THREE.Mesh( geometry, material );
+			mesh.position.y = - 250;
+			mesh.rotation.x = - Math.PI / 2;
+			group.add( mesh );
+			renderer = new THREE.CanvasRenderer();
+			renderer.setClearColor( 0xffffff );
+			renderer.setPixelRatio( window.devicePixelRatio );
+			renderer.setSize( width, height );
+			container.appendChild( renderer.domElement );
+			// stats = new Stats();
+			container.appendChild( stats.dom );
+			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+			//
+			window.addEventListener( 'resize', onWindowResize, false );
+		}
+		function onWindowResize() {
+			windowHalfX = width / 2;
+			windowHalfY = height / 2;
+			camera.aspect = width / height;
+			camera.updateProjectionMatrix();
+			renderer.setSize( width, height );
+		}
+		function onDocumentMouseMove( event ) {
+			mouseX = ( event.clientX - windowHalfX );
+			mouseY = ( event.clientY - windowHalfY );
+		}
+		//
+		function animate() {
+			requestAnimationFrame( animate );
+			render();
+			stats.update();
+		}
+		function render() {
+			camera.position.x += ( mouseX - camera.position.x ) * 0.05;
+			camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
+			camera.lookAt( scene.position );
+			group.rotation.y -= 0.005;
+			renderer.render( scene, camera );
+		}
 	}
 	render(){
 		return(
