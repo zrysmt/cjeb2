@@ -1,12 +1,18 @@
+# 基于Three.js的一些笔记
+
+地球demo地址
+> http://techbrood.com/threejs/examples/#canvas_geometry_earth
+
+## mini-example 可以鼠标控制的 基于Three.js的三维地球
+
+```javascript
 /**
  * 基于Three.js的三维地图
  */
 import React from 'react';
 import * as THREE from 'three';
 import Orbitcontrols from 'three-orbitcontrols';
-// import '../../../common/threejslibs/OrbitControls.js';
 import '../../../common/threejslibs/Projector.js';
-// import '../../../common/threejslibs/CanvasRenderer.js';   //CanvasRenderer
 import Stats from '../../../common/threejslibs/stats.min.js';
 
 import util from '../../../common/util.jsx';
@@ -35,14 +41,14 @@ class Threemap extends React.Component{
 			scene.add( group );
 
 			camera = new THREE.PerspectiveCamera( 60, width / height, 1, 2000 );
-			camera.position.x = 0;
-        	camera.position.y = 0;
+			camera.position.x = -10;
+        	camera.position.y = 15;
 			camera.position.z = 500;
 			camera.lookAt( scene.position );
 			
 			//控制地球
 			let orbitControls = new /*THREE.OrbitControls*/Orbitcontrols(camera);
-        	// orbitControls.autoRotate = true;
+        	orbitControls.autoRotate = false;
         	let clock = new THREE.Clock();
         	//光源
         	let ambi = new THREE.AmbientLight(0x686868);
@@ -92,3 +98,4 @@ class Threemap extends React.Component{
 }
 
 export default Threemap;
+```
