@@ -16,7 +16,7 @@ class Twothreedim extends React.Component{
 					</Lbasemap>
 				</div>
 				<div id="threedim" className="right-container">
-					<Threemap/>
+					<Threemap center={[30,110]} zoom={4}/>
 				</div>
 			</div>
 		)

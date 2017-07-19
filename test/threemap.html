@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>三维地球例子</title>
+    <style type="text/css">
+    #WebGL-output {
+        width: 100%;
+        height: 600px;
+    }
+    </style>
+</head>
+
+<body onload="init()">
+    <div id='WebGL-output'></div>
+    <script type="text/javascript" src='libs/three.js'></script>
+    <!-- <script type="text/javascript" src='libs/Three62.js'></script> -->
+    <script type="text/javascript" src='libs/OrbitControls.js'></script>
+    <script type="text/javascript" src='libs/stats.min.js'></script>
+    <script type="text/javascript">
+    //关于坐标转化
+    function init() {
+        var center = [30, 110];
+        var zoom = 5;
+        initThree(center, zoom);
+    }
+
+    function initThree(center, zoom) {
+        let stats;
+        let camera, scene, renderer;
+        let radius = 200; //地球半径
+        let group;
+        let container = document.getElementById('WebGL-output');
+        let width = container.clientWidth,
+            height = container.clientHeight;
+
+        clear();
+        init();
+        animate();
+
+        function init() {
+            scene = new THREE.Scene();
+            group = new THREE.Group();
+            scene.add(group);
+
+            camera = new THREE.PerspectiveCamera(60, width / height, 1, 2000);
+            camera.position.x = -100;
+            camera.position.y = 250;
+            camera.position.z = 500;
+            camera.lookAt(scene.position);
+
+            //控制地球
+            let orbitControls = new THREE.OrbitControls /* Orbitcontrols*/ (camera);
+            // orbitControls.autoRotate = true;
+            let clock = new THREE.Clock();
+            //光源
+            let ambi = new THREE.AmbientLight(0x686868);
+            scene.add(ambi);
+
+            let spotLight = new THREE.DirectionalLight(0xffffff);
+            spotLight.position.set(550, 100, 550);
+            spotLight.intensity = 0.6;
+
+            scene.add(spotLight);
+            // Texture
+            let loader = new THREE.TextureLoader();
+            let planetTexture = "imgs/Earth.png";
+
+            loader.load(planetTexture, function(texture) {
+                let geometry = new THREE.SphereGeometry(radius, 30, 30);
+                let material = new THREE.MeshBasicMaterial({ map: texture, overdraw: 0.5 });
+                let mesh = new THREE.Mesh(geometry, material);
+                // let coord = threeUtil.lngLat2Coordinate(center[0],center[1],radius);  //坐标转化
+                let coord = getPosition(center[0], center[1], 0); //坐标转化
+                console.log(center);
+                console.log("===", convertLatLonToVec3(center[0], center[1]).multiplyScalar(radius));
+                /*mesh.position.x = coord.x;
+                mesh.position.y = coord.y;
+                mesh.position.z = coord.z;*/
+                // mesh.position = convertLatLonToVec3(center[0], center[1]).multiplyScalar(radius);
+                // mesh.position.z = 500;
+                group.add(mesh);
+            });
+
+            
+
+            renderer = new THREE.WebGLRenderer({antialias:true});
+            renderer.autoClear = false;
+            renderer.setClearColor(0xffffff);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(width, height);
+            container.appendChild(renderer.domElement);
+            stats = new Stats();
+            // container.appendChild( stats.dom );  //增加状态信息 
+
+            addMarker(40.7, -73.6, 0x0000FF); 
+            addMarker(30,-90, 0x00FF00); 
+        }
+
+        function addMarker(lat, lon, colory) {
+            var marker = new THREE.Mesh(new THREE.SphereGeometry(10, 20, 20), new THREE.MeshBasicMaterial({ color: colory }));
+            marker.position = convertLatLonToVec3(lat, lon).multiplyScalar(radius);
+            scene.add(marker)
+        }
+
+        function clear() {
+            container.innerHTML = '';
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            render();
+            // stats.update();
+        }
+
+        function render() {
+        	renderer.clear();
+            // group.rotation.y -= 0.005;  //这行可以控制地球自转
+            renderer.render(scene, camera);
+        }
+
+        function convertLatLonToVec3(lat, lon) {
+            lat = lat * Math.PI / 180.0;
+            lon = -lon * Math.PI / 180.0;
+            return new THREE.Vector3(
+                Math.cos(lat) * Math.cos(lon),
+                Math.sin(lat),
+                Math.cos(lat) * Math.sin(lon));
+        }
+
+        function getPosition(lat, lng, alt) {
+            let phi = (90 - lat) * (Math.PI / 180),
+                theta = (lng + 180) * (Math.PI / 180),
+                radius = alt + 200,
+                x = -(radius * Math.sin(phi) * Math.cos(theta)),
+                z = (radius * Math.sin(phi) * Math.sin(theta)),
+                y = (radius * Math.cos(phi));
+            return { x: x, y: y, z: z };
+        }
+
+        function lngLat2Coordinate(lat, lng, radius) {
+            let lngLat = { lng: lng, lat: lat };
+            let l = radius * Math.cos(lngLat.lat / 180 * Math.PI);
+
+            let x = l * Math.sin(lngLat.lng / 180 * Math.PI);
+            let y = radius * Math.sin(lngLat.lat / 180 * Math.PI);
+            let z = l * Math.cos(lngLat.lng / 180 * Math.PI);
+
+            return { x: x, y: y, z: z };
+        }
+    }
+    </script>
+</body>
+
+</html>

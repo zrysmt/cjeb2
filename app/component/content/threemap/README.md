@@ -29,8 +29,6 @@ class Threemap extends React.Component{
 		let mouseX = 0, mouseY = 0;
 		let container = document.getElementById('WebGL-output');
 		let width = container.clientWidth,height = container.clientHeight;
-		let windowHalfX = width / 2;
-		let windowHalfY = height / 2;
 
 		init();
 		animate();
