@@ -54,9 +54,9 @@ class Lbasemap extends React.Component{
 			type.addTo(map);
 		}
 			   
-		if(this.props.scale&&this.props.scale==="true") L.control.scale().addTo(map); //比例尺
-		if(this.props.osmGeocoder&&this.props.osmGeocoder==="true") this.osmGeocoderGen();
-		if(this.props.maptypebar&&this.props.maptypebar==="true") this.handleMaptypebar();
+		if(this.props.scale&&this.props.scale) L.control.scale().addTo(map); //比例尺
+		if(this.props.osmGeocoder&&this.props.osmGeocoder) this.osmGeocoderGen();
+		if(this.props.maptypebar&&this.props.maptypebar) this.handleMaptypebar();
 	
     }
     componentWillUnmount(){

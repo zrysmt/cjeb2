@@ -1,70 +1,130 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-</head>
-<body>
-	<script type="text/javascript">
-		var arr = [1,6,8,34,20,10];
-		function main(arr,sortType){
-		 	return	arr.sort(function(num1,num2){
-				if(sortType == "desc"){
-					return num1 < num2; 
-				}else{
-					return num1 > num2; 
-				}
-			})
-		}
-		function main2(arr){
-			if(arr.length <= 1){
-				return arr;
-			}
-			var leftArr = [],rightArr = [];
-			var p = arr[0];
-			for (var i = 1; i < arr.length; i++) {
-				if(arr[i] < p){	
-					leftArr.push(arr[i]);
-				}else if(arr[i] > p){
-					rightArr.push(arr[i]);
-				}
-			}
-			return [].concat(main2(leftArr),p,main2(rightArr));
-		}
-		function main3(arr){
-			for (var i = 0,len = arr.length; i < len; i++) {
-				for (var j = i + 1; j < len; j++) {
-					if(arr[i] > arr[j]){
-						var temp = arr[i];
-						arr[i] = arr[j];
-						arr[j] = temp;
-					}	
-				}
-			}
-			return arr;
-		}
-		console.log(main2(arr));
-		console.log(main3(arr));
-		// console.log(main(arr,"desc"));//降
-		// console.log(main(arr));//升
-		
-		let promise = new Promise((resolve,reject)=>{
-			let xhr = new xmlHttpRequest();
-			xhr.open(url,()=>{
-				xhr.onreadystatechange = ()=>{
-					if(xhr.state = "4" && xhr.){ //成功
-						resolve(xhr.responseText());
-					}else if(){  //失败
-						reject(xhr.responseText());
-					}
-				}
-			})
-			xhr.send();
-		})
+<html>
 
-		promise.then(()=>{
-			
-		})
-	</script>
+<head>
+    <meta charset="utf-8">
+    <!--code here-->
+    <title>demo</title>
+    <style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    .head,
+    li div {
+        display: inline-block;
+        width: 70px;
+        text-align: center;
+    }
+
+    li .id,
+    li .sex,
+    .id,
+    .sex {
+        width: 15px;
+    }
+
+    li .name,
+    .name {
+        width: 40px;
+    }
+
+    li .tel,
+    .tel {
+        width: 90px;
+    }
+
+    li .del,
+    .del {
+        width: 15px;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    .user-delete {
+        cursor: pointer;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="J_container">
+        <div class="record-head">
+            <div class="head id">序号</div>
+            <div class="head name">姓名</div>
+            <div class="head sex">性别</div>
+            <div class="head tel">电话号码</div>
+            <div class="head province">省份</div>
+            <div class="head">操作</div>
+        </div>
+        <ul id="J_List">
+            <li>
+                <div class="id">1</div>
+                <div class="name">张三</div>
+                <div class="sex">男</div>
+                <div class="tel">13788888888</div>
+                <div class="province">浙江</div>
+                <div class="user-delete">删除</div>
+            </li>
+            <li>
+                <div class="id">2</div>
+                <div class="name">李四</div>
+                <div class="sex">女</div>
+                <div class="tel">13788887777</div>
+                <div class="province">四川</div>
+                <div class="user-delete">删除</div>
+            </li>
+            <li>
+                <div class="id">3</div>
+                <div class="name">王二</div>
+                <div class="sex">男</div>
+                <div class="tel">13788889999</div>
+                <div class="province">广东</div>
+                <div class="user-delete">删除</div>
+            </li>
+        </ul>
+    </div>
+    <script>
+    // 此处也可换成ES6的写法
+    function Contact() {
+        this.init();
+    }
+
+    // your code here
+    window.onload = Contact;
+
+    function init(){
+        var listDom = document.getElementById('J_List');
+      
+        listDom.addEventListener('click',function(event){
+            var event = event ||window.event;
+            var target = event.target ||event.toElement;
+            if(target.className =="user-delete"){//删除
+                var li = target.parentNode;
+                var id = li.getElementsByClassName('id')[0].innerHTML;  //id
+                var name = li.getElementsByClassName('name')[0].innerHTML; 
+                var sex = li.getElementsByClassName('sex')[0].innerHTML; 
+                var tel = li.getElementsByClassName('tel')[0].innerHTML; 
+                var province = li.getElementsByClassName('province')[0].innerHTML; 
+                var person = new Person(id,name,sex,tel,province); 
+                console.log(person);
+                //传入person对象到后台从数据库中删除
+                //成功的话界面删除
+                li.style.display = "none";
+            }
+        });
+        
+    }
+    function Person(id,name,sex,tel,province){
+        this.id = id;
+        this.name = name;
+        this.tel = tel;
+        this.province = province;
+    }
+    </script>
 </body>
+
 </html>

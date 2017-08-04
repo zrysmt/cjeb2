@@ -34,7 +34,7 @@ class Threemap extends React.Component {
     initThree(center, zoom) {
         let stats;
         let camera, scene, renderer;
-        let radius = 200; //地球半径
+        let radius = 250; //地球半径
         let group;
         let container = document.getElementById('WebGL-output');
         let width = container.clientWidth,
@@ -53,7 +53,8 @@ class Threemap extends React.Component {
             camera.position.x = 0;
             camera.position.y = 0;
             camera.position.z = 500;
-            camera.lookAt(scene.position);
+            // camera.lookAt(scene.position);
+             camera.lookAt(new THREE.Vector3(0,0,0));
 
             //控制地球
             let orbitControls = new /*THREE.OrbitControls*/ Orbitcontrols(camera);
@@ -70,20 +71,19 @@ class Threemap extends React.Component {
             scene.add(spotLight);
             // Texture
             let loader = new THREE.TextureLoader();
-            let planetTexture = require("./assets/imgs/planets/Earth.png");
+            let geometry = new THREE.SphereGeometry(radius, 30, 30);
+            let material = new THREE.MeshBasicMaterial({  overdraw: 0.5 });
 
-            loader.load(planetTexture, function(texture) {
-                let geometry = new THREE.SphereGeometry(radius, 30, 30);
-                let material = new THREE.MeshBasicMaterial({ map: texture, overdraw: 0.5 });
-                let mesh = new THREE.Mesh(geometry, material);
-                // let coord = threeUtil.lngLat2Coordinate(center[0],center[1],radius);  //坐标转化
-                /*let coord = threeUtil.getPosition(center[0],center[1],0);  //坐标转化
-                console.log(coord,center);
-                mesh.position.x = coord.x;
-                mesh.position.y = coord.y;
-                mesh.position.z = coord.z;*/
-                group.add(mesh);
+            let planetMaterial = new THREE.MeshPhongMaterial( {
+                specular: 0x444444,
+                map: loader.load(require("./assets/imgs/planets/Earth.png")),
+                // map: loader.load(require("./assets/imgs/planets/land_ocean.jpg")),
+                specularMap:loader.load(require("./assets/imgs/planets/EarthSpec.png")),
+                normalMap: loader.load(require("./assets/imgs/planets/EarthNormal.png"))
             });
+
+            let mesh = new THREE.Mesh( geometry, planetMaterial );
+            group.add(mesh);
 
             renderer = new THREE.WebGLRenderer();
             renderer.setClearColor(0xffffff);
@@ -93,10 +93,11 @@ class Threemap extends React.Component {
             stats = new Stats();
             // container.appendChild( stats.dom );  //增加状态信息 
             addMarker(40.7, -73.6, 0x0000FF);
-            var GCNY = convertLatLonToVec3(40.7, -73.6).multiplyScalar(100.5);
+            var GCNY = convertLatLonToVec3(40.7, -73.6).multiplyScalar(radius);
             addMarker(30, -90, 0x00FF00);
-            var NOLA = convertLatLonToVec3(30, -90).multiplyScalar(100.5);
+            var NOLA = convertLatLonToVec3(30, -90).multiplyScalar(radius);
             drawCurve(createSphereArc(GCNY, NOLA), 0x00FFFF);
+            addMarker(30, 110, 0x000000);
         }
 
         function addMarker(lat, lon, colory) {
@@ -105,7 +106,7 @@ class Threemap extends React.Component {
             marker.position.x = coord.x;
             marker.position.y = coord.y;
             marker.position.z = coord.z;
-            scene.add(marker);
+            group.add(marker);
         }
 
         function convertLatLonToVec3(lat, lon) {
@@ -141,7 +142,7 @@ class Threemap extends React.Component {
             var lineMaterial = new THREE.LineBasicMaterial();
             lineMaterial.color = (typeof(color) === "undefined") ? new THREE.Color(0xFF0000) : new THREE.Color(color);
             var line = new THREE.Line(lineGeometry, lineMaterial);
-            scene.add(line);
+            group.add(line);
         }
 
         function clear() {
@@ -156,6 +157,8 @@ class Threemap extends React.Component {
 
         function render() {
             // group.rotation.y -= 0.005;  //这行可以控制地球自转
+            group.rotation.x = 0.5; //定位到中国
+            group.rotation.y = 3;
             renderer.render(scene, camera);
         }
     }
