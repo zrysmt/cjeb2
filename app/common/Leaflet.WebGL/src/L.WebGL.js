@@ -113,35 +113,6 @@ L.TileLayer.WebGL = L.Layer.extend({ //modify Class to Layer
 
         // tell webgl how buffer is laid out (pairs of x,y coords)
         gl.vertexAttribPointer(attributeLoc, 2, gl.FLOAT, false, 0, 0);
-
-       /* function lerp(a, b, t) {
-            return a + t * (b - a);
-        }
-        POINT_COUNT = 500000;
-
-        // Spherical Mercator projection Points Boundary (Thailand)
-        var MIN_X = 199.15235555555554;
-        var MAX_X = 199.84768;
-        var MIN_Y = 117.74998759079017;
-        var MAX_Y = 118.25784290489942;
- 
-        var rawData = new Float32Array(2 * POINT_COUNT);
-        for (var i = 0; i < rawData.length; i += 2) {
-            rawData[i] = lerp(MIN_X, MAX_X, Math.random());
-            rawData[i + 1] = lerp(MIN_Y, MAX_Y, Math.random());
-        }
-        console.log("rawData:",rawData);
-
-        pointArrayBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, pointArrayBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, rawData, gl.STATIC_DRAW);
-
-        // enable the 'worldCoord' attribute in the shader to receive buffer
-        var attributeLoc = gl.getAttribLocation(pointProgram, 'worldCoord');
-        gl.enableVertexAttribArray(attributeLoc);
-
-        // tell webgl how buffer is laid out (pairs of x,y coords)
-        gl.vertexAttribPointer(attributeLoc, 2, gl.FLOAT, false, 0, 0);*/
     },
     _plot: function() {
         var map = this.map;

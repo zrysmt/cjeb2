@@ -7,7 +7,7 @@
  *  [maptypebar] 是否显示地图切换按钮
  *  [center] 中心点坐标 
  *  [zoom]   zoomLevel
- * <Lbasemap mapType="geoq_normalm3" scale="true" osmGeocoder="true" maptypebar="true">
+ * <Lbasemap mapType="geoq_normalm3" scale={true} osmGeocoder={true} maptypebar={true}>
  *  </Lbasemap>
  */
 import './lbasemap.scss';
@@ -17,6 +17,7 @@ import L from 'leaflet';
 
 import "../../../common/css/Control.OSMGeocoder.css";
 import "../../../common/leaflet-plugin/Control.OSMGeocoder.js";
+import  '../../../common/Leaflet.WebGL/src/L.WebGL.js';
 
 import util from '../../../common/util.jsx';
 import Eventful from '../../../common/eventful.js';
@@ -28,13 +29,29 @@ class Lbasemap extends React.Component{
         super(props);
         this.state = {
             center:[30,104],
-            zoom:5
+            zoom:5,
+            data:[]
         };
     }
-    componentWillMount(){
+    componentWillReceiveProps(props){
+	    if(props.data&&props.data.length!=0) {
+            this.setState({data:props.data},()=>{
+                let res = [];
+                this.state.data.forEach((d,i)=>{
+                    d.x = d.lat;
+                    d.y = d.lng;
+                    res.push(d);
+                });
+
+                console.log('webGLLayer res',res);
+                let webGLLayer = new L.TileLayer.WebGL({
+                    data:res
+                });
+                this.map.addLayer(webGLLayer);
+            })
+        }
     }
     componentDidMount(){
-        if(__DEV__) console.info("componentDidMount");
 		util.adaptHeight('lmap',105,300);//高度自适应
 
 		let map = L.map('lmap',{
