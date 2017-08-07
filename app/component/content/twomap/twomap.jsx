@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 
 import Lbasemap from '../lmap/lbasemap';
 
@@ -10,12 +9,10 @@ class Twomap extends React.Component{
             data:[]
         }
     }
-    componentDidMount(){
-        axios.get('http://localhost:8000/getjson/allcity/2014/GDP')
-            .then((res)=>{
-                console.log('res:',res);
-                this.setState({data:res.data});
-            })
+    componentWillReceiveProps(props){
+        if(props.data&&props.data.length!=0) {
+            this.setState({data:props.data});
+        }
     }
     render(){
         let {data} = this.state;

@@ -14,9 +14,10 @@ import './lbasemap.scss';
 
 import React from 'react';
 import L from 'leaflet';
-
+import * as d3 from 'd3';
 import "../../../common/css/Control.OSMGeocoder.css";
 import "../../../common/leaflet-plugin/Control.OSMGeocoder.js";
+import '../../../common/libs/L.D3SvgOverlay';
 import  '../../../common/Leaflet.WebGL/src/L.WebGL.js';
 
 import util from '../../../common/util.jsx';
@@ -36,20 +37,55 @@ class Lbasemap extends React.Component{
     componentWillReceiveProps(props){
 	    if(props.data&&props.data.length!=0) {
             this.setState({data:props.data},()=>{
-                let res = [];
-                this.state.data.forEach((d,i)=>{
-                    d.x = d.lat;
-                    d.y = d.lng;
-                    res.push(d);
-                });
-
-                console.log('webGLLayer res',res);
-                let webGLLayer = new L.TileLayer.WebGL({
-                    data:res
-                });
-                this.map.addLayer(webGLLayer);
+                this.initD3Chart(this.state.data);
             })
         }
+    }
+    initD3Chart(data){
+
+        let d3Overlay = L.d3SvgOverlay(function(sel, proj) {
+
+            let minLogPop = 0;
+            data.sort(function (a,b) {
+                return (+a.value) - (+b.value);
+            })
+            let citiesUpd = sel.selectAll('circle').data(data);
+            citiesUpd.enter()
+                .append('circle')
+                .attr('r', function(d) {
+                    // let value = !(+d.value)?0:(+d.value)/data[data.length-1].value *160;
+                    return +d.value==0?0:Math.log2((+d.value))/4 - minLogPop;
+                })
+                .attr('cx', function(d) {
+
+                    return proj.latLngToLayerPoint([+d.lat,+d.lng]).x;
+                })
+                .attr('cy', function(d) {
+                    return proj.latLngToLayerPoint([+d.lat,+d.lng]).y;
+                })
+                .attr('stroke', '#ff0000')
+                .attr('stroke-width', 0)
+                .attr('fill','#44a3e5')
+                .on('click',(d,i)=>{
+                    console.log(d);
+                })
+
+        });
+
+        d3Overlay.addTo(this.map);
+    }
+    initWebGLChart(data){
+        let res = [];
+        data.forEach((d,i)=>{
+            d.x = d.lat;
+            d.y = d.lng;
+            res.push(d);
+        });
+
+        let webGLLayer = new L.TileLayer.WebGL({
+            data:res
+        });
+        this.map.addLayer(webGLLayer);
     }
     componentDidMount(){
 		util.adaptHeight('lmap',105,300);//高度自适应

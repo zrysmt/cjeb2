@@ -64,6 +64,7 @@ app.get('/getjson/:city/:year/:ind',function(req,res){
 					if(err1)	res.send(err1);
 					rows1.forEach(function(row1){
 						row1.unit = row.unit;
+						row1.name = params.ind;
 					})
             		res.json(rows1);
             		// closeDb();

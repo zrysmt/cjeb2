@@ -12,17 +12,24 @@ import Stats from '../../../common/threejslibs/stats.min.js';
 import util from '../../../common/util.jsx';
 import threeUtil from './util.js';
 
+let radius = 250; //地球半径
+let stats;
+let camera, scene, renderer;
+let group;
+
+
 class Threemap extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             center: [30, 110],
-            zoom: 5
+            zoom: 5,
+            data: []
         }
     }
     componentWillReceiveProps(props) {
-        this.setState({ center: props.center, zoom: props.zoom }, () => {
-
+        this.setState({ center: props.center, zoom: props.zoom,data:props.data }, () => {
+            this.initChart(this.state.data);
         })
     }
     componentDidMount() {
@@ -31,27 +38,35 @@ class Threemap extends React.Component {
 
         this.initThree(center, zoom);
     }
+    initChart(data){
+        data.sort(function (a,b) {
+            return (+a.value) - (+b.value);
+        })
+        if(__DEV__) console.log('data:',data);
+
+        data.forEach((d,i)=>{
+            let value = !(+d.value)?0:(+d.value)/data[data.length-1].value *160;
+            this.addBoxGeomtry(d.lat, d.lng,value,radius,'#44a3e5');
+        })
+    }
     initThree(center, zoom) {
-        let stats;
-        let camera, scene, renderer;
-        let radius = 250; //地球半径
-        let group;
         let container = document.getElementById('WebGL-output');
         let width = container.clientWidth,
             height = container.clientHeight;
 
+        console.log('this',this);
+        let self = this;
         clear();
         init();
         animate();
-
         function init() {
             scene = new THREE.Scene();
             group = new THREE.Group();
             scene.add(group);
 
             camera = new THREE.PerspectiveCamera(60, width / height, 1, 2000);
-            camera.position.x = 0;
-            camera.position.y = 0;
+            camera.position.x = 30;
+            camera.position.y = 30;
             camera.position.z = 500;
             // camera.lookAt(scene.position);
              camera.lookAt(new THREE.Vector3(0,0,0));
@@ -91,58 +106,7 @@ class Threemap extends React.Component {
             renderer.setSize(width, height);
             container.appendChild(renderer.domElement);
             stats = new Stats();
-            // container.appendChild( stats.dom );  //增加状态信息 
-            addMarker(40.7, -73.6, 0x0000FF);
-            var GCNY = convertLatLonToVec3(40.7, -73.6).multiplyScalar(radius);
-            addMarker(30, -90, 0x00FF00);
-            var NOLA = convertLatLonToVec3(30, -90).multiplyScalar(radius);
-            drawCurve(createSphereArc(GCNY, NOLA), 0x00FFFF);
-            addMarker(30, 110, 0x000000);
-        }
-
-        function addMarker(lat, lon, colory) {
-            var marker = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 8), new THREE.MeshBasicMaterial({ color: colory }));
-            let coord = convertLatLonToVec3(lat, lon).multiplyScalar(radius);
-            marker.position.x = coord.x;
-            marker.position.y = coord.y;
-            marker.position.z = coord.z;
-            group.add(marker);
-        }
-
-        function convertLatLonToVec3(lat, lon) {
-            lat = lat * Math.PI / 180.0;
-            lon = -lon * Math.PI / 180.0;
-            return new THREE.Vector3(
-                Math.cos(lat) * Math.cos(lon),
-                Math.sin(lat),
-                Math.cos(lat) * Math.sin(lon));
-        }
-
-        function greatCircleFunction(P, Q) {
-            var angle = P.angleTo(Q);
-            return function(t) {
-                var X = new THREE.Vector3().addVectors(
-                        P.clone().multiplyScalar(Math.sin((1 - t) * angle)),
-                        Q.clone().multiplyScalar(Math.sin(t * angle)))
-                    .divideScalar(Math.sin(angle));
-                return X;
-            };
-        }
-
-        function createSphereArc(P, Q) {
-            var sphereArc = new THREE.Curve();
-            sphereArc.getPoint = greatCircleFunction(P, Q);
-            return sphereArc;
-        }
-
-        function drawCurve(curve, color) {
-            var lineGeometry = new THREE.Geometry();
-            lineGeometry.vertices = curve.getPoints(100);
-            lineGeometry.computeLineDistances();
-            var lineMaterial = new THREE.LineBasicMaterial();
-            lineMaterial.color = (typeof(color) === "undefined") ? new THREE.Color(0xFF0000) : new THREE.Color(color);
-            var line = new THREE.Line(lineGeometry, lineMaterial);
-            group.add(line);
+            // container.appendChild( stats.dom );  //增加状态信息
         }
 
         function clear() {
@@ -161,6 +125,77 @@ class Threemap extends React.Component {
             group.rotation.y = 3;
             renderer.render(scene, camera);
         }
+    }
+
+    /**
+     * 绘制线
+     */
+    drawCurve(lat1,lon1,lat2,lon2,radius, color) {
+        let point1 = this.convertLatLonToCood(lat1, lon1,radius);
+        let point2 = this.convertLatLonToCood(lat2, lon2,radius);
+        let curve = createSphereArc(point1, point2);
+        let lineGeometry = new THREE.Geometry();
+        lineGeometry.vertices = curve.getPoints(100);
+        lineGeometry.computeLineDistances();
+        let lineMaterial = new THREE.LineBasicMaterial();
+        lineMaterial.color = (typeof(color) === "undefined") ? new THREE.Color(color) : new THREE.Color(color);
+        let line = new THREE.Line(lineGeometry, lineMaterial);
+        group.add(line);
+        function greatCircleFunction(P, Q) {
+            let angle = P.angleTo(Q);
+            return function(t) {
+                let X = new THREE.Vector3().addVectors(
+                    P.clone().multiplyScalar(Math.sin((1 - t) * angle)),
+                    Q.clone().multiplyScalar(Math.sin(t * angle)))
+                    .divideScalar(Math.sin(angle));
+                return X;
+            };
+        }
+
+        function createSphereArc(P, Q) {
+            var sphereArc = new THREE.Curve();
+            sphereArc.getPoint = greatCircleFunction(P, Q);
+            return sphereArc;
+        }
+    }
+
+    /**
+     * 绘制圆柱
+     */
+    addBoxGeomtry(lat, lon, zValue,radius,colory) {
+        let boxMesh = new THREE.Mesh(new THREE.BoxGeometry(1, 1, zValue), new THREE.MeshBasicMaterial({ color: colory }));
+        let coord = this.convertLatLonToCood(lat, lon,radius);
+        boxMesh.position.x = coord.x;
+        boxMesh.position.y = coord.y;
+        boxMesh.position.z = coord.z;
+        boxMesh.rotateX(0);
+        boxMesh.rotateY(0);
+        boxMesh.rotateZ(0);
+        boxMesh.rotation.x = 0.8;
+        // boxMesh.rotation.y = 1;
+        group.add(boxMesh);
+    }
+    /**
+     * 绘制点
+     */
+    addMarker(lat, lon, radius,colory) {
+        var marker = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 8), new THREE.MeshBasicMaterial({ color: colory }));
+        let coord = this.convertLatLonToCood(lat, lon,radius);
+        marker.position.x = coord.x;
+        marker.position.y = coord.y;
+        marker.position.z = coord.z;
+        group.add(marker);
+    }
+    convertLatLonToCood(lat, lon,radius){
+        return this.convertLatLonToVec3(lat, lon).multiplyScalar(radius);
+    }
+    convertLatLonToVec3(lat, lon){
+        lat = lat * Math.PI / 180.0;
+        lon = -lon * Math.PI / 180.0;
+        return new THREE.Vector3(
+            Math.cos(lat) * Math.cos(lon),
+            Math.sin(lat),
+            Math.cos(lat) * Math.sin(lon));
     }
     render() {
         return ( <div id = 'WebGL-output' > </div>)
