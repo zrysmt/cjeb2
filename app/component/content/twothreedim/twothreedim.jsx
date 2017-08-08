@@ -34,7 +34,7 @@ class Twothreedim extends React.Component{
 				<div id="threedim" className="right-container">
 					<Threemap center={[30,110]} data={data} zoom={4}/>
 				</div>
-				<div>
+				<div id="timeline-div">
 					<TimeLine/>
 				</div>
 			</div>

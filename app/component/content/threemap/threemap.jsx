@@ -42,7 +42,6 @@ class Threemap extends React.Component {
         data.sort(function (a,b) {
             return (+a.value) - (+b.value);
         })
-        if(__DEV__) console.log('data:',data);
 
         data.forEach((d,i)=>{
             let value = !(+d.value)?0:(+d.value)/data[data.length-1].value *160;
@@ -72,7 +71,7 @@ class Threemap extends React.Component {
              camera.lookAt(new THREE.Vector3(0,0,0));
 
             //控制地球
-            let orbitControls = new /*THREE.OrbitControls*/ Orbitcontrols(camera);
+            let orbitControls = new /*THREE.OrbitControls*/ Orbitcontrols(camera,container);
             // orbitControls.autoRotate = true;
             let clock = new THREE.Clock();
             //光源
