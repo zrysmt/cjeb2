@@ -9,13 +9,13 @@ import '../../../common/threejslibs/Projector.js';
 // import '../../../common/threejslibs/CanvasRenderer.js';   //CanvasRenderer
 import Stats from '../../../common/threejslibs/stats.min.js';
 
+import Eventful from '../../../common/eventful.js';
 import util from '../../../common/util.jsx';
 import threeUtil from './util.js';
 
 let radius = 250; //地球半径
-let stats;
-let camera, scene, renderer;
-let group;
+let stats,container;
+let camera, scene, renderer,orbitControls,group;
 
 
 class Threemap extends React.Component {
@@ -23,7 +23,7 @@ class Threemap extends React.Component {
         super(props);
         this.state = {
             center: [30, 110],
-            zoom: 5,
+            zoom: 4,
             data: []
         }
     }
@@ -49,7 +49,7 @@ class Threemap extends React.Component {
         })
     }
     initThree(center, zoom) {
-        let container = document.getElementById('WebGL-output');
+        container = document.getElementById('WebGL-output');
         let width = container.clientWidth,
             height = container.clientHeight;
 
@@ -58,21 +58,24 @@ class Threemap extends React.Component {
         clear();
         init();
         animate();
+        this.handleEventListener();
         function init() {
             scene = new THREE.Scene();
             group = new THREE.Group();
             scene.add(group);
 
             camera = new THREE.PerspectiveCamera(60, width / height, 1, 2000);
-            camera.position.x = 30;
-            camera.position.y = 30;
-            camera.position.z = 500;
-            // camera.lookAt(scene.position);
-             camera.lookAt(new THREE.Vector3(0,0,0));
+            let cPosition = self.cameraPositionByZoomCenter(camera,zoom,center);
+            camera.position.x = cPosition.x;
+            camera.position.y = cPosition.y;
+            camera.position.z = cPosition.z;
+            camera.lookAt(new THREE.Vector3(0,0,0));
 
             //控制地球
-            let orbitControls = new /*THREE.OrbitControls*/ Orbitcontrols(camera,container);
-            // orbitControls.autoRotate = true;
+            orbitControls = new /*THREE.OrbitControls*/ Orbitcontrols(camera,container);
+            orbitControls.enableDamping = true;
+            orbitControls.dampingFactor = 0.8;  //动态阻尼系数 就是鼠标拖拽旋转灵敏度
+            // orbitControls.autoRotate = true;  //是否自动旋转
             let clock = new THREE.Clock();
             //光源
             let ambi = new THREE.AmbientLight(0x686868);
@@ -108,11 +111,13 @@ class Threemap extends React.Component {
             // container.appendChild( stats.dom );  //增加状态信息
         }
 
+
         function clear() {
             container.innerHTML = '';
         }
 
         function animate() {
+            orbitControls.update();
             requestAnimationFrame(animate);
             render();
             // stats.update();
@@ -125,7 +130,58 @@ class Threemap extends React.Component {
             renderer.render(scene, camera);
         }
     }
+    cameraPositionByZoomCenter(camera,zoom,center){
+        //以center[30 110],zoom 4 为标准
+        let x,y,z;
+        let CENTER = this.state.center;
+        let ZOOM = this.state.zoom;
+        if(center)  x = (center[1]-CENTER[1])*10+30;
+        if(center)  y = (center[0]-CENTER[0])*10+30;
+        if(zoom)    z = 400 - (zoom - ZOOM)*50;
+        console.log(CENTER,x,y,z);
+        return{
+            x:x,
+            y:y,
+            z:z
+        }
+    }
+    handleEventListener(){
+        Eventful.subscribe('twoZoom',(zoom)=>{
+            console.log('l zoom',zoom);
+            let cPosition = this.cameraPositionByZoomCenter(camera,zoom,'');
+            camera.position.z = cPosition.z;
+        });
+        Eventful.subscribe('twoMove',(center)=>{
+            console.log('l move',center);
+            let cPosition = this.cameraPositionByZoomCenter(camera,'',[center.lat,center.lng]);
+            camera.position.x = cPosition.x;
+            camera.position.y = cPosition.y;
+        });
+        let x1=0,x2=0,y1=0,y2=0;
+        container.addEventListener('mousedown',(e)=>{
+            x1 = e.clientX;
+            y1 = e.clientY;
+        });
+        container.addEventListener('mouseup',(e)=>{
+            let deltaX = e.clientX - x1;
+            let deltaY = e.clientY - y1;
+            let CENTER = this.state.center;
+            if(__DEV__) console.log('[deltaX,deltaY]:',[deltaX,deltaY]);
+            let newCenter = [deltaY*0.5+CENTER[0],-deltaX*0.5+CENTER[1]];
+            if(__DEV__) console.log('newCenter',newCenter);
+            Eventful.dispatch('threeCenter',newCenter)  //坐标关系
 
+        });
+
+        container.addEventListener('wheel',(e)=>{
+            console.log('wheel',e);
+            if(e.deltaY > 0){  //zoom--
+                Eventful.dispatch('threeZoom',-1);
+            }else if(e.deltaY < 0){  //zoom++
+                Eventful.dispatch('threeZoom',1);
+            }
+        })
+    }
     /**
      * 绘制线
      */
@@ -157,7 +213,6 @@ class Threemap extends React.Component {
             return sphereArc;
         }
     }
-
     /**
      * 绘制圆柱
      */

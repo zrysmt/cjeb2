@@ -30,7 +30,7 @@ class Lbasemap extends React.Component{
         super(props);
         this.state = {
             center:[30,104],
-            zoom:5,
+            zoom:4,
             data:[]
         };
     }
@@ -110,7 +110,25 @@ class Lbasemap extends React.Component{
 		if(this.props.scale&&this.props.scale) L.control.scale().addTo(map); //比例尺
 		if(this.props.osmGeocoder&&this.props.osmGeocoder) this.osmGeocoderGen();
 		if(this.props.maptypebar&&this.props.maptypebar) this.handleMaptypebar();
-	
+        this.handleEventListener();
+    }
+    handleEventListener(){
+        let map = this.map;
+        let isDispatchMove = true;
+        map.on('zoomend',(event)=>{
+            if(__DEV__) console.log('zoomend zoom',map.getZoom());
+            Eventful.dispatch('twoZoom',map.getZoom());
+        })
+        map.on('moveend',(event)=>{
+            if(__DEV__) console.log('moveend move',map.getCenter());
+            Eventful.dispatch('twoMove',map.getCenter());
+        });
+        Eventful.subscribe('threeCenter',(center)=>{
+            this.map.setView(center);
+        });
+        Eventful.subscribe('threeZoom',(zoom)=>{
+            map.setZoom(map.getZoom()+zoom);
+        })
     }
     componentWillUnmount(){
     	this.map.remove();
