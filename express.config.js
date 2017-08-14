@@ -37,6 +37,12 @@ app.get('/demo/:ind',function(req,res){
         // closeDb();
     });
 });
+app.get('/getjson/allInd',function (req,res) {
+    db.all("SELECT * FROM cjeb_ind",function(err,rows){
+        if(err)	res.send(err);
+        res.json(rows);
+    });
+});
 //某个城市某一年某个指标
 //如：/getjson/上海市/2014/GDP增长率
 //所有城市某一年的某个指标

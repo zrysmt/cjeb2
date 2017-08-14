@@ -18,12 +18,18 @@ class Twothreedim extends React.Component{
         }
     }
     componentDidMount(){
+        this.getDataFromServer();
+    }
+    getDataFromServer(){
         axios.get('http://localhost:8000/getjson/allcity/2000/GDP')
             .then((res)=>{
                 console.log('res:',res);
                 this.setState({data:res.data});
+            }).catch((err)=>{
+                console.warn(err);
             })
     }
+
 	render(){
     	let {data} = this.state;
 		return(

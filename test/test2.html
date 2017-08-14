@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var line = "ABABC";
+        var input_arrays = line.split('');
+        var obj = {};
+        var nums = 0;
+        console.log(input_arrays);
+        input_arrays.forEach(function(data,index){
+            console.log(index,data,!obj[data]);
+            console.log(obj['key'+data]);
+
+            if(!obj['key'+data]){
+                nums++;
+                obj['key'+data] = true;
+            }
+        })
+        console.log(nums);
+        function f(n){
+            if(1 == n){
+                return 1;
+            }else{
+                return n*f(n-1);
+            }
+        }
+        console.log(f(nums));
+    </script>
+</body>
+</html>

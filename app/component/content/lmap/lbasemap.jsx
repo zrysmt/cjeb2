@@ -12,7 +12,7 @@
  */
 import './lbasemap.scss';
 
-import React from 'react';
+import React,{Component} from 'react';
 import L from 'leaflet';
 import * as d3 from 'd3';
 import "../../../common/css/Control.OSMGeocoder.css";
@@ -25,7 +25,7 @@ import Eventful from '../../../common/eventful.js';
 
 import mapTypes from './maptypes.js';
 
-class Lbasemap extends React.Component{
+class Lbasemap extends Component{
 	constructor(props){
         super(props);
         this.state = {
@@ -37,11 +37,11 @@ class Lbasemap extends React.Component{
     componentWillReceiveProps(props){
 	    if(props.data&&props.data.length!=0) {
             this.setState({data:props.data},()=>{
-                this.initD3Chart(this.state.data);
+                this.initD3Chart(props.handleInfoModal,this.state.data);
             })
         }
     }
-    initD3Chart(data){
+    initD3Chart(handleInfoModal,data){
 
         let d3Overlay = L.d3SvgOverlay(function(sel, proj) {
 
@@ -68,6 +68,7 @@ class Lbasemap extends React.Component{
                 .attr('fill','#44a3e5')
                 .on('click',(d,i)=>{
                     console.log(d);
+                    if(handleInfoModal) handleInfoModal(d);
                 })
 
         });

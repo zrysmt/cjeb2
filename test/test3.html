@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    var line = "111011111010101111111101010101";
+    var input_arrays = line.split('');
+    var arr = [];
+    var nums = 0;
+    for(var i=0;i<input_arrays.length-1;i++){
+        console.log(!!(input_arrays[i]^input_arrays[i+1]));
+        if(!!(input_arrays[i]^input_arrays[i+1])){
+            nums++;
+        }else{
+            nums = 0;
+        }
+        arr.push(nums);
+    }
+
+    console.log(arr);
+    var res = Math.max.apply(Math,arr)?Math.max.apply(Math,arr)+1:0;
+    console.log(res);
+</script>
+</body>
+</html>
