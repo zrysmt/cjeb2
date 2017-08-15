@@ -2,6 +2,8 @@ import './twomap.scss';
 
 import React from 'react';
 
+import Eventful from '../../../common/eventful.js';
+
 import Lbasemap from '../lmap/lbasemap';
 import InfoModal from "../infoModal/infoModal";
 
@@ -10,14 +12,35 @@ class Twomap extends React.Component{
         super(props);
         this.state = {
             data: [],
-            info: []
+            isInfoModalShow:false,
+            info: [], //点击后的详细信息数组 for InfoModal
+            clickedInfo:{}  //点击选中的点
         };
         this.handleInfoModal = this.handleInfoModal.bind(this);
     }
     componentWillReceiveProps(props){
         if(props.data&&props.data.length!=0) {
-            this.setState({data:props.data});
+            this.setState({
+                data:props.data,
+                year:props.year,
+                currentInd:props.currentInd,
+                isInfoModalRefresh:props.isInfoModalRefresh
+            },()=>{
+                console.log('this.state:',this.state);
+                if(this.state.isInfoModalRefresh) this.refreshInfoModal(props.data,props.currentInd,props.year);
+            });
         }
+    }
+    refreshInfoModal(data,name,year){
+        let {isInfoModalShow,clickedInfo} = this.state;
+        if(!isInfoModalShow) return;
+        if(__DEV__)console.log(data,name,year,clickedInfo);
+
+        data.forEach((d,i)=>{
+            if(d.cityCode == clickedInfo.cityCode){
+                this.handleInfoModal(d);
+            }
+        })
     }
     handleInfoModal(data){
         console.log('handleInfoModal:',data);
@@ -28,9 +51,9 @@ class Twomap extends React.Component{
             {name:"lat",value:data.lat},
             {name:"lng",value:data.lng},
             {name:"年份",value:data.year},
-            {name:[data.name],value:data.value+data.unit}
+            {name:[data.name],value:(data.value||"")+(data.unit||"")}
         ];
-        this.setState({info:res},()=>{
+        this.setState({isInfoModalShow:true,clickedInfo:data,info:res},()=>{
             console.log('this.state',this.state);
         });
     }

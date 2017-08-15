@@ -6,7 +6,10 @@ import '../../../../node_modules/animate.css/animate.css';
 
 import React from 'react';
 import axios from 'axios';
+
+import Eventful from '../../../common/eventful.js';
 import gConfig from '../../common/gConfig.js';
+
 import Twomap from '../twomap/twomap';
 import Threemap from '../threemap/threemap';
 import TimeLine from '../../widget/timeLine/timeLine';
@@ -20,23 +23,53 @@ class Twothreedim extends React.Component {
         super(props);
         this.state = {
             data: [],
-            ind: [],
+            ind: [],  //所有的指标
             isIndShow: false,
-            showAnimate: 'fadeIn'
+            isInfoModalRefresh:false,
+            showAnimate: 'fadeIn',
+            year:'2000',
+            currentInd:"GDP"
         };
         this.handIndCtlClick = this.handIndCtlClick.bind(this);
     }
 
     componentDidMount() {
-        this.getDataFromServer();
+        let {year,currentInd} = this.state;
+        this.getDataFromServer(year,currentInd,(data)=>{
+            this.setState({data: data});
+        });
+        Eventful.subscribe('selectPaneClicked',(name)=>{
+            let year1 = this.state.year;
+            if(!year1) return;
+            this.getDataFromServer(year1,name,(data)=>{
+                this.setState({
+                    isIndShow: false,
+                    isInfoModalRefresh:true,
+                    currentInd:name,
+                    data:data
+                })
+            });
+        });
+        Eventful.subscribe('timeLineClicked',(clickedYear)=>{
+            let currentInd1 = this.state.currentInd;
+            if(!currentInd1) return;
+            
+            this.getDataFromServer(clickedYear,currentInd1,(data)=>{
+                this.setState({
+                    year:clickedYear,
+                    isInfoModalRefresh:true,
+                    data:data
+                })
+            });
+        })
     }
 
-    getDataFromServer() {
-        axios.get(`${server}getjson/allcity/2000/GDP`)
+    getDataFromServer(year,indName,callback) {
+        axios.get(`${server}getjson/allcity/${year}/${indName}`)
             .then((res) => {
                 if (!res.data) return;
                 console.log('res:', res);
-                this.setState({data: res.data});
+                if(callback) callback.call(this,res.data);
             }).catch((err) => {
             console.warn(err);
         })
@@ -80,33 +113,38 @@ class Twothreedim extends React.Component {
             console.warn(err);
         })
     }
-
+    componentWillUmmount(){
+        Eventful.unSubscribe('selectPaneClicked');
+        Eventful.unSubscribe('timeLineClicked');
+    }
     render() {
-        let {data, ind, isIndShow, showAnimate} = this.state;
+        let {data, ind, isIndShow,isInfoModalRefresh, showAnimate,year,currentInd} = this.state;
         let indPaneDisplay = isIndShow ? "block" : "none";
 
         return (
             <div id="twothreedim" className="left-right-container">
                 <div id="ind-div">
-                    <div id="ind-ctl" style={{
-                            height: '13px', width: "13px", borderRadius: '13px',
-                            boxShadow: "1px 1px 5px #cccccc",
-                            backgroundColor: "#ffffff"
-                         }}
-                         onClick={this.handIndCtlClick}></div>
+                    <div id="ind-ctl-current" onClick={this.handIndCtlClick}>
+                        <div id="ind-ctl" style={{
+                                height: '13px', width: "13px", borderRadius: '13px',
+                                boxShadow: "1px 1px 5px #cccccc",
+                                backgroundColor: "#ffffff"
+                             }}></div>
+                        <div id="current-ind">{year}年 {currentInd}</div>
+                    </div>
                     <div id="ind-pane" className={"animated " + showAnimate}
                          style={{display: indPaneDisplay}}>
-                        <SelectPane data={ind}/>
+                        <SelectPane data={ind} defaultActive={currentInd}/>
                     </div>
                 </div>
                 <div id="twodim" className="left-container">
-                    <Twomap data={data}/>
+                    <Twomap data={data} year={year} currentInd={currentInd} isInfoModalRefresh={isInfoModalRefresh}/>
                 </div>
                 <div id="threedim" className="right-container">
                     <Threemap center={[30, 110]} data={data} zoom={4}/>
                 </div>
                 <div id="timeline-div">
-                    <TimeLine/>
+                    <TimeLine defaultYear={year}/>
                 </div>
             </div>
         )

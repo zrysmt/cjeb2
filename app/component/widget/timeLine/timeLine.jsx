@@ -1,6 +1,7 @@
 import './timeLine.scss';
 
 import React, {Component} from 'react';
+import Eventful from '../../../common/eventful.js';
 
 class TimeLine extends React.Component {
     constructor(props) {
@@ -11,10 +12,13 @@ class TimeLine extends React.Component {
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick(e){
-        console.log(e.target.value);
+        let year = e.target.value;
+        if(__DEV__) console.log(year);
+        if(!year) return;
+
         let yearInfoArr = this.state.yearInfo;
         yearInfoArr.forEach((data,index)=>{
-            if (data.id === e.target.value){
+            if (data.id === year){
                 data.name = data.name ? '' : 'liclicked';
             }else{
                 data.name = '';
@@ -23,21 +27,22 @@ class TimeLine extends React.Component {
         this.setState({
             yearInfo:yearInfoArr
         })
+        Eventful.dispatch('timeLineClicked',year);
     }
     static get defaultProps() {
         return {
             year: {
                 min: 1985,
                 max: 2015
-            },
-            defaultYear:2000
+            }
         };
     }
     componentWillMount(){
         let {year,defaultYear} = this.props;
         let yearInfoArr = [];
+
         for (let i = year.min; i <= year.max; i++) {
-            if(defaultYear === i){
+            if((+defaultYear) === i){
                 yearInfoArr.push({
                     id:i,
                     name:'liclicked'

@@ -8,9 +8,18 @@
         top:75px;
         left:75px;
         z-index: 9999;
+        #ind-ctl-current{
+            div{
+                display: inline-block;
+            }
+            #current-ind{
+                margin-left: 10px;
+                color: #FFFFFF;
+            }
+        }
 	}
-    #ind-ctl:hover{
-        background-color: #44a3e5;
+    #ind-ctl-current:hover{
+        color: #44a3e5;
         cursor: pointer;
     }
 
