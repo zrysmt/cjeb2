@@ -3,6 +3,7 @@
  */
 const projectName = "cjeb2";
 // nav的菜单   增加的话要在路由中配置好
+const sever = "http://localhost:8000/";
 const menuLis = [
 	{id:1,title:"首页",enTitle:"home"},
 	{id:2,title:"指标预览",enTitle:"indview"},
@@ -22,6 +23,7 @@ const echartsConfig={
 	tColor:"#66cc99",
 	hColor:"#339966"
 };
+
 class gConfig{
 	getMenuLis(){
 		return menuLis;
@@ -35,6 +37,10 @@ class gConfig{
 	getEchartsConfig(){
 		return echartsConfig;
 	}
+	getServer(){
+	    return sever;
+    }
+
 }
 
 export default gConfig;

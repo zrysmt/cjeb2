@@ -10,7 +10,7 @@ const InfoModal = ({info})=>{
         <ul className="infomodal-ul">
             {
                 info.map((data, index) => {
-                    return (<li>
+                    return (<li key={index}>
                         <div className="name-div"> {data.name} </div>
                         <div className="value-div"> {data.value} </div>
                         </li>)

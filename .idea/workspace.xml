@@ -2,18 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8e267240-7478-4444-818a-8f1930ba72f4" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/common/config.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/component/common/gConfig.js" afterPath="$PROJECT_DIR$/app/component/common/gConfig.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/component/content/infoModal/infoModal.jsx" afterPath="$PROJECT_DIR$/app/component/content/infoModal/infoModal.jsx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/component/content/infoModal/infoModal.scss" afterPath="$PROJECT_DIR$/app/component/content/infoModal/infoModal.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/component/content/lmap/lbasemap.jsx" afterPath="$PROJECT_DIR$/app/component/content/lmap/lbasemap.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/component/content/twomap/twomap.jsx" afterPath="$PROJECT_DIR$/app/component/content/twomap/twomap.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/component/content/selectPane/SelectPane.scss" afterPath="$PROJECT_DIR$/app/component/content/selectPane/SelectPane.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/component/content/selectPane/selectPane.jsx" afterPath="$PROJECT_DIR$/app/component/content/selectPane/selectPane.jsx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/component/content/twothreedim/twothreedim.jsx" afterPath="$PROJECT_DIR$/app/component/content/twothreedim/twothreedim.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/express.config.js" afterPath="$PROJECT_DIR$/express.config.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/component/content/twothreedim/twothreedim.scss" afterPath="$PROJECT_DIR$/app/component/content/twothreedim/twothreedim.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
+    <ignored path="$PROJECT_DIR$/.idea/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,21 +26,59 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="twothreedim.jsx" pinned="false" current-in-tab="true">
+      <file leaf-file-name="twothreedim.jsx" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/component/content/twothreedim/twothreedim.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="20" column="33" lean-forward="false" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
+            <state relative-caret-position="310">
+              <caret line="91" column="76" lean-forward="false" selection-start-line="91" selection-start-column="76" selection-end-line="91" selection-end-column="76" />
+              <folding>
+                <element signature="e#17#45#0" expanded="true" />
+                <marker date="1502766958000" expanded="true" signature="2423:3429" ph="..." />
+                <marker date="1502766958000" expanded="true" signature="3091:3156" ph="..." />
+                <marker date="1502766958000" expanded="true" signature="3133:3135" ph="..." />
+                <marker date="1502766958000" expanded="true" signature="3220:3315" ph="..." />
+                <marker date="1502766958000" expanded="true" signature="3292:3294" ph="..." />
+                <marker date="1502766958000" expanded="true" signature="3355:3410" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="twothreedim.scss" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/component/content/twothreedim/twothreedim.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="9" column="20" lean-forward="false" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="selectPane.jsx" pinned="false" current-in-tab="false">
+      <file leaf-file-name="lbasemap.jsx" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/component/content/lmap/lbasemap.jsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-539">
+              <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="icon.scss" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/component/common/icon.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="3" lean-forward="true" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="3" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="selectPane.jsx" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/component/content/selectPane/selectPane.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="8" column="5" lean-forward="true" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+            <state relative-caret-position="324">
+              <caret line="18" column="32" lean-forward="false" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -45,21 +86,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="express.config.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/express.config.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="585">
-              <caret line="58" column="0" lean-forward="true" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="SelectPane.scss" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/component/content/selectPane/SelectPane.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="573">
+              <caret line="35" column="19" lean-forward="false" selection-start-line="35" selection-start-column="19" selection-end-line="35" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -108,12 +139,16 @@
         <option value="$PROJECT_DIR$/test/test3.html" />
         <option value="$PROJECT_DIR$/app/component/content/lmap/lbasemap.jsx" />
         <option value="$PROJECT_DIR$/app/component/content/twomap/twomap.jsx" />
-        <option value="$PROJECT_DIR$/app/component/content/infoModal/infoModal.jsx" />
         <option value="$PROJECT_DIR$/app/component/content/twomap/twomap.scss" />
-        <option value="$PROJECT_DIR$/app/component/content/infoModal/infoModal.scss" />
-        <option value="$PROJECT_DIR$/app/component/content/selectPane/selectPane.jsx" />
         <option value="$PROJECT_DIR$/express.config.js" />
+        <option value="$PROJECT_DIR$/app/common/config.js" />
+        <option value="$PROJECT_DIR$/app/component/common/gConfig.js" />
+        <option value="$PROJECT_DIR$/app/component/content/infoModal/infoModal.scss" />
+        <option value="$PROJECT_DIR$/app/component/content/infoModal/infoModal.jsx" />
         <option value="$PROJECT_DIR$/app/component/content/twothreedim/twothreedim.jsx" />
+        <option value="$PROJECT_DIR$/app/component/content/twothreedim/twothreedim.scss" />
+        <option value="$PROJECT_DIR$/app/component/content/selectPane/SelectPane.scss" />
+        <option value="$PROJECT_DIR$/app/component/content/selectPane/selectPane.jsx" />
       </list>
     </option>
   </component>
@@ -206,7 +241,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -239,7 +273,39 @@
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="component" type="462c0819:PsiDirectoryNode" />
               <item name="content" type="462c0819:PsiDirectoryNode" />
+              <item name="infoModal" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cjeb2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cjeb2" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="component" type="462c0819:PsiDirectoryNode" />
+              <item name="content" type="462c0819:PsiDirectoryNode" />
+              <item name="lmap" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cjeb2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cjeb2" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="component" type="462c0819:PsiDirectoryNode" />
+              <item name="content" type="462c0819:PsiDirectoryNode" />
               <item name="selectPane" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cjeb2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cjeb2" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="component" type="462c0819:PsiDirectoryNode" />
+              <item name="content" type="462c0819:PsiDirectoryNode" />
+              <item name="twomap" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cjeb2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cjeb2" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="component" type="462c0819:PsiDirectoryNode" />
+              <item name="content" type="462c0819:PsiDirectoryNode" />
+              <item name="twothreedim" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cjeb2" type="b2602c69:ProjectViewProjectNode" />
@@ -265,6 +331,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -322,12 +389,14 @@
       <workItem from="1502360441227" duration="13000" />
       <workItem from="1502444654938" duration="5410000" />
       <workItem from="1502680239457" duration="130000" />
-      <workItem from="1502680767576" duration="4407000" />
+      <workItem from="1502680767576" duration="8052000" />
+      <workItem from="1502702754989" duration="352000" />
+      <workItem from="1502704355734" duration="6865000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="67694000" />
+    <option name="totallyTimeSpent" value="78556000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -337,8 +406,8 @@
       <window_info id="Debug Logs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.07333333" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.096" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Execute Anonymous" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2078125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -369,38 +438,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/component/content/threemap/threemap.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2934">
-          <caret line="171" column="42" lean-forward="false" selection-start-line="171" selection-start-column="31" selection-end-line="171" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/component/content/lmap/lbasemap.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="11" column="3" lean-forward="true" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/component/content/twomap/twomap.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="24" lean-forward="false" selection-start-line="0" selection-start-column="24" selection-end-line="0" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/component/content/twothreedim/twothreedim.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="17" column="9" lean-forward="true" selection-start-line="17" selection-start-column="9" selection-end-line="17" selection-end-column="9" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="e#17#45#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/component/content/infoModalView/infoModalView.jsx" />
     <entry file="file://$PROJECT_DIR$/app/component/content/threemap/threemap.jsx">
       <provider selected="true" editor-type-id="text-editor">
@@ -421,8 +458,13 @@
         <state relative-caret-position="234">
           <caret line="22" column="24" lean-forward="false" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
           <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="e#17#45#0" expanded="false" />
+            <element signature="e#17#45#0" expanded="true" />
+            <marker date="1502766958000" expanded="true" signature="2423:3429" ph="..." />
+            <marker date="1502766958000" expanded="true" signature="3091:3156" ph="..." />
+            <marker date="1502766958000" expanded="true" signature="3133:3135" ph="..." />
+            <marker date="1502766958000" expanded="true" signature="3220:3315" ph="..." />
+            <marker date="1502766958000" expanded="true" signature="3292:3294" ph="..." />
+            <marker date="1502766958000" expanded="true" signature="3355:3410" ph="..." />
           </folding>
         </state>
       </provider>
@@ -497,13 +539,6 @@
     <entry file="file://$PROJECT_DIR$/app/component/content/olmap/olbasemap.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-176">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/component/common/gConfig.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
@@ -637,6 +672,68 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/express.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/common/util.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/common/config.js" />
+    <entry file="file://$PROJECT_DIR$/app/component/common/gConfig.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="412">
+          <caret line="39" column="13" lean-forward="false" selection-start-line="39" selection-start-column="4" selection-end-line="39" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/component/content/infoModal/infoModal.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="20" lean-forward="false" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/component/content/infoModal/infoModal.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="37" lean-forward="false" selection-start-line="12" selection-start-column="37" selection-end-line="12" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/component/content/twothreedim/twothreedim.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="91" column="76" lean-forward="false" selection-start-line="91" selection-start-column="76" selection-end-line="91" selection-end-column="76" />
+          <folding>
+            <element signature="e#17#45#0" expanded="true" />
+            <marker date="1502766958000" expanded="true" signature="2423:3429" ph="..." />
+            <marker date="1502766958000" expanded="true" signature="3091:3156" ph="..." />
+            <marker date="1502766958000" expanded="true" signature="3133:3135" ph="..." />
+            <marker date="1502766958000" expanded="true" signature="3220:3315" ph="..." />
+            <marker date="1502766958000" expanded="true" signature="3292:3294" ph="..." />
+            <marker date="1502766958000" expanded="true" signature="3355:3410" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/component/common/icon.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="3" lean-forward="true" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/component/content/twomap/twomap.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -645,77 +742,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/component/content/infoModal/infoModal.jsx">
+    <entry file="file://$PROJECT_DIR$/app/component/content/twomap/twomap.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="13" column="48" lean-forward="true" selection-start-line="13" selection-start-column="40" selection-end-line="13" selection-end-column="48" />
-          <folding>
-            <element signature="e#0#26#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="150">
+          <caret line="24" column="42" lean-forward="true" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/component/content/twomap/twomap.jsx">
+    <entry file="file://$PROJECT_DIR$/app/component/content/twothreedim/twothreedim.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="24" column="42" lean-forward="true" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#23#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="162">
+          <caret line="9" column="20" lean-forward="false" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/component/content/lmap/lbasemap.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-527">
+        <state relative-caret-position="-539">
           <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding>
-            <element signature="e#295#320#0" expanded="false" />
-            <element signature="n#!!block;n#initWebGLChart#0;n#Lbasemap#0" expanded="false" />
-            <element signature="n#!!block;n#handleMaptypebar#0;n#Lbasemap#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/component/content/infoModal/infoModal.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="25" lean-forward="false" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/component/content/selectPane/SelectPane.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/express.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="58" column="0" lean-forward="true" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+        <state relative-caret-position="573">
+          <caret line="35" column="19" lean-forward="false" selection-start-line="35" selection-start-column="19" selection-end-line="35" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/component/content/selectPane/selectPane.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="5" lean-forward="true" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+        <state relative-caret-position="324">
+          <caret line="18" column="32" lean-forward="false" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/component/content/twothreedim/twothreedim.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="20" column="33" lean-forward="false" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>

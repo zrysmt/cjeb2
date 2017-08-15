@@ -47,6 +47,7 @@
   "author": "Zhao Ruyi",
   "license": "ISC",
   "dependencies": {
+    "animate.css": "^3.5.2",
     "axios": "^0.16.2",
     "closure-util": "^1.18.0",
     "d3": "^4.10.0",

@@ -1,0 +1,37 @@
+.select-pane{
+    width: 95%;
+    min-height: 50px;
+    border-radius: 6px;
+    background-color: rgba(255,255,255,0.9);
+    padding: 10px;
+    font-size: 12px;
+    font-weight: 100;
+    color: #666666;
+    ul{
+        li{
+            margin:4px;
+            .subname{
+                margin:5px 0;
+                font-weight: bold;
+            }
+            .subdata{
+                margin: 5px;
+                span{
+                    display: inline-block;
+                    width: 130px;
+                    margin: 5px;
+                }
+                span:hover{
+                    cursor: pointer;
+                    text-decoration: underline;
+                    color: #44a3e5;
+                }
+
+            }
+        }
+    }
+}
+.ind-click{
+    text-decoration: underline;
+    color: #44a3e5;
+}
