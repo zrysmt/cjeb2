@@ -41,19 +41,26 @@ class Threemap extends React.Component {
     initChart(data){
         data.sort(function (a,b) {
             return (+a.value) - (+b.value);
-        })
+        });
 
+        let boxMeshArr = [];
+        //clear
+        console.log('---',scene.getObjectByName('boxMesh', true));
+
+        let parent = new THREE.Object3D();
+        parent.name = "boxMesh";
         data.forEach((d,i)=>{
             let value = !(+d.value)?0:(+d.value)/data[data.length-1].value *160;
-            this.addBoxGeomtry(d.lat, d.lng,value,radius,'#44a3e5');
-        })
+            let boxMesh = this.addBoxGeomtry(d.lat, d.lng,value,radius,'#44a3e5');
+            parent.add(boxMesh);
+            group.add(parent);
+        });
     }
     initThree(center, zoom) {
         container = document.getElementById('WebGL-output');
         let width = container.clientWidth,
             height = container.clientHeight;
 
-        console.log('this',this);
         let self = this;
         clear();
         init();
@@ -129,6 +136,16 @@ class Threemap extends React.Component {
             group.rotation.y = 3;
             renderer.render(scene, camera);
         }
+    }
+    removeAllGeomotry(){
+        for( let i = scene.children.length - 1; i >= 0; i--) {
+            let obj = scene.children[i];
+            scene.remove(obj);
+        }
+    }
+    removeObjByName(objName){
+        let selectedObject = scene.getObjectByName(objName);
+        scene.remove( selectedObject );
     }
     cameraPositionByZoomCenter(camera,zoom,center){
         //以center[30 110],zoom 4 为标准
@@ -222,12 +239,9 @@ class Threemap extends React.Component {
         boxMesh.position.x = coord.x;
         boxMesh.position.y = coord.y;
         boxMesh.position.z = coord.z;
-        boxMesh.rotateX(0);
-        boxMesh.rotateY(0);
-        boxMesh.rotateZ(0);
         boxMesh.rotation.x = 0.8;
         // boxMesh.rotation.y = 1;
-        group.add(boxMesh);
+        return boxMesh;
     }
     /**
      * 绘制点

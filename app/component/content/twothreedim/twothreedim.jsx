@@ -53,7 +53,7 @@ class Twothreedim extends React.Component {
         Eventful.subscribe('timeLineClicked',(clickedYear)=>{
             let currentInd1 = this.state.currentInd;
             if(!currentInd1) return;
-            
+
             this.getDataFromServer(clickedYear,currentInd1,(data)=>{
                 this.setState({
                     year:clickedYear,

@@ -42,7 +42,8 @@ class Lbasemap extends Component{
         }
     }
     initD3Chart(handleInfoModal,data){
-
+        if(this.d3Overlay)
+            this.d3Overlay.onRemove(this.map);  //清空
         let d3Overlay = L.d3SvgOverlay(function(sel, proj) {
 
             let minLogPop = 0;
@@ -72,7 +73,7 @@ class Lbasemap extends Component{
                 })
 
         });
-
+        this.d3Overlay = d3Overlay;
         d3Overlay.addTo(this.map);
     }
     initWebGLChart(data){
@@ -132,7 +133,9 @@ class Lbasemap extends Component{
         })
     }
     componentWillUnmount(){
-    	this.map.remove();
+    	if(this.d3Overlay)
+            this.d3Overlay.onRemove(this.map);
+        if(this.map) this.map.remove();
     }
     handleMaptypebar(){
     	let map = this.map;
