@@ -105,7 +105,8 @@ class Threemap extends React.Component {
                 map: loader.load(require("./assets/imgs/planets/Earth.png")),
                 // map: loader.load(require("./assets/imgs/planets/land_ocean.jpg")),
                 specularMap:loader.load(require("./assets/imgs/planets/EarthSpec.png")),
-                normalMap: loader.load(require("./assets/imgs/planets/EarthNormal.png"))
+                normalMap: loader.load(require("./assets/imgs/planets/EarthNormal.png")),
+                overdraw: 0.5
             });
 
             let mesh = new THREE.Mesh( geometry, planetMaterial );
