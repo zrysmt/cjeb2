@@ -31,34 +31,42 @@ class Lbasemap extends Component{
         this.state = {
             center:[30,104],
             zoom:4,
+            size:3,  //d3 chart size
             data:[]
         };
     }
     componentWillReceiveProps(props){
 	    if(props.data&&props.data.length!=0) {
             this.setState({data:props.data},()=>{
-                this.initD3Chart(props.handleInfoModal,this.state.data);
+                this.handleInfoModal = props.handleInfoModal;
+                let {data,size} = this.state;
+                this.initD3Chart(props.handleInfoModal,data,size);
             })
         }
     }
-    initD3Chart(handleInfoModal,data){
+
+    /**
+     * 基于d3
+     * @param handleInfoModal 回调函数
+     * @param data Array 要渲染的数据
+     * @param size Number 大小尺寸,值越大，尺寸越大 默认为3
+     */
+    initD3Chart(handleInfoModal,data,size){
         if(this.d3Overlay)
             this.d3Overlay.onRemove(this.map);  //清空
-        let d3Overlay = L.d3SvgOverlay(function(sel, proj) {
 
-            let minLogPop = 0;
+        let d3Overlay = L.d3SvgOverlay(function(sel, proj) {
             data.sort(function (a,b) {
                 return (+a.value) - (+b.value);
             })
-            let citiesUpd = sel.selectAll('circle').data(data);
-            citiesUpd.enter()
+            let d3Chart = sel.selectAll('circle').data(data);
+            this.d3Chart = d3Chart;
+            d3Chart.enter()
                 .append('circle')
                 .attr('r', function(d) {
-                    // let value = !(+d.value)?0:(+d.value)/data[data.length-1].value *160;
-                    return +d.value==0?0:Math.log2((+d.value))/4 - minLogPop;
+                    return +d.value==0?0:Math.log2((+d.value))/(9/size);
                 })
                 .attr('cx', function(d) {
-
                     return proj.latLngToLayerPoint([+d.lat,+d.lng]).x;
                 })
                 .attr('cy', function(d) {
@@ -68,14 +76,33 @@ class Lbasemap extends Component{
                 .attr('stroke-width', 0)
                 .attr('fill','#44a3e5')
                 .on('click',(d,i)=>{
-                    console.log(d);
+                    if(__DEV__) console.log(d);
                     if(handleInfoModal) handleInfoModal(d);
-                })
+                });
 
+            if(this.map.getZoom() > 6){
+                d3Chart.enter().append("text")
+                    .attr('class',"text-value")
+                    .attr('x', function(d) {
+                        return proj.latLngToLayerPoint([+d.lat,+d.lng]).x;
+                    })
+                    .attr('y', function(d) {
+                        return proj.latLngToLayerPoint([+d.lat,+d.lng]).y;
+                    })
+                    .attr('fill','#ffffff')
+                    .style("text-anchor", function(d) { return d.children ? "end" : "start"; })
+                    .text(function(d) { return d.value; })
+            }
         });
         this.d3Overlay = d3Overlay;
+        console.log('this.d3Overlay:',this.d3Overlay);
         d3Overlay.addTo(this.map);
     }
+
+    /**
+     * 基于WebGL，暂时不使用
+     * @param data
+     */
     initWebGLChart(data){
         let res = [];
         data.forEach((d,i)=>{
@@ -114,12 +141,19 @@ class Lbasemap extends Component{
 		if(this.props.maptypebar&&this.props.maptypebar) this.handleMaptypebar();
         this.handleEventListener();
     }
+    d3AfterZoomend(zoom){
+        if(__DEV__) console.log('d3AfterZoomend',zoom);
+        this.setState({size:zoom},()=>{
+            this.initD3Chart(this.handleInfoModal,this.state.data,zoom);
+        });
+    }
     handleEventListener(){
         let map = this.map;
         let isDispatchMove = true;
         map.on('zoomend',(event)=>{
-            if(__DEV__) console.log('zoomend zoom',map.getZoom());
-            Eventful.dispatch('twoZoom',map.getZoom());
+            let zoom = map.getZoom();
+            Eventful.dispatch('twoZoom',zoom);
+            this.d3AfterZoomend(zoom);
         })
         map.on('moveend',(event)=>{
             if(__DEV__) console.log('moveend move',map.getCenter());

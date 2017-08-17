@@ -45,16 +45,18 @@ class Threemap extends React.Component {
 
         let boxMeshArr = [];
         //clear
-        console.log('---',scene.getObjectByName('boxMesh', true));
-
-        let parent = new THREE.Object3D();
-        parent.name = "boxMesh";
+        if(this.boxGroup){
+            this.removeAllGeomotry(this.boxGroup);
+        }
+        let boxGroup = new THREE.Group();
         data.forEach((d,i)=>{
             let value = !(+d.value)?0:(+d.value)/data[data.length-1].value *160;
             let boxMesh = this.addBoxGeomtry(d.lat, d.lng,value,radius,'#44a3e5');
-            parent.add(boxMesh);
-            group.add(parent);
+            boxGroup.add(boxMesh);
+            group.add(boxGroup);
         });
+        this.boxGroup = boxGroup;
+        if(__DEV__) console.log(boxGroup);
     }
     initThree(center, zoom) {
         container = document.getElementById('WebGL-output');
@@ -137,11 +139,13 @@ class Threemap extends React.Component {
             renderer.render(scene, camera);
         }
     }
-    removeAllGeomotry(){
-        for( let i = scene.children.length - 1; i >= 0; i--) {
-            let obj = scene.children[i];
-            scene.remove(obj);
+    removeAllGeomotry(group){
+        for( let i = group.children.length - 1; i >= 0; i--) {
+            let obj = group.children[i];
+            group.remove(obj);
         }
+        scene.remove(group);
+        group = null;
     }
     removeObjByName(objName){
         let selectedObject = scene.getObjectByName(objName);
