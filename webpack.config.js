@@ -135,7 +135,9 @@ module.exports = {
           }
       }),
       // new ExtractTextPlugin("output/[name].css"),//独立css文件
-      new webpack.optimize.CommonsChunkPlugin('vendors', assetsFolder + 'js/[name].chunk.js?[hash]'),
+      // new webpack.optimize.CommonsChunkPlugin('vendors', assetsFolder + 'js/[name].chunk.js?[hash]'),
+      new webpack.optimize.CommonsChunkPlugin({name:'vendors', filename:assetsFolder + 'js/[name].chunk.js?[hash]'}),
+
      /* new webpack.ProvidePlugin({
          "$": "jquery"
       }),*/

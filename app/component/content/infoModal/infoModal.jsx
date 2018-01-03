@@ -4,7 +4,7 @@ import React from 'react';
 
 const InfoModal = ({info})=>{
     console.log("info",info);
-    if(info.length == 0){
+    if(!info||info.length == 0){
         if(document.querySelector('.infomodal-ul')){
             document.querySelector('.infomodal-ul').innerHTML = "";
         }

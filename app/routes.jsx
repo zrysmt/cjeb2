@@ -9,6 +9,9 @@ import Makemap from './page/makemap/makemap';
 import Mapmod from './page/mapmod/mapmod';
 import Twothreemap from './page/twothreemap/twothreemap';
 
+//测试infoChart
+import {LMapTest,LiquidFillTest} from './infoChart/test/index';
+
 let gConfigClass = new gConfig();
 
 class App extends React.Component{
@@ -35,6 +38,7 @@ let routes = (
 		<Route path="/twothreemap" component={Twothreemap}/>
 		<Route path="/makemap" component={Makemap}/>
 		<Route path="/mapmod" component={Mapmod}/>
+		<Route path="/ic" component={LMapTest}/>
 	</Route>
 );
 

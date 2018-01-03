@@ -1,4 +1,4 @@
-/**
+ /**
  * 可视化模块 leaflet底图
  * @Date 2017-6-19
  *  [mapType] 地图类型
@@ -136,9 +136,9 @@ class Lbasemap extends Component{
 			type.addTo(map);
 		}
 			   
-		if(this.props.scale&&this.props.scale) L.control.scale().addTo(map); //比例尺
-		if(this.props.osmGeocoder&&this.props.osmGeocoder) this.osmGeocoderGen();
-		if(this.props.maptypebar&&this.props.maptypebar) this.handleMaptypebar();
+		if(this.props.scale) L.control.scale().addTo(map); //比例尺
+		if(this.props.osmGeocoder) this.osmGeocoderGen();
+		if(this.props.maptypebar) this.handleMaptypebar();
         this.handleEventListener();
     }
     d3AfterZoomend(zoom){
@@ -210,7 +210,7 @@ class Lbasemap extends Component{
     		position: 'topright',
     		text: 'Search',
 		});
-		osmGeocoder.addTo(map);
+		osmGeocoder.addTo(this.map);
     }
 	render(){
 		return(

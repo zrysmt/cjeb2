@@ -5,7 +5,7 @@
  *  scale  是否显示比例尺
  *  osmGeocoder 是否显示osmGeocoder
  *  maptypebar 是否显示地图切换按钮
- * <Lbasemap mapType="geoq_normalm3" scale="true" osmGeocoder="true" maptypebar="true">
+ * <Lbasemap mapType="geoq_normalm3"  scale={true} osmGeocoder={false} maptypebar={true}>
  *	</Lbasemap>
  * 
  */
@@ -18,7 +18,7 @@ class Lmap extends React.Component{
 	render(){
 		return(
 			<div id="lmap">
-				<Lbasemap mapType="geoq_normalm3"  scale="true" osmGeocoder="false" maptypebar="true">
+				<Lbasemap mapType="geoq_normalm3"  scale={true} osmGeocoder={false} maptypebar={true}>
 				</Lbasemap>
 			</div>
 		)
