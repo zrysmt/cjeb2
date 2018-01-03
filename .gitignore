@@ -2,3 +2,4 @@
 /output
 *.log
 /.idea
+/app/infoChart/node_modules

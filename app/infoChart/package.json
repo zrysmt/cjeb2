@@ -1,0 +1,16 @@
+{
+  "name": "infochart",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "echarts": "^3.3.2",
+    "echarts-liquidfill": "^1.1.1",
+    "react": "^0.14.2"
+  }
+}
