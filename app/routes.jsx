@@ -10,7 +10,7 @@ import Mapmod from './page/mapmod/mapmod';
 import Twothreemap from './page/twothreemap/twothreemap';
 
 //测试infoChart
-import {LMapTest,LiquidFillTest} from './infoChart/test/index';
+import {LMapTest,LiquidFillTest,PieChartTest,BarChartTest} from './infoChart/test/index';
 
 let gConfigClass = new gConfig();
 
@@ -38,7 +38,10 @@ let routes = (
 		<Route path="/twothreemap" component={Twothreemap}/>
 		<Route path="/makemap" component={Makemap}/>
 		<Route path="/mapmod" component={Mapmod}/>
+		
 		<Route path="/ic" component={LMapTest}/>
+		<Route path="/pc" component={PieChartTest}/>
+		<Route path="/bc" component={BarChartTest}/>
 	</Route>
 );
 

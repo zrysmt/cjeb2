@@ -8,7 +8,7 @@
  * 
  */
 import React from 'react';
-import {Lbasemap,InfoModal} from '../src/index';
+import {Lbasemap,Chart,InfoModal} from '../src/index';
 import axios from 'axios';
 const server = "http://localhost:8000/";
 
@@ -64,15 +64,22 @@ class LMapTest extends React.Component{
 		let {data,info} = this.state;
 		return(
 			<div >	
-				<Lbasemap 
+				<Chart 
 					mapType="geoq_normalm3"  
 					data={data}
+					zoom = {5}
+					center = {[30,104]}
+					option={{
+						type:'scatter',
+						size:2,
+						color:['#44a3e5']
+					}}
 				    scale={true} 
 				    osmGeocoder={false} 
 				    maptypebar={true}
 				    handleInfoModal = {this.handleInfoModal}
 				>
-				</Lbasemap>
+				</Chart>
 				<div id="infomodal-div">
                 	<InfoModal info={info}/>
             	</div>					

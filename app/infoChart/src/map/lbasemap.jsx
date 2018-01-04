@@ -1,6 +1,8 @@
 /**
  * 可视化模块 leaflet底图
  * @Date 2017-6-19
+ *  [option] 配置
+ *      option={{size:5}}
  *  [mapType] 地图类型
  *  [osmGeocoder] 是否显示osmGeocoder
  *  [scale]  是否显示比例尺
@@ -12,14 +14,12 @@
  */
 import './common/css/leaflet.css';
 import './lbasemap.scss';
+import gVar from './global';
 
 import React,{Component} from 'react';
 import L from 'leaflet';
-import * as d3 from 'd3';
 import "./common/css/Control.OSMGeocoder.css";
 import "./common/leaflet-plugin/Control.OSMGeocoder.js";
-import './common/leaflet-plugin/L.D3SvgOverlay';
-import  './common/Leaflet.WebGL/src/L.WebGL.js';
 
 import util from './common/util.jsx';
 import Eventful from './common/eventful.js';
@@ -32,100 +32,21 @@ class Lbasemap extends Component{
         this.state = {
             center:[30,104],
             zoom:4,
-            size:3,  //d3 chart size
             data:[]
         };
     }
-    componentWillReceiveProps(props){
-	    if(props.data&&props.data.length!=0) {
-            this.setState({data:props.data},()=>{
-                this.handleInfoModal = props.handleInfoModal||'';
-                let {data,size} = this.state;
-                this.initD3Chart(props.handleInfoModal,data,size);
-            })
-        }
-    }
-
-    /**
-     * 基于d3
-     * @param handleInfoModal 回调函数
-     * @param data Array 要渲染的数据
-     * @param size Number 大小尺寸,值越大，尺寸越大 默认为3
-     */
-    initD3Chart(handleInfoModal,data,size){
-        if(this.d3Overlay)
-            this.d3Overlay.onRemove(this.map);  //清空
-
-        let d3Overlay = L.d3SvgOverlay(function(sel, proj) {
-            data.sort(function (a,b) {
-                return (+a.value) - (+b.value);
-            })
-            let d3Chart = sel.selectAll('circle').data(data);
-            this.d3Chart = d3Chart;
-            d3Chart.enter()
-                .append('circle')
-                .attr('r', function(d) {
-                    return +d.value==0?0:Math.log2((+d.value))/(9/size);
-                })
-                .attr('cx', function(d) {
-                    return proj.latLngToLayerPoint([+d.lat,+d.lng]).x;
-                })
-                .attr('cy', function(d) {
-                    return proj.latLngToLayerPoint([+d.lat,+d.lng]).y;
-                })
-                .attr('stroke', '#ff0000')
-                .attr('stroke-width', 0)
-                .attr('fill','#44a3e5')
-                .on('click',(d,i)=>{
-                    if(__DEV__) console.log(d);
-                    if(handleInfoModal) handleInfoModal(d);
-                });
-
-            if(this.map.getZoom() > 6){
-                d3Chart.enter().append("text")
-                    .attr('class',"text-value")
-                    .attr('x', function(d) {
-                        return proj.latLngToLayerPoint([+d.lat,+d.lng]).x;
-                    })
-                    .attr('y', function(d) {
-                        return proj.latLngToLayerPoint([+d.lat,+d.lng]).y;
-                    })
-                    .attr('fill','#ffffff')
-                    .style("text-anchor", function(d) { return d.children ? "end" : "start"; })
-                    .text(function(d) { return d.value; })
-            }
-        });
-        this.d3Overlay = d3Overlay;
-        d3Overlay.addTo(this.map);
-    }
-
-    /**
-     * 基于WebGL，暂时不使用
-     * @param data
-     */
-    initWebGLChart(data){
-        let res = [];
-        data.forEach((d,i)=>{
-            d.x = d.lat;
-            d.y = d.lng;
-            res.push(d);
-        });
-
-        let webGLLayer = new L.TileLayer.WebGL({
-            data:res
-        });
-        this.map.addLayer(webGLLayer);
-    }
+    
     componentDidMount(){
 		util.adaptHeight('lmap',105,300);//高度自适应
 
 		let map = L.map('lmap',{
 			crs:L.CRS.EPSG3857 //默认墨卡托投影 ESPG：3857
 		});
-		let center = this.props.center||[30,104];
-		let zoom =  this.props.zoom||5;
+		let center = this.props.center;
+		let zoom =  this.props.zoom;
 		map.setView(center,zoom); 
 		this.map = map;
+        gVar.map = map;
         //地图底图类型
 		let mapTypeProps = this.props.mapType;
 		if(!mapTypeProps){
@@ -141,19 +62,13 @@ class Lbasemap extends Component{
 		if(this.props.maptypebar) this.handleMaptypebar();
         this.handleEventListener();
     }
-    d3AfterZoomend(zoom){
-        if(__DEV__) console.log('d3AfterZoomend',zoom);
-        this.setState({size:zoom},()=>{
-            this.initD3Chart(this.handleInfoModal,this.state.data,zoom);
-        });
-    }
+    
     handleEventListener(){
         let map = this.map;
         let isDispatchMove = true;
         map.on('zoomend',(event)=>{
             let zoom = map.getZoom();
             Eventful.dispatch('twoZoom',zoom);
-            this.d3AfterZoomend(zoom);
         })
         map.on('moveend',(event)=>{
             if(__DEV__) console.log('moveend move',map.getCenter());
