@@ -12,6 +12,7 @@
     "server": "node express.config.js"
   },
   "devDependencies": {
+    "async": "^2.6.0",
     "autoprefixer": "^6.5.3",
     "babel-core": "^6.0.20",
     "babel-loader": "^6.2.7",
