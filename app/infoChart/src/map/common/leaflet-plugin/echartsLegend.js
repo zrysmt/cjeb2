@@ -3,6 +3,8 @@
  * by zry
  * @Date 2017-05-05
  */
+import './echartsLegend.css';
+
 import L from 'leaflet';
 import echarts from 'echarts';
 /**
@@ -28,51 +30,63 @@ function echartsLegend(map, option) {
     var dom = document.getElementsByClassName('leaflet-control-echarts-legend')[0];
     dom.style.width = option.width || "90px";
     dom.style.height =  option.height || "140px";
-    var myLegendChart = echarts.init(dom);
-    var legendOption = {
-        legend: {
-            orient:option.orient || 'vertical',
-            left:option.left || 'left',
-            textStyle:{
-                color:option.color||'#ccc'
+    var fontSize = option.fontSize || '12px';
+    if(option.type == 'text'){
+        var html = '<div style="color:'+option.color+';font-size:'+fontSize+'">';
+        for (var ii = 0; ii < option.data.length; ii++) {
+            var datai = option.data[ii];
+            html += '<div>'+datai+'</div>';
+        }        
+        html += '</div>';
+        dom.innerHTML = html;
+    }else{
+        var myLegendChart = echarts.init(dom);
+        var legendOption = {
+            legend: {
+                orient:option.orient || 'vertical',
+                left:option.left || 'left',
+                textStyle:{
+                    color:option.color||'#ccc'
+                },
+                data:option.data 
             },
-            data:option.data 
-        },
 
-        series: [{
-            type: 'pie',
-            data: [],
-            label: {
-                normal: {
-                    show: false
+            series: [{
+                type: 'pie',
+                data: [],
+                label: {
+                    normal: {
+                        show: false
+                    },
+                    emphasis: {
+                        show: false
+                    }
                 },
-                emphasis: {
-                    show: false
-                }
-            },
-            lableLine: {
-                normal: {
-                    show: false
+                lableLine: {
+                    normal: {
+                        show: false
+                    },
+                    emphasis: {
+                        show: false
+                    }
                 },
-                emphasis: {
-                    show: false
+                itemStyle: {
+                    normal: {
+                        opacity: 0
+                    },
+                    emphasis: {
+                        opacity: 0
+                    }
                 }
-            },
-            itemStyle: {
-                normal: {
-                    opacity: 0
-                },
-                emphasis: {
-                    opacity: 0
-                }
-            }
-        }]
-    };
-    for (var i = 0; i < option.data.length; i++) {
-        var datai = option.data[i];
-        legendOption.series[0].data.push({name:datai});
+            }]
+        };
+        for (var i = 0; i < option.data.length; i++) {
+            var datai = option.data[i];
+            legendOption.series[0].data.push({name:datai});
+        }
+        myLegendChart.setOption(legendOption);        
     }
-    myLegendChart.setOption(legendOption);
+   
 }
 
 L.Control.EchartsLegend = L.Control.extend({

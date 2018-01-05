@@ -69,20 +69,20 @@ class PieChartTest extends React.Component{
 					data={data}
 					zoom = {5}
 					center = {[30,104]}
-					option={{
-						type:'pie',
-						pieOption:{
-                            legend:{
-                                orient: 'vertical',
-                                left: 'left',
-                                width: "160px",
-                                height: "140px",
-                                color:'#ccc'
-                            },
-                            series:[{
-                                name:'示例案例'
-                            }]
+                    type = 'pie'
+                    option={{
+                        legend:{
+                            orient: 'vertical',
+                            left: 'left',
+                            width: "160px",
+                            height: "140px",
+                            color:'#ccc'
                         },
+                        series:[{
+                            type:'pie',
+                            name:'示例案例'
+                        }]
+                        
 					}}
 				    scale={true} 
 				    osmGeocoder={false} 

@@ -31,7 +31,7 @@ class Chart extends Component{
         }
     }	
     chartDisplayByType(props){
-    	switch(this.props.option.type){
+    	switch(this.props.type){
     		case 'scatter':
     			this.initScatterChart();
     			break;
@@ -63,27 +63,70 @@ class Chart extends Component{
                     })  
                 }
                 total++;
-                optionDatas.push(item);
+                let oneData = [];
+                item.forEach((it,ind)=>{
+                    oneData.push(+it.value)
+                })
+                optionDatas.push(oneData);
             }
         }
-
-        let option = {
+        console.log(latlngs,optionDatas,legend);
+        let option = {          
             tooltip: {
                 trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
+                formatter: "{a} <br/>{b} : {c}"
             },
+            grid:{
+                show:false,
+                borderColor:'#fff'
+            },
+            xAxis:[{
+                type:'category',
+                data:legend,
+                boundaryGap:false,
+                axisLine:{
+                    lineStyle:{
+                        color:'#fff'
+                    }
+                },                
+                axisTick: {
+                    show: true,
+                    length:2
+                },
+                axisLabel:{
+                    show:false,
+                    rotate:90,
+                    textStyle:{
+                        fontSize:30 
+                    }
+                },
+                
+            }],
+            yAxis:[{
+                type: 'value',
+                axisLine:{
+                    show:false,
+                    lineStyle:{
+                        color:'#fff'
+                    }
+                },
+                splitLine:{
+                    show:false
+                },
+                axisTick: {
+                    show: false
+                },
+                axisLabel:{
+                    show:false,                
+                }
+
+            }],            
             series: [{
-                name: this.props.option.pieOption.series.name||'',
+                name: '',
                 type: 'bar',
-                radius: '55%',
-                center: ['50%', '50%'],
-                xAxis:{
-                    type:'category',
-                    data:legend
-                },
-                yAxis:{
-                    type: 'value'
-                },
+                barWidth: '30%',
+                barGap:'1',
+                barCategoryGap:'1',
                 label: {
                     normal: {
                         show: false
@@ -109,11 +152,14 @@ class Chart extends Component{
                 }
             }]
         };        
+        option = Object.assign({},this.props.option,option);
         option.datas = optionDatas;
+        console.log(option);
 
         echartsIcon(this.map, latlngs, option);
         //图例
         let legendOption = {
+            type:'text',
             orient: 'vertical',
             left: 'left',
             width: "160px",
@@ -121,7 +167,7 @@ class Chart extends Component{
             color:'#ccc',      
             data: legend
         };
-        legendOption = Object.assign({},legendOption,this.props.option.pieOption.legend)
+        legendOption = Object.assign({},legendOption,this.props.option.legend)
         echartsLegend(this.map, legendOption);          
     }
     initPieChart(){
@@ -134,7 +180,7 @@ class Chart extends Component{
                 formatter: "{a} <br/>{b} : {c} ({d}%)"
             },
             series: [{
-                name: this.props.option.pieOption.series.name||'',
+                name: '',
                 type: 'pie',
                 radius: '55%',
                 center: ['50%', '50%'],
@@ -163,6 +209,8 @@ class Chart extends Component{
                 }
             }]
         };
+        option = Object.assign({},this.props.option,option);
+       
         //经纬度不能相同
         let latlngs = [],legend = [],optionDatas = [];
         if(!data||data.length === 0) console.warn('数据为空');
@@ -192,7 +240,7 @@ class Chart extends Component{
             color:'#ccc',      
             data: legend
         };
-        legendOption = Object.assign({},legendOption,this.props.option.pieOption.legend)
+        legendOption = Object.assign({},this.props.option.legend,legendOption)
         echartsLegend(this.map, legendOption);    	
     }
     /**
@@ -265,8 +313,11 @@ class Chart extends Component{
     }    
     componentDidMount(){
 		Eventful.subscribe('twoZoom',(center)=>{
-            let zoom = this.map.getZoom();
-            this.d3AfterZoomend(zoom);
+            if(this.props.type === 'scatter'){
+                let zoom = this.map.getZoom();
+                this.d3AfterZoomend(zoom);                
+            }
+            
         });	    	
     }
     /**

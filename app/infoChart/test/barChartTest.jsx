@@ -61,20 +61,20 @@ class BarChartTest extends React.Component{
 					data={data}
 					zoom = {5}
 					center = {[30,104]}
-					option={{
-						type:'bar',
-						pieOption:{
-                            legend:{
-                                orient: 'vertical',
-                                left: 'left',
-                                width: "160px",
-                                height: "140px",
-                                color:'#ccc'
-                            },
-                            series:[{
-                                name:'示例案例'
-                            }]
+                    type = 'bar'
+                    option={{
+                        color: ['#3398DB'],
+                        legend:{
+                            orient: 'vertical',
+                            left: 'left',
+                            width: "160px",
+                            height: "80px",
+                            color:'#fff'
                         },
+                        series:[{
+                            type:'bar',
+                            name:'示例案例'
+                        }]  
 					}}
 				    scale={true} 
 				    osmGeocoder={false} 
