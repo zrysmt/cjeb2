@@ -10,7 +10,7 @@ import Mapmod from './page/mapmod/mapmod';
 import Twothreemap from './page/twothreemap/twothreemap';
 
 //测试infoChart
-import {LMapTest,LiquidFillTest,PieChartTest,BarChartTest} from './infoChart/test/index';
+import {LMapTest,LiquidFillTest,PieChartTest,BarChartTest,RadarChartTest} from './infoChart/test/index';
 
 let gConfigClass = new gConfig();
 

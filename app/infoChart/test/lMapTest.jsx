@@ -69,8 +69,8 @@ class LMapTest extends React.Component{
 					data={data}
 					zoom = {5}
 					center = {[30,104]}
+                    type = 'scatter'
 					option={{
-						type:'scatter',
 						size:2,
 						color:['#44a3e5']
 					}}

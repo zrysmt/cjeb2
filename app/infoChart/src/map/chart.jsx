@@ -30,7 +30,7 @@ class Chart extends Component{
             })
         }
     }	
-    chartDisplayByType(props){
+    chartDisplayByType(){
     	switch(this.props.type){
     		case 'scatter':
     			this.initScatterChart();
@@ -243,62 +243,100 @@ class Chart extends Component{
         legendOption = Object.assign({},this.props.option.legend,legendOption)
         echartsLegend(this.map, legendOption);    	
     }
+    initScatterChart(zoom){
+        this.map = gVar.map;
+        let {data} = this.state;
+        if(!zoom) zoom = 4;     
+
+        let latlngs = [],legend = [],optionDatas = [];
+        if(!data||data.length === 0) console.warn('数据为空');
+        let total = 0;
+        for (let key in data) {
+            if(data[key]){
+                let item = data[key];
+                latlngs.push([item[0].lat,item[0].lng]);
+                if(total === 0){
+                    item.forEach((it,ind)=>{
+                        legend.push(it.name);
+                    })  
+                }
+                total++;
+                optionDatas.push(item);
+            }
+        } 
+
+        var icon = L.icon({
+            iconUrl: 'leaf-green.png',
+            shadowUrl: 'leaf-shadow.png',
+
+            iconSize:     [38, 95], // size of the icon
+            shadowSize:   [50, 64], // size of the shadow
+            iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+            shadowAnchor: [4, 62],  // the same for the shadow
+            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+        });          
+
+       for (var i = 0; i < latlngs.length; i++) {   
+            L.marker(latlng, { icon: icon }).addTo(map);
+        }        
+    }
     /**
      * 基于d3
      * @param handleInfoModal 回调函数
      * @param data Array 要渲染的数据
      * @param size Number 大小尺寸,值越大，尺寸越大 默认为3
      */
-    initScatterChart(zoom){
+    initScatterChart2(zoom){
+        let self = this;
         this.map = gVar.map;
 		let {data} = this.state;
 		if(!zoom) zoom = 4;
         let size = this.props.option.size * (zoom-1) || 4;
-        console.log(size);
+   
         let handleInfoModal = this.props.handleInfoModal;
 
         if(this.d3Overlay)
             this.d3Overlay.onRemove(this.map);  //清空
 
-        let d3Overlay = L.d3SvgOverlay(function(sel, proj) {
-            data.sort(function (a,b) {
+        let d3Overlay = L.d3SvgOverlay((sel, proj)=> {
+            data.sort( (a,b)=> {
                 return (+a.value) - (+b.value);
             })
             let d3Chart = sel.selectAll('circle').data(data);
             this.d3Chart = d3Chart;
             d3Chart.enter()
                 .append('circle')
-                .attr('r', function(d) {
+                .attr('r', (d)=> {
                     return +d.value==0?0:Math.log2((+d.value))/(9/size);
                 })
-                .attr('cx', function(d) {
+                .attr('cx', (d)=> {
                     return proj.latLngToLayerPoint([+d.lat,+d.lng]).x;
                 })
-                .attr('cy', function(d) {
+                .attr('cy', (d)=> {
                     return proj.latLngToLayerPoint([+d.lat,+d.lng]).y;
                 })
                 .attr('stroke', '#ff0000')
                 .attr('stroke-width', 0)
-                .attr('fill',function(d){
-                    return '#44a3e5';
+                .attr('fill',(d)=>{
+                    return self.props.option.color[0]||'#44a3e5';
                 })
                 .on('click',(d,i)=>{
                     if(__DEV__) console.log(d);
                     if(handleInfoModal) handleInfoModal(d);
                 });
 
-            if(this.map.getZoom() > 6){
+            if(this.map.getZoom() > 6){  //文本
                 d3Chart.enter().append("text")
                     .attr('class',"text-value")
-                    .attr('x', function(d) {
+                    .attr('x', (d)=> {
                         return proj.latLngToLayerPoint([+d.lat,+d.lng]).x;
                     })
-                    .attr('y', function(d) {
+                    .attr('y', (d)=> {
                         return proj.latLngToLayerPoint([+d.lat,+d.lng]).y;
                     })
                     .attr('fill','#ffffff')
-                    .style("text-anchor", function(d) { return d.children ? "end" : "start"; })
-                    .text(function(d) { return d.value; })
+                    .style("text-anchor", (d)=> { return d.children ? "end" : "start"; })
+                    .text((d)=> { return d.value; })
             }
         });
         this.d3Overlay = d3Overlay;
