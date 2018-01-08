@@ -12,7 +12,7 @@ import {Lbasemap,Chart,InfoModal} from '../src/index';
 import axios from 'axios';
 const server = "http://localhost:8000/";
 
-class LMapTest extends React.Component{
+class ScatterChartTest extends React.Component{
 	constructor(props) {
         super(props);
         this.state = {
@@ -72,6 +72,10 @@ class LMapTest extends React.Component{
                     type = 'scatter'
 					option={{
 						size:5,
+                        classify:{
+                            numbers:5,
+                            field:'value'
+                        },
                         iconUrl:require('./assets/imgs/point.png')
 					}}
 				    scale={true} 
@@ -88,4 +92,4 @@ class LMapTest extends React.Component{
 	}
 }
 
-export default LMapTest;
+export default ScatterChartTest;

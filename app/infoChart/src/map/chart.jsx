@@ -41,7 +41,8 @@ class Chart extends Component{
 			case 'bar':
                 this.initBarChart();
     			break;    
-			case '':
+			case 'svgScatter':
+                this.initSvgScatterChart();
     			break;       		   					
     	}
     }
@@ -70,7 +71,7 @@ class Chart extends Component{
                 optionDatas.push(oneData);
             }
         }
-        console.log(latlngs,optionDatas,legend);
+        
         let option = {          
             tooltip: {
                 trigger: 'item',
@@ -243,41 +244,54 @@ class Chart extends Component{
         legendOption = Object.assign({},this.props.option.legend,legendOption)
         echartsLegend(this.map, legendOption);    	
     }
+    initSvgScatterChart(){
+        
+    }
     initScatterChart(zoom){
         this.map = gVar.map;
         let {data} = this.state;
         if(!zoom) zoom = 4;     
 
-        let latlngs = [],legend = [],optionDatas = [];
+        let latlngs = [],optionDatas = [];
         if(!data||data.length === 0) console.warn('数据为空');
-        let total = 0;
-        for (let key in data) {
-            if(data[key]){
-                let item = data[key];
-                latlngs.push([item[0].lat,item[0].lng]);
-                if(total === 0){
-                    item.forEach((it,ind)=>{
-                        legend.push(it.name);
-                    })  
-                }
-                total++;
-                optionDatas.push(item);
+        let iconUrl = this.props.option.iconUrl || require('./common/imgs/point.png');
+        let size = this.props.option.size?this.props.option.size : 5;
+        let classifyNums = this.props.option.classify&&this.props.option.classify.numbers
+                            ?this.props.option.classify.numbers  : 1;
+        let classifyField = this.props.option.classify&&this.props.option.classify.field
+                            ?this.props.option.classify.field  : 'value';
+        let f = Math.floor(classifyNums/2),
+            len = data.length,
+            classifyDataLen = Math.floor(len / classifyNums);
+        let iconArr = [];
+        
+        for (let i = 1; i <= classifyNums; i++) {
+            let iconSize = (size + i - f - 1 ) * 4;
+
+            let icon = L.icon({
+                iconUrl: iconUrl,
+                shadowUrl: '',
+                iconSize:     [iconSize, iconSize], // size of the icon
+                shadowSize:   [iconSize, iconSize], // size of the shadow
+                iconAnchor:   [0, 0], // point of the ifcon which will correspond to marker's location
+                shadowAnchor: [0, 0],  
+                popupAnchor:  [-3, -76] 
+            });    
+
+            iconArr.push(icon);
+        }
+        
+        data.sort( (a,b)=> {
+            return (+a[classifyField]) - (+b[classifyField]);
+        })       
+
+        for (let i = 0; i < len; i++) {   
+            let lat = data[i].lat,
+                lng = data[i].lng;
+            if(lat&&lng){
+                L.marker([lat,lng], { icon: iconArr[Math.floor(i/classifyDataLen)] })
+                 .addTo(this.map);   
             }
-        } 
-
-        var icon = L.icon({
-            iconUrl: 'leaf-green.png',
-            shadowUrl: 'leaf-shadow.png',
-
-            iconSize:     [38, 95], // size of the icon
-            shadowSize:   [50, 64], // size of the shadow
-            iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-            shadowAnchor: [4, 62],  // the same for the shadow
-            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-        });          
-
-       for (var i = 0; i < latlngs.length; i++) {   
-            L.marker(latlng, { icon: icon }).addTo(map);
         }        
     }
     /**
@@ -346,7 +360,7 @@ class Chart extends Component{
 	d3AfterZoomend(zoom){
         if(__DEV__) console.log('d3AfterZoomend',zoom);
        
-        this.initScatterChart(zoom);
+        // this.initScatterChart(zoom);
         
     }    
     componentDidMount(){
