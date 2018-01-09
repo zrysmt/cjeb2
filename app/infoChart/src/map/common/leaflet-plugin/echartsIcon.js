@@ -38,8 +38,9 @@ import echarts from 'echarts';
         ],
     ];
  */
-function echartsIcon(map, latlngs, option) {
-
+function echartsIcon(map, latlngs, option ,layerGroup) {
+    var radius = 20;
+    if(option.radius) radius = +(option.radius).replace('%','');
     for (var i = 0; i < latlngs.length; i++) {
         var latlng = latlngs[i];
         var newClassName = 'icon-' + latlng.join('-');
@@ -49,12 +50,20 @@ function echartsIcon(map, latlngs, option) {
                 +"</div>"
         });
         // you can set .my-div-icon styles in CSS
-        L.marker(latlng, { icon: myIcon }).addTo(map);
+        layerGroup.addLayer(L.marker(latlng, { icon: myIcon })).addTo(map);
 
-        var myChart = echarts.init(document.getElementsByClassName(newClassName)[0]);
+        var dom = document.getElementsByClassName(newClassName)[0];
+        if(option.radius){
+            dom.style.width =  radius  +'px';
+            dom.style.height =  radius +'px';
+        }        
+
+        var myChart = echarts.init(dom);
         option.series[0].data = option.datas[i];
         myChart.setOption(option);
     }
+    // layerGroup.addTo(map);
+    return layerGroup;
 }
 
 export default echartsIcon;

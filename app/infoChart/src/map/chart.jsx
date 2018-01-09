@@ -4,7 +4,7 @@
 import React,{Component} from 'react';
 import L from 'leaflet';
 import * as d3 from 'd3';
-
+import axios from 'axios';
 import Lbasemap from './lbasemap';
 import './common/leaflet-plugin/L.D3SvgOverlay';
 import  './common/Leaflet.WebGL/src/L.WebGL.js';
@@ -20,6 +20,11 @@ class Chart extends Component{
         this.state = {
             data:[]
         };
+
+        this.scatterLayerGroup = L.layerGroup();
+        this.multiScatterLayerGroup = L.layerGroup();
+        this.pieLayerGroup = L.layerGroup();
+        this.barLayerGroup = L.layerGroup();
     }	
 	componentWillReceiveProps(props){
 	    if(props.data&&props.data.length!=0) {
@@ -41,16 +46,30 @@ class Chart extends Component{
 			case 'bar':
                 this.initBarChart();
     			break;    
-			case 'svgScatter':
-                this.initSvgScatterChart();
+			case 'multiScatter':
+                this.initMultiScatterChart();
     			break;       		   					
     	}
     }
-    initBarChart(){
+    initBarChart(zoom){
         this.map = gVar.map;
         let {data} = this.state;  
-
-        //经纬度不能相同
+        if(!zoom) zoom = this.map.getZoom() || 5;     
+        let baseIconSize = zoom,
+            radius = '20%',
+            index = 0;
+        if(zoom <= 6 ){
+            radius = zoom * 4 +'%';
+        }else{
+            radius = zoom * 8 +'%';
+        }        
+        //先清空
+        let layerGroup = this.scatterLayerGroup;
+        if(layerGroup.getLayers().length > 0){
+            this.map.removeLayer(layerGroup);
+            layerGroup.clearLayers();
+            index++;
+        }          
         let latlngs = [],legend = [],optionDatas = [];
         if(!data||data.length === 0) console.warn('数据为空');
         let total = 0;
@@ -125,7 +144,7 @@ class Chart extends Component{
             series: [{
                 name: '',
                 type: 'bar',
-                barWidth: '30%',
+                barWidth: '80%',
                 barGap:'1',
                 barCategoryGap:'1',
                 label: {
@@ -155,25 +174,43 @@ class Chart extends Component{
         };        
         option = Object.assign({},this.props.option,option);
         option.datas = optionDatas;
-        console.log(option);
+        option.radius = radius;
 
-        echartsIcon(this.map, latlngs, option);
-        //图例
-        let legendOption = {
-            type:'text',
-            orient: 'vertical',
-            left: 'left',
-            width: "160px",
-            height: "140px",
-            color:'#ccc',      
-            data: legend
-        };
-        legendOption = Object.assign({},legendOption,this.props.option.legend)
-        echartsLegend(this.map, legendOption);          
+        layerGroup = echartsIcon(this.map, latlngs, option, layerGroup);
+        if(index== 0){
+            //图例
+            let legendOption = {
+                type:'text',
+                orient: 'vertical',
+                left: 'left',
+                width: "160px",
+                height: "140px",
+                color:'#ccc',      
+                data: legend
+            };
+            legendOption = Object.assign({},legendOption,this.props.option.legend)
+            echartsLegend(this.map, legendOption);               
+        }
     }
-    initPieChart(){
+    initPieChart(zoom){
     	this.map = gVar.map;
     	let {data} = this.state;
+        if(!zoom) zoom = this.map.getZoom() || 5;     
+        let baseIconSize = zoom,
+            radius = '30%',
+            index = 0;
+        if(zoom <=6){
+            radius = zoom * 4 +'%';
+        }else{
+            radius = zoom * 8 +'%';
+        }
+        //先清空
+        let layerGroup = this.scatterLayerGroup;
+        if(layerGroup.getLayers().length > 0){
+            this.map.removeLayer(layerGroup);
+            layerGroup.clearLayers();
+            index ++;
+        }    
 
 		let option = {
             tooltip: {
@@ -183,7 +220,7 @@ class Chart extends Component{
             series: [{
                 name: '',
                 type: 'pie',
-                radius: '55%',
+                radius: radius,
                 center: ['50%', '50%'],
                 label: {
                     normal: {
@@ -231,26 +268,132 @@ class Chart extends Component{
         }
         option.datas = optionDatas;
 
-        echartsIcon(this.map, latlngs, option);
-        //图例
-        let legendOption = {
-            orient: 'vertical',
-            left: 'left',
-            width: "160px",
-            height: "140px",
-            color:'#ccc',      
-            data: legend
-        };
-        legendOption = Object.assign({},this.props.option.legend,legendOption)
-        echartsLegend(this.map, legendOption);    	
+        layerGroup = echartsIcon(this.map, latlngs, option,layerGroup);
+        if(index== 0) {
+            //图例
+            let legendOption = {
+                orient: 'vertical',
+                left: 'left',
+                width: "160px",
+                height: "140px",
+                color:'#ccc',      
+                data: legend
+            };
+            legendOption = Object.assign({},this.props.option.legend,legendOption)
+            echartsLegend(this.map, legendOption);                  
+        }
     }
-    initSvgScatterChart(){
-        
+    initMultiScatterChart(zoom){
+        this.map = gVar.map;
+        let {data} = this.state;    
+        if(!data||data.length === 0) console.warn('数据为空');
+        if(!zoom) zoom = this.map.getZoom() || 5;  
+        let baseIconSize = zoom - 1;
+        let layerGroup = this.multiScatterLayerGroup;
+        if(layerGroup.getLayers().length > 0){
+            this.map.removeLayer(layerGroup);
+            layerGroup.clearLayers();
+        }        
+
+        let legend = [],optionDatas = [];
+        let size = this.props.option.size?this.props.option.size : 5;
+        let classifyField = this.props.option.classify&&this.props.option.classify.field
+                            ?this.props.option.classify.field  : 'name';
+
+        let total = 0;
+        for (let key in data) {
+            if(data[key]){
+                let item = data[key];
+                if(total === 0){
+                    item.forEach((it,ind)=>{
+                        legend.push(it[classifyField]);
+                    })  
+                }
+                total++;
+                optionDatas.push(item);
+            }
+        }            
+
+        let iconArr = [];
+        let legendLen = legend.length;
+        if(this.props.option.classify&&this.props.option.classify.type=== 'size'){
+            let iconUrl = this.props.option.iconUrl[0] || require('./common/imgs/point.svg');
+
+            for (let i = 1; i <= legendLen; i++) {
+                let iconSize = (size + i - legendLen) * zoom;
+                let anchor = (i - 1) * 8;
+                let icon = L.icon({
+                    iconUrl: iconUrl,
+                    shadowUrl: '',
+                    iconSize:     [iconSize, iconSize], // size of the icon
+                    shadowSize:   [iconSize, iconSize], // size of the shadow
+                    iconAnchor:   [anchor, anchor], // point of the ifcon which will correspond to marker's location
+                    shadowAnchor: [anchor, anchor],  
+                    popupAnchor:  [-3, -76] 
+                });    
+
+                iconArr.push(icon);
+            }                 
+        }else{
+            for (let i = 1; i <= legendLen; i++) {         
+                let iconUrl = this.props.option.iconUrl[i-1] || this.getDefaultIconUrl(i);
+                let iconSize = size * 4;
+                let anchor = (i - 1) * 8;
+                let icon = L.icon({
+                    iconUrl: iconUrl,
+                    shadowUrl: '',
+                    iconSize:     [iconSize, iconSize], // size of the icon
+                    shadowSize:   [iconSize, iconSize], // size of the shadow
+                    iconAnchor:   [anchor, anchor], // point of the ifcon which will correspond to marker's location
+                    shadowAnchor: [anchor, anchor],  
+                    popupAnchor:  [-3, -76] 
+                });    
+
+                iconArr.push(icon);
+            }                             
+        }
+
+        for (let i = 0; i < optionDatas.length; i++) {   
+            for (let j = 0; j < optionDatas[i].length; j++) {
+                let dataj = optionDatas[i][j];
+
+                let lat = dataj.lat,
+                    lng = dataj.lng;
+                if(j >= legendLen) return;
+                if(!this.props.geocode){
+                    if(lat && lng){
+                        layerGroup.addLayer(L.marker([lat,lng], { icon: iconArr[j] }));     
+                    }
+                }else{
+                    let qName = dataj[this.props.geocode];
+                    this.geocode(qName,(results)=>{
+                        if(results.data.length <= 0) return;
+                        let lat1 = +results.data[0].lat,
+                            lng1 = +results.data[0].lon;
+                        if(lat1 && lng1){
+                            layerGroup.addLayer(L.marker([lat1,lng1], { icon: iconArr[j] })); 
+                        }                                          
+                    })
+                }                       
+                
+                             
+            }
+            
+        }           
+        layerGroup.addTo(this.map);  
     }
+    
     initScatterChart(zoom){
         this.map = gVar.map;
         let {data} = this.state;
-        if(!zoom) zoom = 4;     
+        if(!zoom) zoom = this.map.getZoom() || 5;     
+        let baseIconSize = zoom - 1;
+        //先清空
+        let layerGroup = this.scatterLayerGroup;
+        if(layerGroup.getLayers().length > 0){
+            this.map.removeLayer(layerGroup);
+            layerGroup.clearLayers();
+        }   
 
         let latlngs = [],optionDatas = [];
         if(!data||data.length === 0) console.warn('数据为空');
@@ -263,10 +406,11 @@ class Chart extends Component{
         let f = Math.floor(classifyNums/2),
             len = data.length,
             classifyDataLen = Math.floor(len / classifyNums);
+        
         let iconArr = [];
         
         for (let i = 1; i <= classifyNums; i++) {
-            let iconSize = (size + i - f - 1 ) * 4;
+            let iconSize = (size + i - f - 1 ) * baseIconSize;
 
             let icon = L.icon({
                 iconUrl: iconUrl,
@@ -289,10 +433,10 @@ class Chart extends Component{
             let lat = data[i].lat,
                 lng = data[i].lng;
             if(lat&&lng){
-                L.marker([lat,lng], { icon: iconArr[Math.floor(i/classifyDataLen)] })
-                 .addTo(this.map);   
+                layerGroup.addLayer(L.marker([lat,lng], { icon: iconArr[Math.floor(i/classifyDataLen)] }))
             }
         }        
+        layerGroup.addTo(this.map);   
     }
     /**
      * 基于d3
@@ -356,21 +500,28 @@ class Chart extends Component{
         this.d3Overlay = d3Overlay;
         d3Overlay.addTo(this.map);
 			     
-    }
-	d3AfterZoomend(zoom){
-        if(__DEV__) console.log('d3AfterZoomend',zoom);
-       
-        // this.initScatterChart(zoom);
-        
-    }    
+    }   
     componentDidMount(){
 		Eventful.subscribe('twoZoom',(center)=>{
-            if(this.props.type === 'scatter'){
-                let zoom = this.map.getZoom();
-                this.d3AfterZoomend(zoom);                
+            let zoom = gVar.map.getZoom();
+            console.log('zoom',zoom);
+            switch(this.props.type) {
+                case 'scatter':
+                    this.initScatterChart(zoom); 
+                    break;
+                case 'multiScatter':
+                    this.initMultiScatterChart(zoom);
+                    break;
+                case 'pie':
+                    this.initPieChart(zoom);
+                    break;
+                case 'bar':
+                    this.initBarChart(zoom);
+                    break;
             }
             
         });	    	
+
     }
     /**
      * 基于WebGL，暂时不使用
@@ -389,7 +540,41 @@ class Chart extends Component{
         });
         this.map.addLayer(webGLLayer);
     }	
-
+    getDefaultIconUrl(i){
+        let defalutIconUrl;
+        switch(i-1) {
+            case 0:
+                defalutIconUrl = require('./common/imgs/point.svg');
+                break;
+            case 1:
+                defalutIconUrl = require('./common/imgs/point1.svg');
+                break;
+            case 2:
+                defalutIconUrl = require('./common/imgs/point2.svg');
+                break;                    
+            case 3:
+                defalutIconUrl = require('./common/imgs/point3.svg');
+                break;    
+            case 4:
+                defalutIconUrl = require('./common/imgs/point4.svg');
+                break;                      
+            case 5:
+                defalutIconUrl = require('./common/imgs/point5.svg');
+                break;  
+            default:
+                defalutIconUrl = require('./common/imgs/point.svg');
+                break;                                                            
+        }        
+        return defalutIconUrl;
+    } 
+    geocode(qName,callback){
+        if(!qName) return;
+        let url =  "http://nominatim.openstreetmap.org/search.php?q="+qName
+            +"&format=json";
+        axios.get(url).then((json)=>{
+            if(callback) callback(json);
+        })       
+    }   
 	render(){
 		let {mapType,data,zoom,center,option,scale,osmGeocoder,maptypebar}
 			= this.props;

@@ -88,7 +88,7 @@ module.exports = {
           loader: 'babel-loader?presets[]=es2015&presets[]=react'
       },
       {
-          test: /\.(png|jpg)$/,
+          test: /\.(png|jpg|svg)$/,
           exclude: /node_modules/,
           loader: 'url?limit=8192&name=imgs/[hash:8].[name].[ext]'
       },
