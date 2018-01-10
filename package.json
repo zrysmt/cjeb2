@@ -21,6 +21,7 @@
     "body-parser": "^1.17.2",
     "bundle-loader": "^0.5.4",
     "child_process": "^1.0.2",
+    "copy-webpack-plugin": "^4.3.1",
     "css-loader": "^0.16.0",
     "echarts": "^3.3.2",
     "express": "^4.14.0",
@@ -53,6 +54,7 @@
   "dependencies": {
     "animate.css": "^3.5.2",
     "axios": "^0.17.0",
+    "cesium": "^1.41.0",
     "closure-util": "^1.18.0",
     "d3": "^3.5.17",
     "echarts-liquidfill": "^1.0.4",

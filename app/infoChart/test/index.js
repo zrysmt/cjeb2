@@ -7,5 +7,7 @@ import SvgScatterChartTest2 from './svgScatterChartTest2';
 import PieChartTest from './pieChartTest';
 import BarChartTest from './barChartTest';
 
+import CesiumMapTest from './cesiumMapTest';
+
 export {LMapTest,LiquidFillTest,ScatterChartTest,SvgScatterChartTest,
-	SvgScatterChartTest2,PieChartTest,BarChartTest};
+	SvgScatterChartTest2,PieChartTest,BarChartTest,CesiumMapTest};
