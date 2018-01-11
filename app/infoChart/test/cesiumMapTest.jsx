@@ -9,18 +9,21 @@ class CesiumMapTest extends Component{
         super(props);
         this.state = {
             center:[30,104],
-            zoom:4,
-            data:[]
+            zoom:4
         };
     }	
     componentDidMount(){
     	
     }
     render(){
+    	let {center,zoom} = this.state;
+
     	return(
     		<div>
-    			<CesiumMap>
-    				
+    			<CesiumMap
+    				zoom = {zoom}
+    				center = {center}
+    			>	
     			</CesiumMap>
     		</div>
     	)

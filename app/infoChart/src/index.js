@@ -6,6 +6,7 @@ import Chart from './map/chart';
 
 /***cesium 三维地球***/
 import CesiumMap from './map/cesiumMap';
+import ThreeChart from './map/threeChart';
 /***工具库***/
 
 import LiquidChart from './tools/liquidchart/liquidchart';
@@ -14,4 +15,4 @@ import InfoModal from './tools/infoModal/infoModal';
 
 
 
-export {Lbasemap,Chart,CesiumMap,LiquidChart,InfoModal};
+export {Lbasemap,Chart,CesiumMap,ThreeChart,LiquidChart,InfoModal};

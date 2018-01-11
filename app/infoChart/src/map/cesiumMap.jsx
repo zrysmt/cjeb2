@@ -20,8 +20,19 @@ class CesiumMap extends Component{
     }	
     componentDidMount(){
     	// util.adaptHeight('cesiumContainer',105,300);//高度自适应
-    	let viewer = new Cesium.Viewer('cesiumContainer');
-    	this.viewer = viewer;
+    	Cesium.BingMapsApi.defaultKey = 'AgiU9gCjKNfaR2yFSDfLw8e9zUlAYisRvRC2_L-LsGYN2bII5ZUvorfP3QJvxmjn';
+    	let viewer = new Cesium.Viewer('cesiumContainer',{
+    		animation:false,
+    		baseLayerPicker:true,
+    		fullscreenButton:false,
+    		geocoder:false,
+    		homeButton:false,
+    		infoBox:false,
+    		timeline:false,
+    		navigationHelpButton:false,
+    		navigationInstructionsInitiallyVisible:false
+    	});
+    	this.viewer = gVar.viewer = viewer;
     }
     render(){
     	return(

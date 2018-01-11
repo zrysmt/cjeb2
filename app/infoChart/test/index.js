@@ -8,6 +8,7 @@ import PieChartTest from './pieChartTest';
 import BarChartTest from './barChartTest';
 
 import CesiumMapTest from './cesiumMapTest';
+import ThreeChartTest from './threeChartTest';
 
 export {LMapTest,LiquidFillTest,ScatterChartTest,SvgScatterChartTest,
-	SvgScatterChartTest2,PieChartTest,BarChartTest,CesiumMapTest};
+	SvgScatterChartTest2,PieChartTest,BarChartTest,CesiumMapTest,ThreeChartTest};
