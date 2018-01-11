@@ -55,7 +55,7 @@ module.exports = {
             'react-router/lib/Router',
             'react-router/lib/hashHistory',
             'react-router/lib/useRouterHistory',
-            'echarts',
+            'echarts'
             // 'jquery'
         ]
     },

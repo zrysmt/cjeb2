@@ -13,7 +13,7 @@ class ThreeChartTest extends Component{
             center:[30,104],
             zoom:4,
             dataUrl:'',
-            data:'',
+            data:[],
             year:'2000',
             currentInd:"GDP"            
         };
@@ -28,10 +28,10 @@ class ThreeChartTest extends Component{
         });		
 	}
  	getDataFromServer(year,indName,callback) {
-        // axios.get(`${server}getjson/allcity/${year}/${indName}`)
         axios.get(`${server}getjson/allcity/${year}/${indName}`)
+        // axios.get(`${server}dataurl`)
             .then((res) => {
-                if (!res.data) return;
+                if(!res.data) return;
                 console.log('res:', res);
                 if(callback) callback.call(this,res.data);
             }).catch((err) => {
@@ -41,13 +41,18 @@ class ThreeChartTest extends Component{
    
     render(){
     	let {center,zoom,year,currentInd,data} = this.state;
-    	let dataUrl = `${server}dataurl`;
+    	// let dataUrl = `${server}dataurl`;
+    	let dataUrl = `${server}getjson/allcity/${year}/${currentInd}`;
 
     	return(
     		<div>
     			<ThreeChart
-    				// dataUrl = {`${server}getjson/allcity/${year}/${indName}`}
-    				dataUrl = {data}
+    				dataUrl = {dataUrl}
+    				dataName = {year}
+    				size = {5}
+    				zoom = {zoom}
+    				center = {center}
+    				// data = {data}
     			>	
     			</ThreeChart>
     		</div>

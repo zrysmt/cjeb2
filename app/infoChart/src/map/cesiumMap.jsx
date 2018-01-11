@@ -33,6 +33,17 @@ class CesiumMap extends Component{
     		navigationInstructionsInitiallyVisible:false
     	});
     	this.viewer = gVar.viewer = viewer;
+
+		let {center,zoom} = this.props;
+
+    	viewer.camera.setView({
+        	destination: Cesium.Cartesian3.fromDegrees(center[1], center[0],1000),
+	        orientation: {
+	            heading : 0,  //左右偏移
+	            pitch : 0,   //上下偏移
+	            roll : 0.0                           
+	        }
+    	});    	
     }
     render(){
     	return(

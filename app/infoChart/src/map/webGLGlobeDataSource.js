@@ -25,7 +25,7 @@ function WebGLGlobeDataSource(name) {
     this._entityCollection = new Cesium.EntityCollection();
     this._seriesNames = [];
     this._seriesToDisplay = undefined;
-    this._heightScale = 10000000;
+    this._heightScale = 1000;
     this._entityCluster = new Cesium.EntityCluster();
 }
 
@@ -152,7 +152,7 @@ Object.defineProperties(WebGLGlobeDataSource.prototype, {
             return this._heightScale;
         },
         set : function(value) {
-            if (value > 0) {
+            if (value < 0) {
                 throw new Cesium.DeveloperError('value must be greater than 0');
             }
             this._heightScale = value;
@@ -194,11 +194,10 @@ Object.defineProperties(WebGLGlobeDataSource.prototype, {
  * @param {Object} url The url to be processed.
  * @returns {Promise} a promise that will resolve when the GeoJSON is loaded.
  */
-WebGLGlobeDataSource.prototype.loadUrl = function(url) {
+WebGLGlobeDataSource.prototype.loadUrl = function(url,dataName,size) {
     if (!Cesium.defined(url)) {
         throw new Cesium.DeveloperError('url is required.');
     }
-
     //Create a name based on the url
     var name = Cesium.getFilenameFromUri(url);
 
@@ -211,9 +210,24 @@ WebGLGlobeDataSource.prototype.loadUrl = function(url) {
     //Use 'when' to load the URL into a json object
     //and then process is with the `load` function.
     var that = this;
+
+    if(size) that.heightScale = size * 200;
+
     return Cesium.when(Cesium.loadJson(url), function(json) {
-        console.log('json',json);
-        return that.load(json, url);
+        //deal data
+        var res = [],res1 = [],res2 = [];
+        for (var i = 0; i < json.length; i++) {
+            let lat = +json[i].lat,
+                lng = +json[i].lng,
+                value = +json[i].value;
+            if(lat &&lng && value){
+                res1.push(lat, lng, value);
+            }
+        }
+        res2.push(dataName,res1);
+        res.push(res2);
+        // deal data end
+        return that.load(res, url);
     }).otherwise(function(error) {
         //Otherwise will catch any errors or exceptions that occur
         //during the promise processing. When this happens,
@@ -242,7 +256,7 @@ WebGLGlobeDataSource.prototype.load = function(data) {
 
     var heightScale = this.heightScale;
     var entities = this._entityCollection;
-
+   
     //It's a good idea to suspend events when making changes to a
     //large amount of entities.  This will cause events to be batched up
     //into the minimal amount of function calls and all take place at the
@@ -291,7 +305,7 @@ WebGLGlobeDataSource.prototype.load = function(data) {
 
             //WebGL Globe only contains lines, so that's the only graphics we create.
             var polyline = new Cesium.PolylineGraphics();
-            polyline.material = new Cesium.ColorMaterialProperty(color);
+            // polyline.material = new Cesium.ColorMaterialProperty(color); //remove color
             polyline.width = new Cesium.ConstantProperty(2);
             polyline.followSurface = new Cesium.ConstantProperty(false);
             polyline.positions = new Cesium.ConstantProperty([surfacePosition, heightPosition]);
