@@ -194,7 +194,7 @@ Object.defineProperties(WebGLGlobeDataSource.prototype, {
  * @param {Object} url The url to be processed.
  * @returns {Promise} a promise that will resolve when the GeoJSON is loaded.
  */
-WebGLGlobeDataSource.prototype.loadUrl = function(url,dataName,size) {
+WebGLGlobeDataSource.prototype.loadUrl = function(url,dataName,option) {
     if (!Cesium.defined(url)) {
         throw new Cesium.DeveloperError('url is required.');
     }
@@ -211,8 +211,11 @@ WebGLGlobeDataSource.prototype.loadUrl = function(url,dataName,size) {
     //and then process is with the `load` function.
     var that = this;
 
-    if(size) that.heightScale = size * 200;
-
+    if(option){
+        if(option.size) that.heightScale = option.size * 200;
+        this.option = option;
+        this.option.heightScale = this.heightScale;
+    }
     return Cesium.when(Cesium.loadJson(url), function(json) {
         //deal data
         var res = [],res1 = [],res2 = [];
@@ -271,6 +274,7 @@ WebGLGlobeDataSource.prototype.load = function(data) {
     //Here's a more visual example.
     //[["series1",[latitude, longitude, height, ... ]
     // ["series2",[latitude, longitude, height, ... ]]
+    console.log('this.option',this.option);
 
     // Loop over each series
     for (var x = 0; x < data.length; x++) {
@@ -302,22 +306,8 @@ WebGLGlobeDataSource.prototype.load = function(data) {
             var color = Cesium.Color.fromHsl((0.6 - (height * 0.5)), 1.0, 0.5);
             var surfacePosition = Cesium.Cartesian3.fromDegrees(longitude, latitude, 0);
             var heightPosition = Cesium.Cartesian3.fromDegrees(longitude, latitude, height * heightScale);
-
-            //WebGL Globe only contains lines, so that's the only graphics we create.
-            var polyline = new Cesium.PolylineGraphics();
-            // polyline.material = new Cesium.ColorMaterialProperty(color); //remove color
-            polyline.width = new Cesium.ConstantProperty(2);
-            polyline.followSurface = new Cesium.ConstantProperty(false);
-            polyline.positions = new Cesium.ConstantProperty([surfacePosition, heightPosition]);
-
-            //The polyline instance itself needs to be on an entity.
-            var entity = new Cesium.Entity({
-                id : seriesName + ' index ' + i.toString(),
-                show : show,
-                polyline : polyline,
-                seriesName : seriesName //Custom property to indicate series name
-            });
-
+            
+            var entity = genEntity(this.option,surfacePosition,heightPosition,height,i,seriesName,show);
             //Add the entity to the collection.
             entities.add(entity);
         }
@@ -336,4 +326,64 @@ WebGLGlobeDataSource.prototype._setLoading = function(isLoading) {
     }
 };
 
+function genEntity(option,surfacePosition,heightPosition,height,index,seriesName,show){
+
+    if(!option.type) option.type = 'line';
+    var entity = null,
+       material = null,outlineColor = null,
+       heightScale = option.heightScale;
+       console.log('heightScale',heightScale);
+    if(option.color) material = Cesium.Color.fromCssColorString(option.color);
+    if(option.outlineColor) outlineColor = Cesium.Color.fromCssColorString(option.outlineColor);
+    switch(option.type) {
+        case 'line':
+            //WebGL Globe only contains lines, so that's the only graphics we create.
+            var polyline = new Cesium.PolylineGraphics();
+            // polyline.material = new Cesium.ColorMaterialProperty(color); //remove color
+            if(option.color) polyline.material = material;
+            polyline.width = new Cesium.ConstantProperty(2);
+            polyline.followSurface = new Cesium.ConstantProperty(false);
+            polyline.positions = new Cesium.ConstantProperty([surfacePosition, heightPosition]);
+
+            //The polyline instance itself needs to be on an entity.
+            entity = new Cesium.Entity({
+                id : seriesName + ' index ' + index.toString(),
+                show : show,
+                polyline : polyline,
+                seriesName : seriesName //Custom property to indicate series name
+            });       
+    
+
+            break;
+        case 'bar':
+            //The boxGraphics instance itself needs to be on an entity.
+            entity = {
+                name : 'box',
+                position: surfacePosition,
+                box : {
+                    dimensions : new Cesium.Cartesian3(heightScale*30, heightScale*30, height * heightScale),
+                    material : material,
+                    fill:option.fill||true,
+                    outline:option.outline||false,
+                    outlineColor:outlineColor
+                }
+            };              
+            break;
+        case 'cylinder':
+            entity = {
+                name : 'cylinder',
+                position: surfacePosition,
+                cylinder : {
+                    length :  height * heightScale,
+                    topRadius : heightScale*15,
+                    bottomRadius : heightScale*15,
+                    material : material,
+                    outline : option.outline||false,
+                    outlineColor : outlineColor
+                }
+            }
+    }
+
+    return entity;
+}
 export default WebGLGlobeDataSource;

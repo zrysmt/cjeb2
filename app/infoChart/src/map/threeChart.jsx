@@ -25,13 +25,13 @@ class ThreeChart extends Component{
     initBarChart(props){
 		let viewer = gVar.viewer;
     	if(__DEV__) console.log(viewer);
-    	let {dataUrl,dataName,size} =  props;
-
+    	let {dataUrl,dataName,type,option} =  props;
+    	option.type = type;
     	if(!viewer) return;
 
     	let dataSource = new WebGLGlobeDataSource();
     	if(dataUrl){
-			dataSource.loadUrl(dataUrl,dataName,size).then(function() {
+			dataSource.loadUrl(dataUrl,dataName,option).then(function() {
 			    //After the initial load, create buttons to let the user switch among series.
 			    /*function createSeriesSetter(seriesName) {
 			        return function() {
@@ -51,12 +51,12 @@ class ThreeChart extends Component{
 		viewer.dataSources.add(dataSource);    	
     }
     render(){
-    	let {center,zoom} = this.props;
+    	let {center,height} = this.props;
 
     	return(
     		<div>
     			<CesiumMap
-					zoom = {zoom}
+					height = {height}
     				center = {center}    				
     			></CesiumMap>
     		</div>

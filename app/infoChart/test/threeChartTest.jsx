@@ -11,7 +11,7 @@ class ThreeChartTest extends Component{
 			isIndShow: false,
             isInfoModalRefresh:false,        	
             center:[30,104],
-            zoom:4,
+            height:10000000,
             dataUrl:'',
             data:[],
             year:'2000',
@@ -40,7 +40,7 @@ class ThreeChartTest extends Component{
     }
    
     render(){
-    	let {center,zoom,year,currentInd,data} = this.state;
+    	let {center,height,year,currentInd,data} = this.state;
     	// let dataUrl = `${server}dataurl`;
     	let dataUrl = `${server}getjson/allcity/${year}/${currentInd}`;
 
@@ -49,10 +49,17 @@ class ThreeChartTest extends Component{
     			<ThreeChart
     				dataUrl = {dataUrl}
     				dataName = {year}
-    				size = {5}
-    				zoom = {zoom}
-    				center = {center}
-    				// data = {data}
+    				height = {height}
+    				center = {center} 
+    				type = 'cylinder'   //line bar cylinder
+    				option = {{
+    					size: 5,
+    					color:'#67ADDF',
+    					fill:false,
+    					outline:true,
+    					outlineColor:'#0000',
+
+    				}}
     			>	
     			</ThreeChart>
     		</div>
