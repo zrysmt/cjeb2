@@ -22,7 +22,10 @@ class CesiumMap extends Component{
     componentDidMount(){
     	// util.adaptHeight('cesiumContainer',105,300);//高度自适应
     	Cesium.BingMapsApi.defaultKey = 'AgiU9gCjKNfaR2yFSDfLw8e9zUlAYisRvRC2_L-LsGYN2bII5ZUvorfP3QJvxmjn';
-    	let viewer = new Cesium.Viewer('cesiumContainer',{
+		let {center,height,viewerOption} = this.props;
+		height = height ? height : 10000000;
+		let option = {
+    		// sceneMode : Cesium.SceneMode.SCENE3D,
     		animation:false,
     		baseLayerPicker:true,
     		fullscreenButton:false,
@@ -32,13 +35,25 @@ class CesiumMap extends Component{
     		timeline:false,
     		navigationHelpButton:false,
     		navigationInstructionsInitiallyVisible:false
-    	});
+    	};
+    
+    	if(viewerOption) option = Object.assign({},option,viewerOption);
+		if(viewerOption && viewerOption.imageryProvider){
+			if(viewerOption.imageryProvider == 'OpenStreetMap'){
+	    		option.imageryProvider = new Cesium.createOpenStreetMapImageryProvider({
+	    			url : '//a.tile.openstreetmap.org/'
+	    		})
+	    	}     		
+	    	option.baseLayerPicker = false;
+    	}    	
+    	if(__DEV__) console.log('viewer option',option);
+
+    	let viewer = new Cesium.Viewer('cesiumContainer',option);
     	this.viewer = gVar.viewer = viewer;
 
-		let {center,height} = this.props;
 
     	viewer.camera.flyTo({
-        	destination: Cesium.Cartesian3.fromDegrees(center[1], center[0],10000000),
+        	destination: Cesium.Cartesian3.fromDegrees(center[1], center[0],height),
     	});  
     	this.mapEvent();
     }

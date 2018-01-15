@@ -12,7 +12,7 @@ import Twothreemap from './page/twothreemap/twothreemap';
 //测试infoChart
 import {LMapTest,ScatterChartTest,SvgScatterChartTest,SvgScatterChartTest2,
 	LiquidFillTest,PieChartTest,BarChartTest,RadarChartTest,CesiumMapTest,
-	ThreeChartTest}
+	ThreeChartTest,ThreeChartTest2,SpaceCubeTest}
     from './infoChart/test/index';
 
 let gConfigClass = new gConfig();
@@ -51,6 +51,8 @@ let routes = (
 
 		<Route path="/cm" component={CesiumMapTest}/>
 		<Route path="/cm1" component={ThreeChartTest}/>
+		<Route path="/cm2" component={ThreeChartTest2}/>
+		<Route path="/space" component={SpaceCubeTest}/>
 	</Route>
 );
 

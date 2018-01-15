@@ -17,17 +17,18 @@ class ThreeChart extends Component{
         };
     }	
     componentWillReceiveProps(props){
-    	this.initBarChart(props);
+    	this.initChart(props);
     }
 	componentDidMount(){
 		
     }
-    initBarChart(props){
+    initChart(props){
 		let viewer = gVar.viewer;
     	if(__DEV__) console.log(viewer);
     	let {dataUrl,dataName,type,option} =  props;
     	option.type = type;
     	if(!viewer) return;
+        if(__DEV__) console.log('option',option);
 
     	let dataSource = new WebGLGlobeDataSource();
     	if(dataUrl){
@@ -51,13 +52,14 @@ class ThreeChart extends Component{
 		viewer.dataSources.add(dataSource);    	
     }
     render(){
-    	let {center,height} = this.props;
+    	let {center,height,viewerOption} = this.props;
 
     	return(
     		<div>
     			<CesiumMap
 					height = {height}
-    				center = {center}    				
+    				center = {center}    
+                    viewerOption = {viewerOption}				
     			></CesiumMap>
     		</div>
     	)

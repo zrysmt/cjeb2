@@ -1,10 +1,10 @@
 import React,{Component} from 'react';
 import {ThreeChart} from '../src/index';
-import Cesium from 'cesium/Cesium';
+
 import axios from 'axios';
 const server = "http://localhost:8000/";
 
-class ThreeChartTest extends Component{
+class ThreeChartTest2 extends Component{
 	constructor(props){
         super(props);
         this.state = {
@@ -15,7 +15,7 @@ class ThreeChartTest extends Component{
             dataUrl:'',
             data:[],
             year:'2000',
-            currentInd:"GDP"            
+            currentInd:"143,144,145"            
         };
     }	
     componentDidMount(){
@@ -28,7 +28,7 @@ class ThreeChartTest extends Component{
         });		
 	}
  	getDataFromServer(year,indName,callback) {
-        axios.get(`${server}getjson/allcity/${year}/${indName}`)
+        axios.get(`${server}byindids/citys/allcity/${year}/${indName}`)
         // axios.get(`${server}dataurl`)
             .then((res) => {
                 if(!res.data) return;
@@ -42,7 +42,7 @@ class ThreeChartTest extends Component{
     render(){
     	let {center,height,year,currentInd,data} = this.state;
     	// let dataUrl = `${server}dataurl`;
-    	let dataUrl = `${server}getjson/allcity/${year}/${currentInd}`;
+    	let dataUrl = `${server}byindids/citys/allcity/${year}/${currentInd}`;
 
     	return(
     		<div>
@@ -51,16 +51,14 @@ class ThreeChartTest extends Component{
     				dataName = {year}
     				height = {height}
     				center = {center} 
-    				viewerOption = {{
-    					sceneMode : Cesium.SceneMode.SCENE3D,  //MORPHING  SCENE2D COLUMBUS_VIEW  SCENE3D 
-    					// imageryProvider:'OpenStreetMap',
-    				}}
     				type = 'cylinder'   //line bar cylinder
     				option = {{
-    					size: 5,
+    					size: 3,
+                        heightScale:10,
+                        classifyTypes:['#336600','#336666','#3366FF'],
     					color:'#67ADDF',
     					fill:false,
-    					outline:true,
+    					outline:false,
     					outlineColor:'#0000',
 
     				}}
@@ -72,4 +70,4 @@ class ThreeChartTest extends Component{
 }
 
 
-export default ThreeChartTest;
+export default ThreeChartTest2;

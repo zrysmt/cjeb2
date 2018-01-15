@@ -9,6 +9,10 @@ import BarChartTest from './barChartTest';
 
 import CesiumMapTest from './cesiumMapTest';
 import ThreeChartTest from './threeChartTest';
+import ThreeChartTest2 from './threeChartTest2';
+
+import SpaceCubeTest from './spaceCubeTest';
 
 export {LMapTest,LiquidFillTest,ScatterChartTest,SvgScatterChartTest,
-	SvgScatterChartTest2,PieChartTest,BarChartTest,CesiumMapTest,ThreeChartTest};
+	SvgScatterChartTest2,PieChartTest,BarChartTest,CesiumMapTest,ThreeChartTest,ThreeChartTest2,
+	SpaceCubeTest};

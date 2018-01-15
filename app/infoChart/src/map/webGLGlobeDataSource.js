@@ -210,27 +210,54 @@ WebGLGlobeDataSource.prototype.loadUrl = function(url,dataName,option) {
     //Use 'when' to load the URL into a json object
     //and then process is with the `load` function.
     var that = this;
-
     if(option){
-        if(option.size) that.heightScale = option.size * 200;
+        var heightScale = option.heightScale ? option.heightScale : 1;
+        var size = option.size ? option.size : 3;
+        if(option.heightScale) that.heightScale = size * 200 * heightScale;
         this.option = option;
         this.option.heightScale = this.heightScale;
+        this.option.size = size * 200;
     }
+    if(__DEV__) console.log('option',option);
     return Cesium.when(Cesium.loadJson(url), function(json) {
-        //deal data
-        var res = [],res1 = [],res2 = [];
-        for (var i = 0; i < json.length; i++) {
-            let lat = +json[i].lat,
-                lng = +json[i].lng,
-                value = +json[i].value;
-            if(lat &&lng && value){
-                res1.push(lat, lng, value);
+        console.log('json',json);
+        if(!option.classifyTypes){  //单个
+            //deal data
+            var res = [];
+            var res1 = [],res2 = [];
+            for (var i = 0; i < json.length; i++) {
+                let lat = +json[i].lat,
+                    lng = +json[i].lng,
+                    value = +json[i].value;
+                if(lat && lng && value){
+                    res1.push(lat, lng, value);
+                }
             }
+            res2.push(dataName,res1);
+            res.push(res2);
+            // end            
+            that.load(res);
+        }else{
+            var res = [];
+            for (var i = 0; i < option.classifyTypes.length; i++) {
+                var res1 = [],res2 = [];
+                for (var key in json) {
+                    let lat = +(json[key][i].lat)+ i * 0.1,
+                        lng = +(json[key][i].lng)+ i * 0.1,
+                        value = +(json[key][i].value);
+                    if(lat && lng && value){
+                        res1.push(lat, lng, value);
+                    }
+                }
+                res2.push(dataName,res1);
+                res.push(res2);       
+            }
+            if(__DEV__) console.log('=',res);
+            that.load(res);  
+                     
         }
-        res2.push(dataName,res1);
-        res.push(res2);
-        // deal data end
-        return that.load(res, url);
+        // return that.load(res, url);
+         
     }).otherwise(function(error) {
         //Otherwise will catch any errors or exceptions that occur
         //during the promise processing. When this happens,
@@ -274,8 +301,7 @@ WebGLGlobeDataSource.prototype.load = function(data) {
     //Here's a more visual example.
     //[["series1",[latitude, longitude, height, ... ]
     // ["series2",[latitude, longitude, height, ... ]]
-    console.log('this.option',this.option);
-
+    // 
     // Loop over each series
     for (var x = 0; x < data.length; x++) {
         var series = data[x];
@@ -291,6 +317,7 @@ WebGLGlobeDataSource.prototype.load = function(data) {
             this._seriesToDisplay = seriesName;
         }
 
+        var classifyColor = this.option.classifyTypes?this.option.classifyTypes[x]:'';
         //Now loop over each coordinate in the series and create
         // our entities from the data.
         for (var i = 0; i < coordinates.length; i += 3) {
@@ -306,8 +333,8 @@ WebGLGlobeDataSource.prototype.load = function(data) {
             var color = Cesium.Color.fromHsl((0.6 - (height * 0.5)), 1.0, 0.5);
             var surfacePosition = Cesium.Cartesian3.fromDegrees(longitude, latitude, 0);
             var heightPosition = Cesium.Cartesian3.fromDegrees(longitude, latitude, height * heightScale);
-            
-            var entity = genEntity(this.option,surfacePosition,heightPosition,height,i,seriesName,show);
+
+            var entity = genEntity(this.option,classifyColor,surfacePosition,heightPosition,height,i,seriesName,show);
             //Add the entity to the collection.
             entities.add(entity);
         }
@@ -326,21 +353,26 @@ WebGLGlobeDataSource.prototype._setLoading = function(isLoading) {
     }
 };
 
-function genEntity(option,surfacePosition,heightPosition,height,index,seriesName,show){
-
+function genEntity(option,classifyColor,surfacePosition,heightPosition,height,index,seriesName,show){
     if(!option.type) option.type = 'line';
     var entity = null,
        material = null,outlineColor = null,
-       heightScale = option.heightScale;
-       console.log('heightScale',heightScale);
-    if(option.color) material = Cesium.Color.fromCssColorString(option.color);
+       heightScale = option.heightScale,
+       size = option.size;
+    if(classifyColor){
+        material = Cesium.Color.fromCssColorString(classifyColor);
+    }else if(option.color) {
+        material = Cesium.Color.fromCssColorString(option.color);
+    }else{
+        material = Cesium.Color.fromCssColorString('#67ADDF');
+    }
     if(option.outlineColor) outlineColor = Cesium.Color.fromCssColorString(option.outlineColor);
     switch(option.type) {
         case 'line':
             //WebGL Globe only contains lines, so that's the only graphics we create.
             var polyline = new Cesium.PolylineGraphics();
             // polyline.material = new Cesium.ColorMaterialProperty(color); //remove color
-            if(option.color) polyline.material = material;
+            polyline.material = material;
             polyline.width = new Cesium.ConstantProperty(2);
             polyline.followSurface = new Cesium.ConstantProperty(false);
             polyline.positions = new Cesium.ConstantProperty([surfacePosition, heightPosition]);
@@ -361,11 +393,11 @@ function genEntity(option,surfacePosition,heightPosition,height,index,seriesName
                 name : 'box',
                 position: surfacePosition,
                 box : {
-                    dimensions : new Cesium.Cartesian3(heightScale*30, heightScale*30, height * heightScale),
+                    dimensions : new Cesium.Cartesian3(size*30, size*30, height * heightScale),
                     material : material,
                     fill:option.fill||true,
                     outline:option.outline||false,
-                    outlineColor:outlineColor
+                    outlineColor:outlineColor||''
                 }
             };              
             break;
@@ -375,8 +407,8 @@ function genEntity(option,surfacePosition,heightPosition,height,index,seriesName
                 position: surfacePosition,
                 cylinder : {
                     length :  height * heightScale,
-                    topRadius : heightScale*15,
-                    bottomRadius : heightScale*15,
+                    topRadius : size*15,
+                    bottomRadius : size*15,
                     material : material,
                     outline : option.outline||false,
                     outlineColor : outlineColor

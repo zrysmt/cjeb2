@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
-import {ThreeChart} from '../src/index';
-import Cesium from 'cesium/Cesium';
+import {SpaceCube} from '../src/index';
+
 import axios from 'axios';
 const server = "http://localhost:8000/";
 
@@ -10,8 +10,8 @@ class ThreeChartTest extends Component{
         this.state = {
 			isIndShow: false,
             isInfoModalRefresh:false,        	
-            center:[30,104],
-            height:10000000,
+            center:[30,114],
+            height:1000000,
             dataUrl:'',
             data:[],
             year:'2000',
@@ -33,7 +33,9 @@ class ThreeChartTest extends Component{
             .then((res) => {
                 if(!res.data) return;
                 console.log('res:', res);
-                if(callback) callback.call(this,res.data);
+                let data = [];
+                data.push(res.data[50],res.data[55],res.data[89],res.data[61],res.data[27],res.data[64]);
+                if(callback) callback.call(this,data);
             }).catch((err) => {
             console.warn(err);
         })
@@ -41,23 +43,16 @@ class ThreeChartTest extends Component{
    
     render(){
     	let {center,height,year,currentInd,data} = this.state;
-    	// let dataUrl = `${server}dataurl`;
-    	let dataUrl = `${server}getjson/allcity/${year}/${currentInd}`;
 
     	return(
     		<div>
-    			<ThreeChart
-    				dataUrl = {dataUrl}
-    				dataName = {year}
+    			<SpaceCube
+    				data = {data}
     				height = {height}
     				center = {center} 
-    				viewerOption = {{
-    					sceneMode : Cesium.SceneMode.SCENE3D,  //MORPHING  SCENE2D COLUMBUS_VIEW  SCENE3D 
-    					// imageryProvider:'OpenStreetMap',
-    				}}
-    				type = 'cylinder'   //line bar cylinder
     				option = {{
     					size: 5,
+                        heightScale:50,
     					color:'#67ADDF',
     					fill:false,
     					outline:true,
@@ -65,7 +60,7 @@ class ThreeChartTest extends Component{
 
     				}}
     			>	
-    			</ThreeChart>
+    			</SpaceCube>
     		</div>
     	)
     }
