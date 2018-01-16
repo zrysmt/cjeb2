@@ -12,7 +12,8 @@ import ThreeChartTest from './threeChartTest';
 import ThreeChartTest2 from './threeChartTest2';
 
 import SpaceCubeTest from './spaceCubeTest';
+import FlowMapTest from './flowMapTest';
 
 export {LMapTest,LiquidFillTest,ScatterChartTest,SvgScatterChartTest,
 	SvgScatterChartTest2,PieChartTest,BarChartTest,CesiumMapTest,ThreeChartTest,ThreeChartTest2,
-	SpaceCubeTest};
+	SpaceCubeTest,FlowMapTest};

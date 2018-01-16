@@ -205,6 +205,10 @@ app.get('/byindids/citys/:city/:year/:indId',function(req,res){
 app.get('/dataurl',function(req,res){
     var json = require('./mock/data/population909500.json');
     res.send(json);
+});
+app.get('/flowmaplinks',function(req,res){
+    var json = require('./mock/data/flowMapLinks.json');
+    res.send(json);
 })
 //插入数据库的例子，带回调
 function insertRows() {
