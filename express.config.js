@@ -210,6 +210,10 @@ app.get('/flowmaplinks',function(req,res){
     var json = require('./mock/data/flowMapLinks.json');
     res.send(json);
 })
+app.get('/data/heatlayer',function(req,res){
+    var json = require('./mock/data/heatLayerData.json');
+    res.send(json);
+})
 //插入数据库的例子，带回调
 function insertRows() {
     console.log("insertRows Ipsum i");

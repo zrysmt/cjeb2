@@ -13,7 +13,8 @@ import ThreeChartTest2 from './threeChartTest2';
 
 import SpaceCubeTest from './spaceCubeTest';
 import FlowMapTest from './flowMapTest';
+import HeatLayerTest from './heatLayerTest';
 
 export {LMapTest,LiquidFillTest,ScatterChartTest,SvgScatterChartTest,
 	SvgScatterChartTest2,PieChartTest,BarChartTest,CesiumMapTest,ThreeChartTest,ThreeChartTest2,
-	SpaceCubeTest,FlowMapTest};
+	SpaceCubeTest,FlowMapTest,HeatLayerTest};
