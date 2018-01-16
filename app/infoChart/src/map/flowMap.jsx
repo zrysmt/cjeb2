@@ -29,9 +29,9 @@ class FlowMap extends Component {
 
         if (!data) console.warn('FlowMap data is error');
 
-        if (mapBind == 'cesiumMap') {
+        if (mapBind == 'CesiumMap') {
             viewer = gVar.viewer;
-        } else if (mapBind == 'lbasemap') {
+        } else if (mapBind == 'Lbasemap') {
             this.map = map = gVar.map;
             this.initLeafletMap(data,links,dataCenter, option);
         }

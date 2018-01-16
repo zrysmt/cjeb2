@@ -50,7 +50,7 @@ class FlowMapTest extends Component{
     	return(
     		<div>
     			<FlowMap
-    				mapBind = 'lbasemap'
+    				mapBind = 'Lbasemap'
     				data = {data}
     				links = {links}
     				dataCenter = {'SH'}
