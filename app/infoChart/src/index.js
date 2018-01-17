@@ -21,9 +21,10 @@ import ThematicMap from './map/thematicMap';
 import LiquidChart from './tools/liquidchart/liquidchart';
 import InfoModal from './tools/infoModal/infoModal';
 import TimeLine from './tools/timeLine/timeLine';
+import SelectPane from './tools/selectPane/selectPane';
 
 
 
 
 export {gVar,Lbasemap,Chart,CesiumMap,SpaceCube,ThreeChart,FlowMap,HeatLayer,ThematicMap,
-	LiquidChart,InfoModal,TimeLine};
+	LiquidChart,InfoModal,TimeLine,SelectPane};

@@ -113,7 +113,7 @@ class Twothreedim extends React.Component {
             console.warn(err);
         })
     }
-    componentWillUmmount(){
+    componentWillUnmount(){
         Eventful.unSubscribe('selectPaneClicked');
         Eventful.unSubscribe('timeLineClicked');
     }
