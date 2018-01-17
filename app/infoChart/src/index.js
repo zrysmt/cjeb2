@@ -14,6 +14,7 @@ import SpaceCube from './map/spaceCube';
 
 import FlowMap from './map/flowMap';
 import HeatLayer from './map/heatLayer';
+import ThematicMap from './map/thematicMap';
 
 /***工具库***/
 
@@ -23,5 +24,5 @@ import InfoModal from './tools/infoModal/infoModal';
 
 
 
-export {gVar,Lbasemap,Chart,CesiumMap,SpaceCube,ThreeChart,FlowMap,HeatLayer,
+export {gVar,Lbasemap,Chart,CesiumMap,SpaceCube,ThreeChart,FlowMap,HeatLayer,ThematicMap,
 	LiquidChart,InfoModal};
