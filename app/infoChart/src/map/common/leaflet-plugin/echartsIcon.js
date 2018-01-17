@@ -59,6 +59,7 @@ function echartsIcon(map, latlngs, option ,layerGroup) {
         }        
 
         var myChart = echarts.init(dom);
+        option.animation = false;
         option.series[0].data = option.datas[i];
         myChart.setOption(option);
     }

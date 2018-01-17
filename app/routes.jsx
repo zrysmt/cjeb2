@@ -13,7 +13,7 @@ import Twothreemap from './page/twothreemap/twothreemap';
 import {LMapTest,ScatterChartTest,SvgScatterChartTest,SvgScatterChartTest2,
 	LiquidFillTest,PieChartTest,BarChartTest,RadarChartTest,CesiumMapTest,
 	ThreeChartTest,ThreeChartTest2,SpaceCubeTest,FlowMapTest,HeatLayerTest,
-	ThematicMapTest}
+	ThematicMapTest,TimeLineTest}
     from './infoChart/test/index';
 
 let gConfigClass = new gConfig();
@@ -57,6 +57,7 @@ let routes = (
 		<Route path="/flowmap" component={FlowMapTest}/>
 		<Route path="/heatlayer" component={HeatLayerTest}/>
 		<Route path="/thematic" component={ThematicMapTest}/>
+		<Route path="/timeline" component={TimeLineTest}/>
 	</Route>
 );
 

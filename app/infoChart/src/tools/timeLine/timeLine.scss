@@ -1,0 +1,35 @@
+.timeline-div{
+    width: 80%;
+    margin: 0 auto;
+    .control-div{
+        float: right;
+        margin-top: 14px;
+        &:hover{
+            cursor: pointer;
+        }
+    }
+}
+.timeline-ul {
+    width: 95%;
+    height: 26px;
+    display: inline-block;
+    overflow-x: auto;
+    overflow-y: auto;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ff0000;
+    //white-space:nowrap;
+    li {
+        display: inline-block;
+        margin: 6px 8px 8px 8px;
+        &:hover{
+            color: #3992e5;
+            cursor: pointer;
+            //border-top:solid 2px #3992e5;
+        }
+
+    }
+}
+.liclicked{
+    color: #3992e5;
+}
