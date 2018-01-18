@@ -70,6 +70,7 @@ class SvgScatterChartTest extends React.Component{
 					zoom = {5}
 					center = {[30,104]}
                     type = 'multiScatter'
+                    // geocode = 'cityName'
 					option={{
 						size:5,
                         classify:{

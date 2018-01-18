@@ -299,7 +299,6 @@ class Chart extends Component{
         let size = this.props.option.size?this.props.option.size : 5;
         let classifyField = this.props.option.classify&&this.props.option.classify.field
                             ?this.props.option.classify.field  : 'name';
-
         let total = 0;
         for (let key in data) {
             if(data[key]){
@@ -316,12 +315,13 @@ class Chart extends Component{
 
         let iconArr = [];
         let legendLen = legend.length;
+        //按照大小来区分不同类型
         if(this.props.option.classify&&this.props.option.classify.type=== 'size'){
-            let iconUrl = this.props.option.iconUrl[0] || require('./common/imgs/point.svg');
+            let iconUrl = this.props.option.iconUrl[0] || require('./common/imgs/point.svg');                 
 
             for (let i = 1; i <= legendLen; i++) {
                 let iconSize = (size + i - legendLen) * zoom;
-                let anchor = (i - 1) * 8;
+                let anchor = (i - 1) * 2  * zoom;
                 let icon = L.icon({
                     iconUrl: iconUrl,
                     shadowUrl: '',
@@ -334,11 +334,11 @@ class Chart extends Component{
 
                 iconArr.push(icon);
             }                 
-        }else{
+        }else{  //按照形状，提供的图片来区分类型
             for (let i = 1; i <= legendLen; i++) {         
                 let iconUrl = this.props.option.iconUrl[i-1] || this.getDefaultIconUrl(i);
                 let iconSize = size * 4;
-                let anchor = (i - 1) * 8;
+                let anchor = (i - 1) * 2  * zoom;
                 let icon = L.icon({
                     iconUrl: iconUrl,
                     shadowUrl: '',
@@ -351,7 +351,7 @@ class Chart extends Component{
 
                 iconArr.push(icon);
             }                             
-        }
+        }                   
 
         for (let i = 0; i < optionDatas.length; i++) {   
             for (let j = 0; j < optionDatas[i].length; j++) {
@@ -359,7 +359,7 @@ class Chart extends Component{
 
                 let lat = dataj.lat,
                     lng = dataj.lng;
-                if(j >= legendLen) return;
+                if(j >= legendLen) break;
                 if(!this.props.geocode){
                     if(lat && lng){
                         layerGroup.addLayer(L.marker([lat,lng], { icon: iconArr[j] }));     
@@ -379,7 +379,8 @@ class Chart extends Component{
                              
             }
             
-        }           
+        }     
+        if(__DEV__) console.log('layerGroup',layerGroup);      
         layerGroup.addTo(this.map);  
     }
     
