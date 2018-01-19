@@ -76,7 +76,6 @@ class ThematicMap extends Component {
         }
 
         function style_0(feature) {
-        	console.log('feature',feature);
             let style =  {
                 pane: 'pane_0',
                 opacity: 1,

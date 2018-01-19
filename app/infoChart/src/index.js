@@ -23,8 +23,10 @@ import InfoModal from './tools/infoModal/infoModal';
 import TimeLine from './tools/timeLine/timeLine';
 import SelectPane from './tools/selectPane/selectPane';
 
-
+/***地理分析***/
+import GeoAnalyse from './geo/geoAnalyse';
 
 
 export {gVar,Lbasemap,Chart,CesiumMap,SpaceCube,ThreeChart,FlowMap,HeatLayer,ThematicMap,
-	LiquidChart,InfoModal,TimeLine,SelectPane};
+	LiquidChart,InfoModal,TimeLine,SelectPane,
+	GeoAnalyse};

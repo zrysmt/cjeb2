@@ -71,7 +71,8 @@ app.get('/getjson/:city/:year/:ind',function(req,res){
 					if(err1)	res.send(err1);
 					rows1.forEach(function(row1){
 						row1.unit = row.unit;
-						row1.name = params.ind;
+                        row1.name = params.ind;
+						row1.value = +row1.value;
 					})
             		res.json(rows1);
             		// closeDb();
@@ -106,6 +107,7 @@ app.get('/byindid/:city/:year/:indId',function(req,res){
                     rows1.forEach(function(row1){
                         row1.unit = row.unit;
                         row1.name = row.fieldRealname;
+                        row1.value = +row1.value;
                     })
                     res.json(rows1);
                     // closeDb();
@@ -141,6 +143,7 @@ app.get('/byindids/inds/:city/:year/:indId',function(req,res){
                     rows1.forEach(function(row1){
                         row1.unit = row.unit;
                         row1.name = row.fieldRealname;
+                        row1.value = +row1.value;
                     })
                     callback(null,rows1);
             });
@@ -178,6 +181,7 @@ app.get('/byindids/citys/:city/:year/:indId',function(req,res){
                     rows1.forEach(function(row1){
                         row1.unit = row.unit;
                         row1.name = row.fieldRealname;
+                        row1.value = +row1.value;
                     })
                     callback(null,rows1);
             });
@@ -212,6 +216,14 @@ app.get('/flowmaplinks',function(req,res){
 })
 app.get('/data/heatlayer',function(req,res){
     var json = require('./mock/data/heatLayerData.json');
+    res.send(json);
+})
+app.get('/data/point-grid',function(req,res){
+    var json = require('./mock/data/pointGrid.json'); //geojson
+    res.send(json);
+})
+app.get('/data/cjeb-point-grid',function(req,res){
+    var json = require('./mock/data/cjebPointGrid.json'); //geojson
     res.send(json);
 })
 //插入数据库的例子，带回调

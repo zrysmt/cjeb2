@@ -84,7 +84,10 @@ class Lbasemap extends Component{
     componentWillUnmount(){
     	if(this.d3Overlay)
             this.d3Overlay.onRemove(this.map);
-        if(this.map) this.map.remove();
+        if(this.map){
+             this.map.remove();
+             gVar.map = null;
+        }
     }
     handleMaptypebar(){
     	let map = this.map;

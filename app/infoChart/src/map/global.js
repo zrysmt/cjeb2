@@ -1,7 +1,7 @@
 
 let gVar = {
-	map:"",
-	viewer:""
+	map:null,
+	viewer:null
 };
 
 export default gVar;

@@ -97,6 +97,12 @@ class CesiumMap extends Component{
 			alt:alt
 		} 	
     }
+    componentWillUnmount(){
+        if(this.viewer){
+             this.viewer = null;
+             gVar.viewer = null;
+        }
+    }    
     render(){
     	return(
     		<div id="cesiumContainer"></div>
