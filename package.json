@@ -52,7 +52,7 @@
   "author": "Zhao Ruyi",
   "license": "ISC",
   "dependencies": {
-    "@turf/turf": "^4.4.0",
+    "@turf/turf": "^5.1.6",
     "animate.css": "^3.5.2",
     "autolinker": "^1.6.0",
     "axios": "^0.17.0",

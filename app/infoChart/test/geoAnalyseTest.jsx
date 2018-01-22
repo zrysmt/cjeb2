@@ -62,11 +62,28 @@ class GeoAnalyseTest extends React.Component{
 					mapBind = 'Lbasemap'
 					type = 'isolines'
     				data = {data}	
-    				extend = {[21,97.5,35,122.5]}				
+    				show = {true}
+    				option = {{
+    					interpolate:{
+							gridType: 'points', 
+							property: 'value', 
+							units: 'kilometers',
+							cellSize:10
+    						
+    					},
+    					breaks:{
+    						field:'value',  //defalut value
+    						gap:50,         // defalut 50
+    						numbers:100     // defalut 50
+    					},
+    					color:['#045A8D','#99d594','#e6f598','#ffffbf','#fc8d59','#d53e4f'],  //defalut same
+    					colorGap:10,
+    					weight:3            // defalut 3
+    				}}			
 				>
 				</GeoAnalyse>
 				<Lbasemap
-    				mapType="osm" 
+    				mapType="geoq_normalm3" 
 					zoom = {5}
 					center = {[30,104]}    	
 					scale={true} 
