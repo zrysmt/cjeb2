@@ -57,13 +57,58 @@ class GeoAnalyseTest extends React.Component{
 	render(){
 		let {data,info} = this.state;
 		return(
-			<div >	
+			<div>	
+				<GeoAnalyse 
+					mapBind = 'Lbasemap'
+					type = 'tin'
+    				data = {data}	
+    				show = {true}
+    				option = {{
+    					show:{
+    						point:true,
+    						legend:true
+    					},
+    					tin:{
+    						units: 'kilometers',
+    						gap:[20,50,80]
+    					},
+    					color:['#045A8D','#99d594','#e6f598','#ffffbf','#fc8d59','#d53e4f'], 
+    					weight:2 
+    					
+    				}}			
+				>
+				</GeoAnalyse>				
+				<GeoAnalyse 
+					mapBind = 'Lbasemap'
+					type = 'buffer'
+    				data = {data}	
+    				show = {true}
+    				option = {{
+    					show:{
+    						point:true,
+    						legend:true
+    					},
+    					buffer:{
+    						units: 'kilometers',
+    						gap:[20,50,80],
+    						label:[20,50,80]
+    					},
+    					color:['#045A8D','#99d594','#e6f598','#ffffbf','#fc8d59','#d53e4f'], 
+    					weight:2 
+    					
+    				}}			
+				>
+				</GeoAnalyse>				
 				<GeoAnalyse 
 					mapBind = 'Lbasemap'
 					type = 'isolines'
     				data = {data}	
-    				show = {true}
+    				show = {false}
     				option = {{
+    					show:{
+    						point:true,
+    						legend:true
+    					},
     					interpolate:{
 							gridType: 'points', 
 							property: 'value', 

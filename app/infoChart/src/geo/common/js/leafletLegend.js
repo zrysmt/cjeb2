@@ -31,7 +31,7 @@ L.Control.LeafletLegend = L.Control.extend({
             var color = this.options.color[i],
                 label = this.options.label[i];
             colorHtml +=  "<span style='background:"+color+";'></span>"
-            labelHtml +=  "<label>>"+label+" </label>"
+            labelHtml +=  "<label>"+label+" </label>"
         };
         html = html 
             + "<div>"

@@ -10,7 +10,8 @@ import  './common/css/leaflet.css';
 
 // import isolines from '@turf/isolines';
 // import pointGrid from '@turf/point-grid';
-import {interpolate,featureEach,isolines,pointGrid,isobands} from '@turf/turf'
+import {interpolate,featureEach,isolines,pointGrid,isobands,
+	buffer} from '@turf/turf'
 import leafletLegend from './common/js/leafletLegend';
 import gVar from '../map/global';
 
@@ -30,15 +31,53 @@ class GeoAnalyse extends Component{
     		case 'isolines':
     			this.initIsolines(props);
     			break;
-    		case '':
-    			
+    		case 'buffer':
+    			this.initBuffer(props);
     			break;
     	}
     }
+    initBuffer(props){
+		let map = gVar.map;
+    	let {show,data,option} = props;  
+		if(!show) return;
+    	if(!data || data.length ===0) throw new Error('data is null');
+		if(!(data.properties&&data.features)){   //is not geojson
+			data = util.genGeoJson(data);
+		}     
+		let points = data;
+		let bufferOption  = Object.assign({},{units: 'kilometers'},option.buffer);
+		let gapLength = bufferOption.gap.length;
+
+		if(!Array.isArray(bufferOption.gap)) throw new Error('bufferOption.gap should be Array');
+		bufferOption.gap.forEach((item,ind)=>{
+			let buffered = buffer(points, item, bufferOption);
+			buffered.features.forEach(function(feature,index) {
+			    feature.properties["color"] = option.color[ind];
+			    feature.properties["weight"] = option.weight[ind] ||3;
+			});
+
+			let bufferLayer = new L.geoJson(buffered,{
+			    style: function (feature) {
+			        return {
+			        	color: feature.properties.color,
+			        	weight: feature.properties["weight"]
+			        };
+			    }
+			}).addTo(map);				
+		});
+
+		if(option.show.legend) 
+			leafletLegend(map,{
+				color:option.color.slice(0,gapLength) || option.buffer.color.slice(0,gapLength),
+				label:option.buffer.label.slice(0,gapLength)
+			});			
+		// points 
+		if(option.show.point) this.genLeafletPoint(map,points,6);		
+    }
 	initIsolines(props){
     	let map = gVar.map;
-    	let {data,option} = props;
-    	if(option && !option.show) return;
+    	let {show,data,option} = props;
+    	if(!show) return;
     	if(!data || data.length ===0) throw new Error('data is null');
 		if(!(data.properties&&data.features)){   //is not geojson
 			data = util.genGeoJson(data);
@@ -83,12 +122,13 @@ class GeoAnalyse extends Component{
 		    }
 		}).addTo(map);
 		//lengend
-		leafletLegend(map,{
-			color:color,
-			label:label
-		});
+		if(option.show.legend) 
+			leafletLegend(map,{
+				color:color,
+				label:label
+			});
 		// points 
-		this.genLeafletPoint(map,points,6)
+		if(option.show.point) this.genLeafletPoint(map,points,6);
 		
     }    
     /**
@@ -97,8 +137,8 @@ class GeoAnalyse extends Component{
      */
     initIsolines2(props){
     	let map = gVar.map;
-    	let {data,option} = props;
-    	if(option && !option.show) return;
+    	let {show,data,option} = props;
+    	if(!show) return;
     	if(!data || data.length ===0) throw new Error('data is null');
 		if(!(data.properties&&data.features)){   //is not geojson
 			data = util.genGeoJson(data);
@@ -136,12 +176,13 @@ class GeoAnalyse extends Component{
 		    }
 		}).addTo(map);
 		//lengend
-		leafletLegend(map,{
-			color:color,
-			label:label
-		});
+		if(option.show.legend) 
+			leafletLegend(map,{
+				color:color,
+				label:label
+			});
 		// points 
-		this.genLeafletPoint(map,points,6)
+		if(option.show.point) this.genLeafletPoint(map,points,6)
 		
     }
 
