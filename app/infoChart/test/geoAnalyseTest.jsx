@@ -60,19 +60,39 @@ class GeoAnalyseTest extends React.Component{
 			<div>	
 				<GeoAnalyse 
 					mapBind = 'Lbasemap'
-					type = 'tin'
+					type = 'voronoi'
     				data = {data}	
     				show = {true}
     				option = {{
     					show:{
-    						point:true,
-    						legend:true
+    						point:true
+    					},
+    					voronoi:{
+    						field: 'value',
+    						gap:500,
+    						// color:['#045A8D','#99d594','#e6f598','#ffffbf','#fc8d59','#d53e4f'],
+    					},
+    					color:'#045A8D', 
+    					weight:2 
+    					
+    				}}			
+				>
+				</GeoAnalyse>			
+				<GeoAnalyse 
+					mapBind = 'Lbasemap'
+					type = 'tin'
+    				data = {data}	
+    				show = {false}
+    				option = {{
+    					show:{
+    						point:true
     					},
     					tin:{
-    						units: 'kilometers',
-    						gap:[20,50,80]
+    						field: 'value',
+    						gap:500,
+    						// color:['#045A8D','#99d594','#e6f598','#ffffbf','#fc8d59','#d53e4f'],
     					},
-    					color:['#045A8D','#99d594','#e6f598','#ffffbf','#fc8d59','#d53e4f'], 
+    					color:'#045A8D', 
     					weight:2 
     					
     				}}			
@@ -82,7 +102,7 @@ class GeoAnalyseTest extends React.Component{
 					mapBind = 'Lbasemap'
 					type = 'buffer'
     				data = {data}	
-    				show = {true}
+    				show = {false}
     				option = {{
     					show:{
     						point:true,

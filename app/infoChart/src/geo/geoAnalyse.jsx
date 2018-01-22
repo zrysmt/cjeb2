@@ -2,16 +2,16 @@
 
  */
 
-
 import React,{Component} from 'react';
 import L from 'leaflet';
+import * as d3 from 'd3';
 // import '../map/common/css/leaflet.css';
 import  './common/css/leaflet.css';
 
 // import isolines from '@turf/isolines';
 // import pointGrid from '@turf/point-grid';
 import {interpolate,featureEach,isolines,pointGrid,isobands,
-	buffer} from '@turf/turf'
+	buffer,tin,voronoi} from '@turf/turf'
 import leafletLegend from './common/js/leafletLegend';
 import gVar from '../map/global';
 
@@ -34,7 +34,83 @@ class GeoAnalyse extends Component{
     		case 'buffer':
     			this.initBuffer(props);
     			break;
+			case 'tin':
+    			this.initTin(props);
+    			break;   
+    		case 'voronoi':
+    			this.initVoronoi(props);
+    			break;    		
     	}
+    }
+    initVoronoi(props){
+		let map = gVar.map;
+    	let {show,data,option} = props;  
+		if(!show) return;
+    	if(!data || data.length ===0) throw new Error('data is null');
+		if(!(data.properties&&data.features)){   //is not geojson
+			data = util.genGeoJson(data);
+		}     
+		let points = data;
+		let interColor = d3.interpolateRgb("steelblue", "brown");
+
+		let voronoiOption  = Object.assign({},{},option.voronoi); 
+		let voronoiPolygons = voronoi(points, voronoiOption);
+		let voronoiLayer = new L.geoJson(voronoiPolygons,{
+		    style: function (feature) {
+			        return {
+			        	color:'#99d594',
+			        	fillColor:'#99d594',
+			        	fillOpacity:0.6,
+			        	weight: option.weight || 2
+			        };
+		    	}
+			}).addTo(map);				
+		// points 
+		if(option.show.point) this.genLeafletPoint(map,points,6);				
+    }
+    initTin(props){
+		let map = gVar.map;
+    	let {show,data,option} = props;  
+		if(!show) return;
+    	if(!data || data.length ===0) throw new Error('data is null');
+		if(!(data.properties&&data.features)){   //is not geojson
+			data = util.genGeoJson(data);
+		}     
+		let points = data;
+		let interColor = d3.interpolateRgb("steelblue", "brown");
+
+		let tinOption  = Object.assign({},{
+				field: 'value',
+				gap:500
+			},option.tin); 
+		let getPropertiesSum = (a)=> a.properties.a + a.properties.b +  a.properties.c;
+
+		let tinedData = tin(points, tinOption.field); 
+		//大小排序
+		tinedData.features.sort((a,b)=>	getPropertiesSum(a) - getPropertiesSum(b));
+		if(__DEV__) console.log('tinedData',tinedData); 
+		let colors = option.tin.color;
+		let laseTinDataSum = getPropertiesSum(tinedData.features[tinedData.features.length-1]);
+		let getColorByFeature = (feature)=>{
+			let average = getPropertiesSum(feature)/3;
+			let index = Math.ceil(average/tinOption.gap);
+			// console.log('index',index, colors[index]);
+			if(index < 0) index = 0;
+			if(colors  && index > colors.length) index = colors.length-1;
+			return colors ? colors[index]:interColor(1/laseTinDataSum * index);
+		}			
+		let tinLayer = new L.geoJson(tinedData,{
+			    style: function (feature) {
+			        return {
+			        	color:'#99d594',
+			        	fillColor: getColorByFeature(feature),
+			        	fillOpacity:0.6,
+			        	weight: option.weight || 2
+			        };
+			    }
+			}).addTo(map);			
+		// points 
+		if(option.show.point) this.genLeafletPoint(map,points,6);					 	
     }
     initBuffer(props){
 		let map = gVar.map;
@@ -106,7 +182,7 @@ class GeoAnalyse extends Component{
 		let isolinesColorGap = option.colorGap|| Math.ceil(isolineData.features.length / color.length);
 
 		if(__DEV__) console.log('data:',data,isolineData);
-		console.log(isolinesColorGap);
+	
 		isolineData.features.forEach(function(feature,index) {
 			if(index % isolinesColorGap === 0) label.push(feature.properties[field]);
 		    feature.properties["color"] = color[Math.floor(index / isolinesColorGap)];
