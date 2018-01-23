@@ -25,8 +25,9 @@ import SelectPane from './tools/selectPane/selectPane';
 
 /***地理分析***/
 import GeoAnalyse from './geo/geoAnalyse';
+import GeoAnalyse3D from './geo/geoAnalyse3D';
 
 
 export {gVar,Lbasemap,Chart,CesiumMap,SpaceCube,ThreeChart,FlowMap,HeatLayer,ThematicMap,
 	LiquidChart,InfoModal,TimeLine,SelectPane,
-	GeoAnalyse};
+	GeoAnalyse,GeoAnalyse3D};

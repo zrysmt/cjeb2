@@ -20,8 +20,9 @@ import TimeLineTest from './timeLineTest';
 
 /*地理分析*/
 import GeoAnalyseTest from './geoAnalyseTest';
+import GeoAnalyse3DTest from './geoAnalyse3DTest';
 
 export {LMapTest,LiquidFillTest,ScatterChartTest,SvgScatterChartTest,
 	SvgScatterChartTest2,PieChartTest,BarChartTest,CesiumMapTest,ThreeChartTest,ThreeChartTest2,
 	SpaceCubeTest,FlowMapTest,HeatLayerTest,ThematicMapTest,TimeLineTest,
-	GeoAnalyseTest};
+	GeoAnalyseTest,GeoAnalyse3DTest};

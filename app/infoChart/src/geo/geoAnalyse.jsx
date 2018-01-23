@@ -25,6 +25,7 @@ class GeoAnalyse extends Component{
         this.state = {
             
         };
+        
     }
     componentWillReceiveProps(props){
     	let {type} = props;
@@ -96,7 +97,6 @@ class GeoAnalyse extends Component{
     			}
     		})
 
-    		console.log('datas',datas,key);
     		let oprData = opreateData(key,datas);
     		console.log('oprData',oprData);
     	}
@@ -111,7 +111,6 @@ class GeoAnalyse extends Component{
 			data = util.genGeoJson(data);
 		}     
 		let points = data;
-		let interColor = d3.interpolateRgb("steelblue", "brown");
 
 		let voronoiOption  = Object.assign({},{bbox:bbox(points)},option.voronoi); 
 		let voronoiPolygons = voronoi(points, voronoiOption);
