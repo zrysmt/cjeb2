@@ -60,6 +60,29 @@ class GeoAnalyseTest extends React.Component{
 			<div>	
 				<GeoAnalyse 
 					mapBind = 'Lbasemap'
+					type = 'opreate'
+    				data = {data}	
+    				//data1 = {}      // 可以是第二份数据
+    				show = {false}
+    				option = {{
+    					show:{
+    						point:true
+    					},
+    					opreate:{
+    						intersect:[
+    							{opreate:'voronoi',data:data},
+    							{opreate:'buffer',data:data,option:{gap:[80]}},
+    						]
+    					},
+    					fillColor:'#045A8D', 
+    					color:'#99d594', 
+    					weight:2 
+    					
+    				}}			
+				>     
+				</GeoAnalyse>			
+				<GeoAnalyse 
+					mapBind = 'Lbasemap'
 					type = 'voronoi'
     				data = {data}	
     				show = {true}
@@ -68,15 +91,14 @@ class GeoAnalyseTest extends React.Component{
     						point:true
     					},
     					voronoi:{
-    						field: 'value',
-    						gap:500,
-    						// color:['#045A8D','#99d594','#e6f598','#ffffbf','#fc8d59','#d53e4f'],
+    						// bbox:[]    //optional
     					},
-    					color:'#045A8D', 
+    					fillColor:'#045A8D', 
+    					color:'#99d594', 
     					weight:2 
     					
     				}}			
-				>
+				>     
 				</GeoAnalyse>			
 				<GeoAnalyse 
 					mapBind = 'Lbasemap'
@@ -90,7 +112,7 @@ class GeoAnalyseTest extends React.Component{
     					tin:{
     						field: 'value',
     						gap:500,
-    						// color:['#045A8D','#99d594','#e6f598','#ffffbf','#fc8d59','#d53e4f'],
+    						// color:['#045A8D','#99d594','#e6f598','#ffffbf','#fc8d59','#d53e4f'], //optional
     					},
     					color:'#045A8D', 
     					weight:2 

@@ -11,7 +11,8 @@ import  './common/css/leaflet.css';
 // import isolines from '@turf/isolines';
 // import pointGrid from '@turf/point-grid';
 import {interpolate,featureEach,isolines,pointGrid,isobands,
-	buffer,tin,voronoi} from '@turf/turf'
+	buffer,tin,voronoi,bbox,polygonize,polygon,
+	intersect,union,difference} from '@turf/turf'
 import leafletLegend from './common/js/leafletLegend';
 import gVar from '../map/global';
 
@@ -39,27 +40,92 @@ class GeoAnalyse extends Component{
     			break;   
     		case 'voronoi':
     			this.initVoronoi(props);
+    			break; 
+    		case 'opreate':
+    			this.initOpreate(props);
     			break;    		
     	}
+    }
+    //计算
+    initOpreate(props){
+		let map = gVar.map;
+    	let {show,data,option} = props;  
+		if(!show) return;
+		let opreate = option.opreate;
+    	if(!opreate ) throw new Error('opreate is required');
+    	let dataDeal = (data)=>{
+			if(!data || data.length ===0) throw new Error('data is required');
+			if(!(data.properties&&data.features)){   //is not geojson
+				data = util.genGeoJson(data);
+			}   
+			return data;    		
+    	}
+    	let opreateData = (type,data,option)=>{
+    		console.log('=',data);
+    		if(!Array.isArray(data)) throw new Error('data should be Array');
+    		let res = null;
+    		if(type === 'buffer'){
+    			option.gap.forEach((item,index)=>{
+    				let buffered = buffer(data[0], item, option);
+    				if(!res){
+    					res = buffered;
+    				}else{
+    					res  = union(res,buffered);
+    				}
+    			})
+    		}else if(type === 'intersect'){
+    			res =  intersect(data[0],data[1]);
+    		}else if(type === 'difference'){
+    			res =  difference(data[0],data[1]);
+    		}else if(type === 'union'){
+    			res =  union(data[0],data[1]);
+    		}else if(type === 'voronoi'){
+    			option = Object.assign({},{bbox:bbox(data[0])},option);
+    			res =  voronoi(data[0],option);
+    		}
+    		return res;
+    	}
+    	for (let key in opreate) {
+    		let datas = [];
+    		let opr = opreate[key];
+    		opr.forEach((item,index)=>{
+    			if(item.opreate){
+    				datas.push(opreateData(item.opreate,[dataDeal(item.data)],item.option));
+    			}else if(item.data){
+    				datas.push(dataDeal(item.data));
+    			}
+    		})
+
+    		console.log('datas',datas,key);
+    		let oprData = opreateData(key,datas);
+    		console.log('oprData',oprData);
+    	}
+    	  	
     }
     initVoronoi(props){
 		let map = gVar.map;
     	let {show,data,option} = props;  
 		if(!show) return;
-    	if(!data || data.length ===0) throw new Error('data is null');
+    	if(!data || data.length ===0) throw new Error('data is required');
 		if(!(data.properties&&data.features)){   //is not geojson
 			data = util.genGeoJson(data);
 		}     
 		let points = data;
 		let interColor = d3.interpolateRgb("steelblue", "brown");
 
-		let voronoiOption  = Object.assign({},{},option.voronoi); 
+		let voronoiOption  = Object.assign({},{bbox:bbox(points)},option.voronoi); 
 		let voronoiPolygons = voronoi(points, voronoiOption);
+		if(__DEV__) console.log('voronoiPolygons',voronoiPolygons);
+		let features = [];
+		voronoiPolygons.features.forEach((item,index)=>{
+			if(item&&(item.geometry||item.geometries)) features.push(item);
+		})
+		voronoiPolygons.features = features;
 		let voronoiLayer = new L.geoJson(voronoiPolygons,{
 		    style: function (feature) {
 			        return {
-			        	color:'#99d594',
-			        	fillColor:'#99d594',
+			        	color:option.color ||  '#99d594',
+			        	fillColor:option.fillColor ||  '#99d594',
 			        	fillOpacity:0.6,
 			        	weight: option.weight || 2
 			        };
@@ -72,7 +138,7 @@ class GeoAnalyse extends Component{
 		let map = gVar.map;
     	let {show,data,option} = props;  
 		if(!show) return;
-    	if(!data || data.length ===0) throw new Error('data is null');
+    	if(!data || data.length ===0) throw new Error('data is required');
 		if(!(data.properties&&data.features)){   //is not geojson
 			data = util.genGeoJson(data);
 		}     
@@ -116,7 +182,7 @@ class GeoAnalyse extends Component{
 		let map = gVar.map;
     	let {show,data,option} = props;  
 		if(!show) return;
-    	if(!data || data.length ===0) throw new Error('data is null');
+    	if(!data || data.length ===0) throw new Error('data is required');
 		if(!(data.properties&&data.features)){   //is not geojson
 			data = util.genGeoJson(data);
 		}     
@@ -154,7 +220,7 @@ class GeoAnalyse extends Component{
     	let map = gVar.map;
     	let {show,data,option} = props;
     	if(!show) return;
-    	if(!data || data.length ===0) throw new Error('data is null');
+    	if(!data || data.length ===0) throw new Error('data is required');
 		if(!(data.properties&&data.features)){   //is not geojson
 			data = util.genGeoJson(data);
 		}    	
@@ -215,7 +281,7 @@ class GeoAnalyse extends Component{
     	let map = gVar.map;
     	let {show,data,option} = props;
     	if(!show) return;
-    	if(!data || data.length ===0) throw new Error('data is null');
+    	if(!data || data.length ===0) throw new Error('data is required');
 		if(!(data.properties&&data.features)){   //is not geojson
 			data = util.genGeoJson(data);
 		}    	
