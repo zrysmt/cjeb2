@@ -1,4 +1,4 @@
-import './threeChart.scss';
+import './chart3D.scss';
 
 import React,{Component} from 'react';
 import Cesium from 'cesium/Cesium';
@@ -10,7 +10,7 @@ import WebGLGlobeDataSource from './webGLGlobeDataSource';
 import util from './common/util.jsx';
 import Eventful from './common/eventful.js';
 
-class ThreeChart extends Component{
+class Chart3D extends Component{
 	constructor(props){
         super(props);
         this.state = {
@@ -66,4 +66,4 @@ class ThreeChart extends Component{
     }    
 }
 
-export default ThreeChart;
+export default Chart3D;

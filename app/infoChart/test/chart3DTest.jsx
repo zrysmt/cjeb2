@@ -1,10 +1,10 @@
 import React,{Component} from 'react';
-import {ThreeChart} from '../src/index';
+import {Chart3D} from '../src/index';
 import Cesium from 'cesium/Cesium';
 import axios from 'axios';
 const server = "http://localhost:8000/";
 
-class ThreeChartTest extends Component{
+class Chart3DTest extends Component{
 	constructor(props){
         super(props);
         this.state = {
@@ -46,7 +46,7 @@ class ThreeChartTest extends Component{
 
     	return(
     		<div>
-    			<ThreeChart
+    			<Chart3D
     				dataUrl = {dataUrl}
     				dataName = {year}
     				height = {height}
@@ -65,11 +65,11 @@ class ThreeChartTest extends Component{
 
     				}}
     			>	
-    			</ThreeChart>
+    			</Chart3D>
     		</div>
     	)
     }
 }
 
 
-export default ThreeChartTest;
+export default Chart3DTest;

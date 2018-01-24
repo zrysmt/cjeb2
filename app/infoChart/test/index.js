@@ -8,8 +8,8 @@ import PieChartTest from './pieChartTest';
 import BarChartTest from './barChartTest';
 
 import CesiumMapTest from './cesiumMapTest';
-import ThreeChartTest from './threeChartTest';
-import ThreeChartTest2 from './threeChartTest2';
+import Chart3DTest from './chart3DTest';
+import Chart3DTest2 from './chart3DTest2';
 
 import SpaceCubeTest from './spaceCubeTest';
 import FlowMapTest from './flowMapTest';
@@ -23,6 +23,6 @@ import GeoAnalyseTest from './geoAnalyseTest';
 import GeoAnalyse3DTest from './geoAnalyse3DTest';
 
 export {LMapTest,LiquidFillTest,ScatterChartTest,SvgScatterChartTest,
-	SvgScatterChartTest2,PieChartTest,BarChartTest,CesiumMapTest,ThreeChartTest,ThreeChartTest2,
+	SvgScatterChartTest2,PieChartTest,BarChartTest,CesiumMapTest,Chart3DTest,Chart3DTest2,
 	SpaceCubeTest,FlowMapTest,HeatLayerTest,ThematicMapTest,TimeLineTest,
 	GeoAnalyseTest,GeoAnalyse3DTest};

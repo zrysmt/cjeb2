@@ -4,7 +4,7 @@ import {SpaceCube} from '../src/index';
 import axios from 'axios';
 const server = "http://localhost:8000/";
 
-class ThreeChartTest extends Component{
+class Chart3DTest extends Component{
 	constructor(props){
         super(props);
         this.state = {
@@ -67,4 +67,4 @@ class ThreeChartTest extends Component{
 }
 
 
-export default ThreeChartTest;
+export default Chart3DTest;

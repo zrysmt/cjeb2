@@ -8,7 +8,7 @@ import Chart from './map/chart';
 
 /***cesium 三维地球***/
 import CesiumMap from './map/cesiumMap';
-import ThreeChart from './map/threeChart';
+import Chart3D from './map/chart3D';
 import SpaceCube from './map/spaceCube';
 
 
@@ -28,6 +28,6 @@ import GeoAnalyse from './geo/geoAnalyse';
 import GeoAnalyse3D from './geo/geoAnalyse3D';
 
 
-export {gVar,Lbasemap,Chart,CesiumMap,SpaceCube,ThreeChart,FlowMap,HeatLayer,ThematicMap,
+export {gVar,Lbasemap,Chart,CesiumMap,SpaceCube,Chart3D,FlowMap,HeatLayer,ThematicMap,
 	LiquidChart,InfoModal,TimeLine,SelectPane,
 	GeoAnalyse,GeoAnalyse3D};

@@ -12,7 +12,7 @@ import Twothreemap from './page/twothreemap/twothreemap';
 //测试infoChart
 import {LMapTest,ScatterChartTest,SvgScatterChartTest,SvgScatterChartTest2,
 	LiquidFillTest,PieChartTest,BarChartTest,RadarChartTest,CesiumMapTest,
-	ThreeChartTest,ThreeChartTest2,SpaceCubeTest,FlowMapTest,HeatLayerTest,
+	Chart3DTest,Chart3DTest2,SpaceCubeTest,FlowMapTest,HeatLayerTest,
 	ThematicMapTest,TimeLineTest ,GeoAnalyseTest,GeoAnalyse3DTest}
     from './infoChart/test/index';
 
@@ -32,7 +32,10 @@ const indviewEnter = (nextState,replace)=>{
 	replace({ pathname: '/' });
 	window.open(gConfigClass.getSiteObj().v1Url);
 }
-
+/*
+/geo1
+/geo2 多种情况可测试
+ */
 let routes = (
 	<Route  path="/" component={App}>
 		<IndexRoute component={Home}/>
@@ -51,15 +54,15 @@ let routes = (
 		<Route path="/bc" component={BarChartTest}/>
 
 		<Route path="/cm" component={CesiumMapTest}/>
-		<Route path="/cm1" component={ThreeChartTest}/>
-		<Route path="/cm2" component={ThreeChartTest2}/>
+		<Route path="/cm1" component={Chart3DTest}/>
+		<Route path="/cm2" component={Chart3DTest2}/>
 		<Route path="/space" component={SpaceCubeTest}/>
 		<Route path="/flowmap" component={FlowMapTest}/>
 		<Route path="/heatlayer" component={HeatLayerTest}/>
 		<Route path="/thematic" component={ThematicMapTest}/>
 		<Route path="/timeline" component={TimeLineTest}/>
 
-		<Route path="/geo1" component={GeoAnalyseTest}/>
+		<Route path="/geo1" component={GeoAnalyseTest}/>  
 		<Route path="/geo2" component={GeoAnalyse3DTest}/>
 	</Route>
 );
