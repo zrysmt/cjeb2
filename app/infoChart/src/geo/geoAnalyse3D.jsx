@@ -3,7 +3,6 @@
  */
 
 import React,{Component} from 'react';
-import * as d3 from 'd3';
 import Cesium from 'cesium/Cesium';
 
 import {interpolate,featureEach,isolines,pointGrid,isobands,
@@ -49,7 +48,8 @@ class GeoAnalyse3D extends Component{
 			data = util.genGeoJson(data);
 		}     
 
-		let voronoiOption  = Object.assign({},{bbox:bbox(data),opacity:0.5},option.voronoi); 
+		let voronoiOption  = Object.assign({},
+			{field: 'value',bbox:bbox(data),opacity:0.5,outline:true,},option.voronoi); 
 		let voronoiPolygons = voronoi(data, voronoiOption);
 		let features = [];
 		voronoiPolygons.features.forEach((item,index)=>{
@@ -91,7 +91,8 @@ class GeoAnalyse3D extends Component{
 		if(!(data.properties&&data.features)){   //is not geojson
 			data = util.genGeoJson(data);
 		} 		
-		let tinOption  = Object.assign({},{field: 'value',opacity:0.5,heightSize: 500},option.tin); 		
+		let tinOption  = Object.assign({},
+			{field: 'value',opacity:0.5,outline:true,heightSize: 500},option.tin); 		
 		let tinedData = tin(data, tinOption.field); 
 		if(__DEV__) console.log('tinedData',tinedData);  
 
@@ -134,7 +135,7 @@ class GeoAnalyse3D extends Component{
 	            let color = colorHash[id];
 	            if (option.randomColor && !color) {
 	                color = Cesium.Color.fromRandom({
-	                    alpha : 1.0
+	                    alpha : option.opacity
 	                });
 	                colorHash[id] = color.withAlpha(option.opacity);
 	            }
@@ -145,9 +146,12 @@ class GeoAnalyse3D extends Component{
 	            //Set the polygon material to our random color.
 	            entity.polygon.material = color.withAlpha(option.opacity);
 	            //Remove the outlines.
-	            entity.polygon.outline = false;
-	            
-	            entity.polygon.extrudedHeight = getPropertiesSum(entity) * option.heightSize;
+	            entity.polygon.outline = option.outline;
+	            if(entity.properties[option.field]){
+	            	entity.polygon.extrudedHeight = entity.properties[option.field] * option.heightSize;
+	            }else if(getPropertiesSum(entity)){
+	            	entity.polygon.extrudedHeight = getPropertiesSum(entity) * option.heightSize;
+	            }
 	        }
 	    }).otherwise((error)=>{
 	        //Display any errrors encountered while loading.

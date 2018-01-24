@@ -74,6 +74,7 @@ class GeoAnalyse3DTest extends React.Component{
                             field: 'value',
                             opacity:1,   //defalut 0.5
                             color:'#045A8D',//'#99d594','#e6f598','#ffffbf','#fc8d59','#d53e4f'], //optional
+                            outline:true,
                             heightSize:500, 
                         }
                     }}  
