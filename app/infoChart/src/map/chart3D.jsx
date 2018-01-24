@@ -52,16 +52,9 @@ class Chart3D extends Component{
 		viewer.dataSources.add(dataSource);    	
     }
     render(){
-    	let {center,height,viewerOption} = this.props;
 
     	return(
-    		<div>
-    			<CesiumMap
-					height = {height}
-    				center = {center}    
-                    viewerOption = {viewerOption}				
-    			></CesiumMap>
-    		</div>
+    		<div></div>
     	)
     }    
 }

@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Chart3D} from '../src/index';
+import {CesiumMap,Chart3D} from '../src/index';
 import Cesium from 'cesium/Cesium';
 import axios from 'axios';
 const server = "http://localhost:8000/";
@@ -49,12 +49,6 @@ class Chart3DTest extends Component{
     			<Chart3D
     				dataUrl = {dataUrl}
     				dataName = {year}
-    				height = {height}
-    				center = {center} 
-    				viewerOption = {{
-    					sceneMode : Cesium.SceneMode.SCENE3D,  //MORPHING  SCENE2D COLUMBUS_VIEW  SCENE3D 
-    					// imageryProvider:'OpenStreetMap',
-    				}}
     				type = 'cylinder'   //line bar cylinder
     				option = {{
     					size: 5,
@@ -66,6 +60,14 @@ class Chart3DTest extends Component{
     				}}
     			>	
     			</Chart3D>
+                <CesiumMap
+                    height = {height}
+                    center = {center}    
+                    viewerOption = {{
+                        sceneMode : Cesium.SceneMode.SCENE3D,  //MORPHING  SCENE2D COLUMBUS_VIEW  SCENE3D 
+                        // imageryProvider:'OpenStreetMap',
+                    }}               
+                ></CesiumMap>                
     		</div>
     	)
     }
