@@ -46,6 +46,7 @@ class ThematicMapTest extends Component{
     	return(
     		<div>
     			<ThematicMap
+                    show = {true}
     				mapBind = 'Lbasemap'
     				data = {data}        //
                     geojson = {''}

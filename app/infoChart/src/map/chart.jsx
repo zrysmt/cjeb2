@@ -5,7 +5,6 @@ import React,{Component} from 'react';
 import L from 'leaflet';
 import * as d3 from 'd3';
 import axios from 'axios';
-import Lbasemap from './lbasemap';
 import './common/leaflet-plugin/L.D3SvgOverlay';
 import  './common/Leaflet.WebGL/src/L.WebGL.js';
 import echartsIcon from './common/leaflet-plugin/echartsIcon.js'; //echartsLegend
@@ -31,7 +30,8 @@ class Chart extends Component{
             this.setState({
             	data:props.data
             },()=>{
-                this.chartDisplayByType();
+                let {show} = props;
+                if(show) this.chartDisplayByType();
             })
         }
     }	
@@ -387,6 +387,7 @@ class Chart extends Component{
     initScatterChart(zoom){
         this.map = gVar.map;
         let {data} = this.state;
+        let {option} = this.props;
         if(!zoom) zoom = this.map.getZoom() || 5;     
         let baseIconSize = zoom - 1;
         //先清空
@@ -398,12 +399,12 @@ class Chart extends Component{
 
         let latlngs = [],optionDatas = [];
         if(!data||data.length === 0) console.warn('数据为空');
-        let iconUrl = this.props.option.iconUrl || require('./common/imgs/point.png');
-        let size = this.props.option.size?this.props.option.size : 5;
-        let classifyNums = this.props.option.classify&&this.props.option.classify.numbers
-                            ?this.props.option.classify.numbers  : 1;
-        let classifyField = this.props.option.classify&&this.props.option.classify.field
-                            ?this.props.option.classify.field  : 'value';
+        let iconUrl = option.iconUrl || require('./common/imgs/point.png');
+        let size = option.size?option.size : 5;
+        let classifyNums = option.classify&&option.classify.numbers
+                            ?option.classify.numbers  : 1;
+        let classifyField = option.classify&&option.classify.field
+                            ?option.classify.field  : 'value';
         let f = Math.floor(classifyNums/2),
             len = data.length,
             classifyDataLen = Math.floor(len / classifyNums);
@@ -449,8 +450,10 @@ class Chart extends Component{
         let self = this;
         this.map = gVar.map;
 		let {data} = this.state;
+        let {option} = this.props;
+        if(!show) return;        
 		if(!zoom) zoom = 4;
-        let size = this.props.option.size * (zoom-1) || 4;
+        let size = option.size * (zoom-1) || 4;
    
         let handleInfoModal = this.props.handleInfoModal;
 
@@ -577,21 +580,8 @@ class Chart extends Component{
         })       
     }   
 	render(){
-		let {mapType,data,zoom,center,option,scale,osmGeocoder,maptypebar}
-			= this.props;
 		return(
-			<div id="info-chart">
-				<Lbasemap 
-					mapType={mapType||"geoq_normalm3"}
-					data={data}
-					zoom = {zoom||5}
-					center = {center||[30,104]}
-					option={option||{size:5,color:['#44a3e5']}}
-				    scale={scale||true} 
-				    osmGeocoder={osmGeocoder||false} 
-				    maptypebar={maptypebar||true}
-				>
-				</Lbasemap>				
+			<div id="default-info-chart">			
 			</div>
 		)
 	}    

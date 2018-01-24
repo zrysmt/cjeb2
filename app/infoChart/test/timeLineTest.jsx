@@ -78,14 +78,12 @@ class TimeLineTest extends React.Component{
         });
     }    	
 	render(){
-		let {data,info,year} = this.state;
+		let {data,info,year,mapType,zoom,center,option,scale,osmGeocoder,maptypebar} = this.state;
 		return(
 			<div >	
 				<Chart 
-					mapType="geoq_normalm3"  
-					data={data}
-					zoom = {5}
-					center = {[30,104]}
+                    show = {true} 
+                    data={data}
                     type = 'pie'
                     option={{
                         legend:{
@@ -100,18 +98,25 @@ class TimeLineTest extends React.Component{
                             name:'示例案例'
                         }]
                         
-					}}
-				    scale={true} 
-				    osmGeocoder={false} 
-				    maptypebar={true}
-				    handleInfoModal = {this.handleInfoModal}
-				>
-				</Chart>
+                    }}
+                >
+                </Chart>
+                <Lbasemap 
+                    mapType={mapType||"geoq_normalm3"}
+                    zoom = {zoom||5}
+                    center = {center||[30,104]}
+                    option={option||{size:5,color:['#44a3e5']}}
+                    scale={scale||true} 
+                    osmGeocoder={osmGeocoder||false} 
+                    maptypebar={maptypebar||true}
+                >
+                </Lbasemap> 
 				<div id="infomodal-div">
                 	<InfoModal info={info}/>
             	</div>		
 				<div id="timeline-div">
                     <TimeLine 
+                        show = {true} 
                         defaultTime={year}
                         control = {true}
                         autoPlay = {true}

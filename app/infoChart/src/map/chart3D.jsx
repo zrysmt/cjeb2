@@ -17,7 +17,7 @@ class Chart3D extends Component{
         };
     }	
     componentWillReceiveProps(props){
-    	this.initChart(props);
+    	if(props.show) this.initChart(props);
     }
 	componentDidMount(){
 		

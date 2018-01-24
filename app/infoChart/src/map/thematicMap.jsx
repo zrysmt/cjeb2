@@ -14,7 +14,7 @@ class ThematicMap extends Component {
         this.state = {};
     }
     componentWillReceiveProps(props) {
-        this.initChart(props);
+        if(props.show) this.initChart(props);
     }
     initChart(props) {
         let { mapBind, data,geojson,fieldId,classify,option } = props;
@@ -25,7 +25,7 @@ class ThematicMap extends Component {
  
         if (mapBind == 'CesiumMap') {
             viewer = gVar.viewer;
-        } else if (mapBind == 'Lbasemap') {
+        } else {
             this.map = map = gVar.map;
             this.initLeafletMap(data,geojson,fieldId,classify, option);
         }

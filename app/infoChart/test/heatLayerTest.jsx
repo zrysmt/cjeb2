@@ -45,6 +45,7 @@ class HeatLayerTest extends Component{
     	return(
     		<div>
     			<HeatLayer
+                    show = {true}
     				mapBind = 'Lbasemap'
     				data = {data}
     				option = {{

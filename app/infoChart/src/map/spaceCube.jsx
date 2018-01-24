@@ -17,7 +17,7 @@ class SpaceCube extends Component{
       
     }	
 	componentWillReceiveProps(props){
-    	this.initChart(props);
+    	if(props.show)this.initChart(props);
     }    
     initChart(props){
     	let {data,option} = props;
@@ -65,15 +65,9 @@ class SpaceCube extends Component{
     }
     	
     render(){
-    	let {center,height,viewerOption} = this.props;
 
     	return(
-    		<div id="spaceCube">
-				<CesiumMap
-					height = {height}
-    				center = {center}    
-                    viewerOption = {viewerOption}				
-    			></CesiumMap>    			
+    		<div id="defalut-space-cube"> 			
     		</div>
     	)
     }

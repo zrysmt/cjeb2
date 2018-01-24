@@ -147,8 +147,8 @@ class TimeLine extends React.Component {
     }
     render() {
         let {timeInfo,controlImgUrl} = this.state;
-        let {style} = this.props;
-
+        let {show,style} = this.props;
+        if(!show) return '<div></div>';
         return (
             <div className="timeline-div">
                 <ul className="timeline-ul" style={style}>

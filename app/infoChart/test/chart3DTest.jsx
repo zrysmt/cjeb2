@@ -47,6 +47,7 @@ class Chart3DTest extends Component{
     	return(
     		<div>
     			<Chart3D
+                    show = {true} 
     				dataUrl = {dataUrl}
     				dataName = {year}
     				type = 'cylinder'   //line bar cylinder

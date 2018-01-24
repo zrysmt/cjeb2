@@ -17,7 +17,7 @@ class FlowMap extends Component {
 
     }
     componentWillReceiveProps(props) {
-        this.initChart(props);
+        if(props.show) this.initChart(props);
     }
     initChart(props) {
         let { mapBind, data, links,dataCenter,option } = props;
@@ -27,11 +27,11 @@ class FlowMap extends Component {
         let size = option && option.size ? option.size : 1;
         let heightScale = option && option.heightScale ? option.heightScale : 50;
 
-        if (!data) console.warn('FlowMap data is error');
+        if (!data) console.warn('FlowMap data is required');
 
         if (mapBind == 'CesiumMap') {
             viewer = gVar.viewer;
-        } else if (mapBind == 'Lbasemap') {
+        } else {
             this.map = map = gVar.map;
             this.initLeafletMap(data,links,dataCenter, option);
         }

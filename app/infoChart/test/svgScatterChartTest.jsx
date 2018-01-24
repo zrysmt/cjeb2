@@ -61,14 +61,13 @@ class SvgScatterChartTest extends React.Component{
         });
     }    	
 	render(){
-		let {data,info} = this.state;
+		let {data,info,mapType,zoom,center,option,scale,osmGeocoder,maptypebar} = this.state;
+
 		return(
 			<div >	
-				<Chart 
-					mapType="geoq_normalm3"  
+				<Chart  
+                    show = {true}
 					data={data}
-					zoom = {5}
-					center = {[30,104]}
                     type = 'multiScatter'
                     // geocode = 'cityName'
 					option={{
@@ -79,12 +78,18 @@ class SvgScatterChartTest extends React.Component{
                         },
                         iconUrl:[require('./assets/imgs/point.svg')]
 					}}
-				    scale={true} 
-				    osmGeocoder={false} 
-				    maptypebar={true}
-				    handleInfoModal = {this.handleInfoModal}
 				>
 				</Chart>
+                <Lbasemap 
+                    mapType={mapType||"geoq_normalm3"}
+                    zoom = {zoom||5}
+                    center = {center||[30,104]}
+                    option={option||{size:5,color:['#44a3e5']}}
+                    scale={scale||true} 
+                    osmGeocoder={osmGeocoder||false} 
+                    maptypebar={maptypebar||true}
+                >
+                </Lbasemap>                 
 				<div id="infomodal-div">
                 	<InfoModal info={info}/>
             	</div>					

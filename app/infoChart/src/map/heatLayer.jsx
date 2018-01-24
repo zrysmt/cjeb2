@@ -13,7 +13,7 @@ class HeatLayer extends Component {
         this.state = {};
     }
     componentWillReceiveProps(props) {
-        this.initChart(props);
+        if(props.show) this.initChart(props);
     }
     initChart(props) {
         let { mapBind, data,option } = props;
@@ -24,7 +24,7 @@ class HeatLayer extends Component {
 
         if (mapBind == 'CesiumMap') {
             viewer = gVar.viewer;
-        } else if (mapBind == 'Lbasemap') {
+        } else {
             this.map = map = gVar.map;
             this.initLeafletMap(data, option);
         }

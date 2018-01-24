@@ -42,14 +42,13 @@ class Chart3DTest extends Component{
     }
    
     render(){
-    	let {center,height,year,currentInd,data} = this.state;
+    	let {center,height,viewerOption,year,currentInd,data} = this.state;
 
     	return(
     		<div>
     			<SpaceCube
+                    show = {true}
     				data = {data}
-    				height = {height}
-    				center = {center} 
     				option = {{
     					size: 5,
                         heightScale:50,
@@ -61,6 +60,11 @@ class Chart3DTest extends Component{
     				}}
     			>	
     			</SpaceCube>
+                <CesiumMap
+                    height = {height}
+                    center = {center}    
+                    viewerOption = {viewerOption||''}               
+                ></CesiumMap>                   
     		</div>
     	)
     }
