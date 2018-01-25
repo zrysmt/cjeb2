@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Cesium from 'cesium/Cesium';
-
+import lodash from 'lodash';
 /*import * as d3 from 'd3';
 import './common/leaflet-plugin/spatialsankey.js';*/
 
@@ -68,7 +68,7 @@ class FlowMap extends Component {
     		smoothFactor:5,
     		opacity:0.8,
         };    
-        option = Object.assign({},plOption,option);
+        option = _.defaultsDeep({},plOption,option);
 
         if(layerGroup.getLayers().length > 0){
             this.map.removeLayer(layerGroup);

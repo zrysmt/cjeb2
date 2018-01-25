@@ -5,6 +5,7 @@
 import React,{Component} from 'react';
 import L from 'leaflet';
 import * as d3 from 'd3';
+import lodash from 'lodash';
 // import '../map/common/css/leaflet.css';
 import  './common/css/leaflet.css';
 
@@ -81,7 +82,7 @@ class GeoAnalyse extends Component{
     		}else if(type === 'union'){
     			res =  union(data[0],data[1]);
     		}else if(type === 'voronoi'){
-    			option = Object.assign({},{bbox:bbox(data[0])},option);
+    			option = _.defaultsDeep({},{bbox:bbox(data[0])},option);
     			res =  voronoi(data[0],option);
     		}
     		return res;
@@ -112,7 +113,7 @@ class GeoAnalyse extends Component{
 		}     
 		let points = data;
 
-		let voronoiOption  = Object.assign({},{bbox:bbox(points)},option.voronoi); 
+		let voronoiOption  = _.defaultsDeep({},{bbox:bbox(points)},option.voronoi); 
 		let voronoiPolygons = voronoi(points, voronoiOption);
 		if(__DEV__) console.log('voronoiPolygons',voronoiPolygons);
 		let features = [];
@@ -144,7 +145,7 @@ class GeoAnalyse extends Component{
 		let points = data;
 		let interColor = d3.interpolateRgb("steelblue", "brown");
 
-		let tinOption  = Object.assign({},{
+		let tinOption  = _.defaultsDeep({},{
 				field: 'value',
 				gap:500
 			},option.tin); 
@@ -186,7 +187,7 @@ class GeoAnalyse extends Component{
 			data = util.genGeoJson(data);
 		}     
 		let points = data;
-		let bufferOption  = Object.assign({},{units: 'kilometers'},option.buffer);
+		let bufferOption  = _.defaultsDeep({},{units: 'kilometers'},option.buffer);
 		let gapLength = bufferOption.gap.length;
 
 		if(!Array.isArray(bufferOption.gap)) throw new Error('bufferOption.gap should be Array');
@@ -239,7 +240,7 @@ class GeoAnalyse extends Component{
 		featureEach(points, function(point) {
 		    point.properties.solRad = Math.random() * 50;
 		});
-		let options = Object.assign({},{gridType: 'points', property: 'value', units: 'kilometers'},option.interpolate);
+		let options = _.defaultsDeep({},{gridType: 'points', property: 'value', units: 'kilometers'},option.interpolate);
 		let grid = interpolate(points, option.interpolate.cellSize||10, options);   //先插值
 
 		let isolineData = isolines(grid, breaks, {zProperty: field});

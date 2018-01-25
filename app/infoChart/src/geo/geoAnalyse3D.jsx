@@ -4,7 +4,7 @@
 
 import React,{Component} from 'react';
 import Cesium from 'cesium/Cesium';
-
+import lodash from 'lodash';
 import {interpolate,featureEach,isolines,pointGrid,isobands,
 	buffer,tin,voronoi,bbox,polygonize,polygon,
 	intersect,union,difference} from '@turf/turf'
@@ -48,13 +48,13 @@ class GeoAnalyse3D extends Component{
 			data = util.genGeoJson(data);
 		}     
 
-		let voronoiOption  = Object.assign({},
+		let voronoiOption  = _.defaultsDeep({},
 			{field: 'value',bbox:bbox(data),opacity:0.5,outline:true,},option.voronoi); 
 		let voronoiPolygons = voronoi(data, voronoiOption);
 		let features = [];
 		voronoiPolygons.features.forEach((item,index)=>{
 			if(item&&(item.geometry||item.geometries)) {
-				item.properties = Object.assign({},data.features[index].properties,item.properties)
+				item.properties = _.defaultsDeep({},data.features[index].properties,item.properties)
 				features.push(item);
 			}
 		})
@@ -71,7 +71,7 @@ class GeoAnalyse3D extends Component{
 			data = util.genGeoJson(data);
 		}     
 
-		let voronoiOption  = Object.assign({},{bbox:bbox(data),opacity:0.5},option.voronoi); 
+		let voronoiOption  = _.defaultsDeep({},{bbox:bbox(data),opacity:0.5},option.voronoi); 
 		let voronoiPolygons = voronoi(data, voronoiOption);
 		let features = [];
 		voronoiPolygons.features.forEach((item,index)=>{
@@ -91,7 +91,7 @@ class GeoAnalyse3D extends Component{
 		if(!(data.properties&&data.features)){   //is not geojson
 			data = util.genGeoJson(data);
 		} 		
-		let tinOption  = Object.assign({},
+		let tinOption  = _.defaultsDeep({},
 			{field: 'value',opacity:0.5,outline:true,heightSize: 500},option.tin); 		
 		let tinedData = tin(data, tinOption.field); 
 		if(__DEV__) console.log('tinedData',tinedData);  
@@ -106,7 +106,7 @@ class GeoAnalyse3D extends Component{
 		if(!(data.properties&&data.features)){   //is not geojson
 			data = util.genGeoJson(data);
 		} 		
-		let tinOption  = Object.assign({},{field: 'value',opacity:0.5},option.tin); 		
+		let tinOption  = _.defaultsDeep({},{field: 'value',opacity:0.5},option.tin); 		
 		let tinedData = tin(data, tinOption.field); 
 		if(__DEV__) console.log('tinedData',tinedData); 
 

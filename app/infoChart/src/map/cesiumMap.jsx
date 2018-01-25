@@ -3,6 +3,7 @@ import 'cesium/Widgets/widgets.css';
 
 import React,{Component} from 'react';
 import Cesium from 'cesium/Cesium';
+import lodash from 'lodash';
 
 import util from './common/util.jsx';
 import Eventful from './common/eventful.js';
@@ -37,7 +38,7 @@ class CesiumMap extends Component{
     		navigationInstructionsInitiallyVisible:false
     	};
     
-    	if(viewerOption) option = Object.assign({},option,viewerOption);
+    	if(viewerOption) option = _.defaultsDeep({},option,viewerOption);
 		if(viewerOption && viewerOption.imageryProvider){
 			if(viewerOption.imageryProvider == 'OpenStreetMap'){
 	    		option.imageryProvider = new Cesium.createOpenStreetMapImageryProvider({

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import L from 'leaflet';
+import lodash from 'lodash';
 import Autolinker from 'autolinker';
 
 import util from './common/util.jsx';
@@ -49,7 +50,7 @@ class ThematicMap extends Component {
         	}
         	geojson.features.forEach((item1,index1)=>{
         		if(item1.properties.NAME === item[fieldId]){
-        			item1.properties = Object.assign({},item1.properties,item);
+        			item1.properties = _.defaultsDeep({},item1.properties,item);
         		}
         	})	    	
         }) 
@@ -87,7 +88,7 @@ class ThematicMap extends Component {
                 fillOpacity: 0.6,
                 fillColor: 'rgba(64,98,210,1)'
             };
-            if(option) style = Object.assign({},style,option);
+            if(option) style = _.defaultsDeep({},style,option);
             if(feature.properties[fieldId]){
             	// style.color = 'rgba(0,0,0,1)';
             	if(feature.properties[classifyField]){
