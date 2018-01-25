@@ -63,6 +63,7 @@ class ThematicMapTest extends Component{
     			>
     			</ThematicMap>
     			<Lbasemap
+                    show = {true}
     				mapType="osm" 
 					zoom = {5}
 					center = {[30,104]}    	

@@ -4,6 +4,7 @@
 import React,{Component} from 'react';
 import L from 'leaflet';
 import * as d3 from 'd3';
+import lodash from 'lodash';
 import echarts from 'echarts';
 import axios from 'axios';
 import './common/leaflet-plugin/L.D3SvgOverlay';
@@ -12,19 +13,28 @@ import echartsIcon from './common/leaflet-plugin/echartsIcon.js'; //echartsLegen
 import echartsLegend from './common/leaflet-plugin/echartsLegend.js'; //echartsLegend
 
 import Eventful from './common/eventful.js';
+import util from './common/util.jsx';
 import gVar from './global';
 
 class Chart extends Component{
 	constructor(props){
         super(props);
         this.state = {
-            data:[]
+            data:[],
+            selectedMarkers:[]
         };
 
         this.scatterLayerGroup = L.layerGroup();
         this.multiScatterLayerGroup = L.layerGroup();
         this.pieLayerGroup = L.layerGroup();
         this.barLayerGroup = L.layerGroup();
+        this.scatterData = [];
+        this.pieData = {};
+        this.barData = [];
+        this.multiData = [];
+        this.parallelData = [];
+
+        this.parallelEchart = null;
     }	
 	componentWillReceiveProps(props){
 	    if(props.data&&props.data.length!=0) {
@@ -53,12 +63,16 @@ class Chart extends Component{
             case 'parallel':
                 this.initParallelChart();
                 break;                    		   					
-    	}
+    	}      
+
     }
     initParallelChart(){
-        let {data} = this.state;  
-        let {option} = this.props;
+        let {data,selectedMarkers} = this.state;  
+        let {type,option} = this.props;
         if(!data) throw new Error('data is required');
+        let parallelData = [];
+        if(type === 'parallel') 
+            parallelData = this.parallelData = data;
         let genParallelAxis = (arr)=>{
             let parallelAxis = [];
             arr.forEach((item,index)=>{
@@ -70,25 +84,32 @@ class Chart extends Component{
             }) 
             return parallelAxis;           
         }
-        option = Object.assign({},{
+        option = _.defaultsDeep({},{
             field:{
                 name:'name',  
                 value:'value' 
             },
             height:'300px',
-            width:'100%', 
+            width:'85%', 
             // echarts option
             backgroundColor: '#333',
             parallelAxis:[],
             parallel: {
-                left: '10%',
-                right: '30%',
-                bottom: 100,
+                top:50,
+                left: '8%',
+                right: '8%',
+                bottom: 50,
+                axisExpandable: true,
+                axisExpandCenter: 15,
+                axisExpandCount: 10,
+                axisExpandWidth: 60,
+                axisExpandTriggerOn: 'mousemove',
                 parallelAxisDefault: {
                     type: 'value',
                     name: '',
                     nameLocation: 'end',
                     nameGap: 20,
+                    // nameRotate: 25,
                     nameTextStyle: {
                         color: '#fff',
                         fontSize: 12
@@ -123,29 +144,49 @@ class Chart extends Component{
             }]                       
         },option);  
         let index = 0,seriesData = [];
-        for (let key in data) {
+        for (let key in parallelData) {
             if(index === 0 )      
-                option.parallelAxis = genParallelAxis(data[key]);
+                option.parallelAxis = genParallelAxis(parallelData[key]);
+            index++;
             let oneData =  [];
-            data[key].forEach((item,index)=>{
-                oneData.push(item[option.field.value]);
-            })
-            seriesData.push(oneData);
+            if(selectedMarkers&&selectedMarkers.length > 0){
+                selectedMarkers.forEach((marker,ind1)=>{
+                    if(marker && marker[option.field.marker] === key){
+                        parallelData[key].forEach((item,ind2)=>{
+                            oneData.push(item[option.field.value]);
+                        })                        
+                    }
+                })
+            }else{
+                parallelData[key].forEach((item,ind2)=>{
+                    oneData.push(item[option.field.value]);
+                })                
+            }
+            if(oneData.length !== 0) seriesData.push(oneData);
         }      
         option.series[0].data = seriesData;
         if(__DEV__) console.log('option',option);
-        let dom = document.getElementById('default-info-chart');
+        let pDom = document.getElementById('default-info-chart');
+        let dom = document.getElementById('default-echart-div');
+        dom.innerHTML = '';// clear the dom
         dom.style.width = option.width;
         dom.style.height = option.height;
+        pDom.style.width = '100%';
+        pDom.style.height = '100%';
         dom.style.margin = '0 auto';
-        if(option.backgroundColor) dom.style.backgroundColor = option.backgroundColor;
-        let myChart = echarts.init(dom);   
-        myChart.setOption(option); 
+        if(option.backgroundColor) pDom.style.backgroundColor = option.backgroundColor;
+        
+        if(this.parallelEchart) this.parallelEchart.dispose();
+    
+        let myChart = echarts.init(dom);  
+        this.parallelEchart = myChart; 
+        myChart.setOption(option);             
 
     }
     initBarChart(zoom){
         this.map = gVar.map;
         let {data} = this.state;  
+        let {type,option} = this.props;
         if(!zoom) zoom = this.map.getZoom() || 5;     
         let baseIconSize = zoom,
             radius = '20%',
@@ -163,11 +204,14 @@ class Chart extends Component{
             index++;
         }          
         let latlngs = [],legend = [],optionDatas = [];
-        if(!data||data.length === 0) console.warn('数据为空');
+        if(!data||data.length === 0) console.warn('data is required');
+        let barData = [];
+        if(type === 'bar') 
+            barData = this.barData = data;        
         let total = 0;
-        for (let key in data) {
-            if(data[key]){
-                let item = data[key];
+        for (let key in barData) {
+            if(barData[key]){
+                let item = barData[key];
                 latlngs.push([item[0].lat,item[0].lng]);
                 if(total === 0){
                     item.forEach((it,ind)=>{
@@ -183,7 +227,7 @@ class Chart extends Component{
             }
         }
         
-        let option = {          
+        let DefaultOption = {          
             tooltip: {
                 trigger: 'item',
                 formatter: "{a} <br/>{b} : {c}"
@@ -264,7 +308,7 @@ class Chart extends Component{
                 }
             }]
         };        
-        option = Object.assign({},this.props.option,option);
+        option = _.defaultsDeep({},DefaultOption,option);
         option.datas = optionDatas;
         option.radius = radius;
 
@@ -280,13 +324,14 @@ class Chart extends Component{
                 color:'#ccc',      
                 data: legend
             };
-            legendOption = Object.assign({},legendOption,this.props.option.legend)
+            legendOption = _.defaultsDeep({},legendOption,this.props.option.legend)
             echartsLegend(this.map, legendOption);               
         }
     }
     initPieChart(zoom){
     	this.map = gVar.map;
     	let {data} = this.state;
+        let {type,option} = this.props;
         if(!zoom) zoom = this.map.getZoom() || 5;     
         let baseIconSize = zoom,
             radius = '30%',
@@ -304,7 +349,7 @@ class Chart extends Component{
             index ++;
         }    
 
-		let option = {
+		let defaultOption = {
             tooltip: {
                 trigger: 'item',
                 formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -339,15 +384,19 @@ class Chart extends Component{
                 }
             }]
         };
-        option = Object.assign({},this.props.option,option);
-       
+
+        option = _.defaultsDeep({},defaultOption,option);
+        if(__DEV__) console.log('option',option);
         //经纬度不能相同
         let latlngs = [],legend = [],optionDatas = [];
-        if(!data||data.length === 0) console.warn('数据为空');
+        if(!data||data.length === 0) console.warn('data is required');
+        let pieData = {};
+        if(type === 'pie') 
+            pieData = this.pieData = data;       
         let total = 0;
-        for (let key in data) {
-        	if(data[key]){
-        		let item = data[key];
+        for (let key in pieData) {
+        	if(pieData[key]){
+        		let item = pieData[key];
         		latlngs.push([item[0].lat,item[0].lng]);
         		if(total === 0){
         			item.forEach((it,ind)=>{
@@ -371,14 +420,18 @@ class Chart extends Component{
                 color:'#ccc',      
                 data: legend
             };
-            legendOption = Object.assign({},this.props.option.legend,legendOption)
+            legendOption = _.defaultsDeep({},this.props.option.legend,legendOption)
             echartsLegend(this.map, legendOption);                  
         }
     }
     initMultiScatterChart(zoom){
         this.map = gVar.map;
         let {data} = this.state;    
-        if(!data||data.length === 0) console.warn('数据为空');
+        let {type,option} = this.props;
+        if(!data||data.length === 0) console.warn('data is required');
+        let multiData = {};
+        if(type === 'multiScatter') 
+            multiData = this.multiData = data;         
         if(!zoom) zoom = this.map.getZoom() || 5;  
         let baseIconSize = zoom - 1;
         let layerGroup = this.multiScatterLayerGroup;
@@ -388,13 +441,13 @@ class Chart extends Component{
         }        
 
         let legend = [],optionDatas = [];
-        let size = this.props.option.size?this.props.option.size : 5;
-        let classifyField = this.props.option.classify&&this.props.option.classify.field
-                            ?this.props.option.classify.field  : 'name';
+        let size = option.size?option.size : 5;
+        let classifyField = option.classify&&option.classify.field
+                            ?option.classify.field  : 'name';
         let total = 0;
-        for (let key in data) {
-            if(data[key]){
-                let item = data[key];
+        for (let key in multiData) {
+            if(multiData[key]){
+                let item = multiData[key];
                 if(total === 0){
                     item.forEach((it,ind)=>{
                         legend.push(it[classifyField]);
@@ -408,8 +461,8 @@ class Chart extends Component{
         let iconArr = [];
         let legendLen = legend.length;
         //按照大小来区分不同类型
-        if(this.props.option.classify&&this.props.option.classify.type=== 'size'){
-            let iconUrl = this.props.option.iconUrl[0] || require('./common/imgs/point.svg');                 
+        if(option.classify&&option.classify.type=== 'size'){
+            let iconUrl = option.iconUrl[0] || require('./common/imgs/point.svg');                 
 
             for (let i = 1; i <= legendLen; i++) {
                 let iconSize = (size + i - legendLen) * zoom;
@@ -428,7 +481,7 @@ class Chart extends Component{
             }                 
         }else{  //按照形状，提供的图片来区分类型
             for (let i = 1; i <= legendLen; i++) {         
-                let iconUrl = this.props.option.iconUrl[i-1] || this.getDefaultIconUrl(i);
+                let iconUrl = option.iconUrl[i-1] || this.getDefaultIconUrl(i);
                 let iconSize = size * 4;
                 let anchor = (i - 1) * 2  * zoom;
                 let icon = L.icon({
@@ -479,7 +532,7 @@ class Chart extends Component{
     initScatterChart(zoom){
         this.map = gVar.map;
         let {data} = this.state;
-        let {option} = this.props;
+        let {type,option} = this.props;
         if(!zoom) zoom = this.map.getZoom() || 5;     
         let baseIconSize = zoom - 1;
         //先清空
@@ -490,15 +543,24 @@ class Chart extends Component{
         }   
 
         let latlngs = [],optionDatas = [];
-        if(!data||data.length === 0) console.warn('数据为空');
+        if(!data||data.length === 0) throw new Error('data is required!');
+        let scatterData = [];
+        if(type === 'scatter') 
+            scatterData =  this.scatterData = data;
         let iconUrl = option.iconUrl || require('./common/imgs/point.png');
-        let size = option.size?option.size : 5;
-        let classifyNums = option.classify&&option.classify.numbers
-                            ?option.classify.numbers  : 1;
-        let classifyField = option.classify&&option.classify.field
-                            ?option.classify.field  : 'value';
+        option = _.defaultsDeep({},{
+            size:5,
+            classify:{
+                numbers:1,
+                field:'value'
+            }
+        },option);
+        let size = option.size,
+            classifyNums = option.classify.numbers,
+            classifyField = option.classify.field;
+
         let f = Math.floor(classifyNums/2),
-            len = data.length,
+            len = scatterData.length,
             classifyDataLen = Math.floor(len / classifyNums);
         
         let iconArr = [];
@@ -519,18 +581,24 @@ class Chart extends Component{
             iconArr.push(icon);
         }
         
-        data.sort( (a,b)=> {
+        scatterData.sort( (a,b)=> {
             return (+a[classifyField]) - (+b[classifyField]);
         })       
 
         for (let i = 0; i < len; i++) {   
-            let lat = data[i].lat,
-                lng = data[i].lng;
+            let lat = scatterData[i].lat,
+                lng = scatterData[i].lng;
             if(lat&&lng){
-                layerGroup.addLayer(L.marker([lat,lng], { icon: iconArr[Math.floor(i/classifyDataLen)] }))
+                let marker = L.marker([lat,lng], { icon: iconArr[Math.floor(i/classifyDataLen)] });
+                this.markerEvent(marker,scatterData);                 
+                layerGroup.addLayer(marker);
             }
         }        
-        layerGroup.addTo(this.map);   
+        /*layerGroup.on('click',(e)=>{
+            console.log('e',e);
+        }) */         
+        layerGroup.addTo(this.map); 
+
     }
     /**
      * 基于d3
@@ -597,27 +665,70 @@ class Chart extends Component{
         d3Overlay.addTo(this.map);
 			     
     }   
+    /**
+     * [markerEvent marker事件]
+     * TODO: 完成scatterChart之外的事件
+     * @param  {[L.marker]} marker [L.marker]
+     * @param  {[type]} data   [数据信息]
+     */
+    markerEvent(marker,data){
+        if(!Array.isArray(data)) throw new Error('data should be Array');
+        let len = data.length;
+        let findPropertiesByLatlng = (latlng)=>{
+            for (var i = 0; i < len; i++) {
+                let lat = data[i].lat,
+                    lng = data[i].lng;
+                if(lat&&lng&&latlng&&lat == latlng.lat && lng == latlng.lng){
+                    return data[i];
+                }
+            }
+        }
+        marker.on('click',(e)=>{
+            let item = findPropertiesByLatlng(e.latlng);
+            if(__DEV__) console.log('twoMarkerClicked',[item]);
+            if(item) Eventful.dispatch('twoMarkerClicked',[item]);
+        })        
+    }
     componentDidMount(){
-		Eventful.subscribe('twoZoom',(center)=>{
+        let {type,show} = this.props;
+        Eventful.subscribe('twoZoom',(center)=>{
             let zoom = gVar.map.getZoom();
             console.log('zoom',zoom);
-            switch(this.props.type) {
+            switch(type) {
                 case 'scatter':
-                    this.initScatterChart(zoom); 
+                    if(show) this.initScatterChart(zoom); 
                     break;
                 case 'multiScatter':
-                    this.initMultiScatterChart(zoom);
+                    if(show) this.initMultiScatterChart(zoom);
                     break;
                 case 'pie':
-                    this.initPieChart(zoom);
+                    if(show) this.initPieChart(zoom);
                     break;
                 case 'bar':
-                    this.initBarChart(zoom);
+                    if(show) this.initBarChart(zoom);
                     break;
             }
             
-        });	    	
+        });
 
+        this.handleEvents();
+    }
+    componentWillUnmount(){
+        Eventful.unSubscribe('twoMarkerClicked');
+                                       if(this.parallelEchart){
+            this.parallelEchart.dispose();
+            this.parallelEchart = null;
+        }        
+    }
+    handleEvents(){
+        Eventful.subscribe('twoMarkerClicked',(item)=>{
+            this.setState({
+                selectedMarkers:item
+            },()=>{
+                console.log(this.state);
+                this.initParallelChart();
+            })
+        });
     }
     /**
      * 基于WebGL，暂时不使用
@@ -673,7 +784,8 @@ class Chart extends Component{
     }   
 	render(){
 		return(
-			<div id="default-info-chart">			
+			<div id="default-info-chart">
+                <div id = "default-echart-div"></div>			
 			</div>
 		)
 	}    

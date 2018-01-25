@@ -62,6 +62,7 @@ class FlowMapTest extends Component{
     			>
     			</FlowMap>
     			<Lbasemap
+                    show = {true}
     				mapType="geoq_normalm3" 
 					zoom = {5}
 					center = {[30,104]}    	

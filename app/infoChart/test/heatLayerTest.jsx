@@ -55,6 +55,7 @@ class HeatLayerTest extends Component{
     			>
     			</HeatLayer>
     			<Lbasemap
+                    show = {true}
     				mapType="osm" 
 					zoom = {12}
 					center = {[31.88,121.4]}    	

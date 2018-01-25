@@ -170,6 +170,7 @@ class GeoAnalyseTest extends React.Component{
 				>
 				</GeoAnalyse>
 				<Lbasemap
+                    show = {true}
     				mapType="geoq_normalm3" 
 					zoom = {5}
 					center = {[30,104]}    	

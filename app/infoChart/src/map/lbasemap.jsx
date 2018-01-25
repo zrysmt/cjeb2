@@ -1,6 +1,7 @@
 /**
  * 可视化模块 leaflet底图
  * @Date 2017-6-19
+ *  [show] 是否显示
  *  [option] 配置
  *      option={{size:5}}
  *  [mapType] 地图类型
@@ -100,6 +101,8 @@ class Lbasemap extends Component{
              this.map.remove();
              gVar.map = null;
         }
+        Eventful.unSubscribe('threeCenter');
+        Eventful.unSubscribe('threeZoom');
     }
     handleMaptypebar(){
     	let map = this.map;
@@ -143,8 +146,13 @@ class Lbasemap extends Component{
 		osmGeocoder.addTo(this.map);
     }
 	render(){
+        let {show} = this.props;
+
 		return(
-			<div id="lmap">
+			<div id="lmap" 
+                style={{
+                    display:show?'block':'none'
+                }}>
 			</div>
 		)
 	}

@@ -81,6 +81,7 @@ class SvgScatterChartTest extends React.Component{
 				>
 				</Chart>
                 <Lbasemap 
+                    show = {true}
                     mapType={mapType||"geoq_normalm3"}
                     zoom = {zoom||5}
                     center = {center||[30,104]}
