@@ -1,6 +1,18 @@
-#map{
+.default-lmap-selectbar{
+	position: absolute;
+    top: 5px;
+    right: 20px;
+    z-index: 999;
+	img{
+		width: 18px;
+		height: 18px;
+		margin: 0 5px;
+		cursor: pointer;
+	}
+}
+#lmap{
 	width:100%;
-	min-height:400px;
+	min-height:200px;
 }
 .leaflet-control-attribution.leaflet-control{
 	display: none;

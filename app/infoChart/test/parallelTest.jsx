@@ -80,6 +80,7 @@ class ParallelTest extends React.Component{
                     scale={scale||true} 
                     osmGeocoder={osmGeocoder||false} 
                     maptypebar={maptypebar||true}
+                    selectbar = {true}
 
                     height = '300px'
                     width = '100%'

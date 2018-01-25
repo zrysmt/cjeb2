@@ -8,6 +8,7 @@
  *  [osmGeocoder] 是否显示osmGeocoder
  *  [scale]  是否显示比例尺
  *  [maptypebar] 是否显示地图切换按钮
+ *  [selectbar] 是否显示选择bar
  *  [center] 中心点坐标 
  *  [zoom]   zoomLevel
  *
@@ -29,6 +30,7 @@ import React,{Component} from 'react';
 import L from 'leaflet';
 import "./common/css/Control.OSMGeocoder.css";
 import "./common/leaflet-plugin/Control.OSMGeocoder.js";
+import "./common/leaflet-plugin/Leaflet.SelectAreaFeature.js";
 
 import util from './common/util.jsx';
 import Eventful from './common/eventful.js';
@@ -43,10 +45,12 @@ class Lbasemap extends Component{
             zoom:4,
             data:[]
         };
+        this.handleSelectBarClick = this.handleSelectBarClick.bind(this);
     }
     
     componentDidMount(){
-        let  {adapt,adaptOtherHeight,adaptTime,height,width} = this.props;
+        let  {adapt,adaptOtherHeight,adaptTime,height,width,scale,
+            osmGeocoder,maptypebar,selectbar} = this.props;
 		if(adapt&&!height) util.adaptHeight('lmap',adaptOtherHeight||105,adaptTime||300);//高度自适应
         let dom = document.getElementById('lmap');
         dom.style.height = height || '400px';
@@ -70,12 +74,30 @@ class Lbasemap extends Component{
 			type.addTo(map);
 		}
 			   
-		if(this.props.scale) L.control.scale().addTo(map); //比例尺
-		if(this.props.osmGeocoder) this.osmGeocoderGen();
-		if(this.props.maptypebar) this.handleMaptypebar();
+		if(scale) L.control.scale().addTo(map); //比例尺
+		if(osmGeocoder) this.osmGeocoderGen();
+		if(maptypebar) this.handleMaptypebar();
         this.handleEventListener();
     }
-    
+
+    handleSelectBarClick(e){
+        let {selectbar} = this.props;
+        if(!selectbar) return;
+        let oprType = e.target.getAttribute('type');
+        if(oprType === 'enable'){
+            this.selectfeature = this.map.selectAreaFeature.enable();
+            this.map.on('mouseup', ()=>{
+                let features = this.selectfeature.getFeaturesSelected('marker');
+                if(__DEV__) console.log('features',features);
+                Eventful.dispatch('twoSelectFeature',features);
+            });          
+        }else if(oprType === 'disabled'){
+            if(this.selectfeature) this.selectfeature.disable();
+        }else if(oprType === 'clear'){
+            if(this.selectfeature) this.selectfeature.removeAllArea();
+            Eventful.dispatch('twoSelectFeatureClear');
+        }
+    }
     handleEventListener(){
         let map = this.map;
         let isDispatchMove = true;
@@ -146,14 +168,29 @@ class Lbasemap extends Component{
 		osmGeocoder.addTo(this.map);
     }
 	render(){
-        let {show} = this.props;
+        let {show,selectbar} = this.props;
 
 		return(
-			<div id="lmap" 
-                style={{
-                    display:show?'block':'none'
-                }}>
-			</div>
+            <div>  
+                <div 
+                    className = 'default-lmap-selectbar'
+                    style={{
+                        display:show && selectbar?'block':'none'
+                    }}
+                >
+                    <img type='enable' title='enable' src= {require('./common/imgs/select.png')}
+                        onClick={this.handleSelectBarClick}/>
+                    <img type='disabled' title='disabled' src= {require('./common/imgs/disabled.png')}
+                        onClick={this.handleSelectBarClick}/>
+                    <img type='clear' title='clear last draw' src= {require('./common/imgs/clear.png')}
+                        onClick={this.handleSelectBarClick}/>
+                </div>
+    			<div id="lmap" 
+                    style={{
+                        display:show?'block':'none'
+                    }}>
+    			</div>
+            </div>
 		)
 	}
 }

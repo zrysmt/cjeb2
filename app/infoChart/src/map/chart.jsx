@@ -73,6 +73,16 @@ class Chart extends Component{
         let parallelData = [];
         if(type === 'parallel') 
             parallelData = this.parallelData = data;
+        console.log('parallelData',parallelData);
+        let findPropertiesByLatlng = (latlng,dataSource)=>{    
+            for (let key in dataSource) {
+                let lat = dataSource[key][0].lat,
+                    lng = dataSource[key][0].lng;
+                if(lat&&lng&&latlng&&lat == latlng.lat && lng == latlng.lng){
+                    return dataSource[key];
+                }                     
+            }       
+        }        
         let genParallelAxis = (arr)=>{
             let parallelAxis = [];
             arr.forEach((item,index)=>{
@@ -143,6 +153,7 @@ class Chart extends Component{
                 data: []
             }]                       
         },option);  
+        console.log('selectedMarkers',selectedMarkers);
         let index = 0,seriesData = [];
         for (let key in parallelData) {
             if(index === 0 )      
@@ -151,6 +162,9 @@ class Chart extends Component{
             let oneData =  [];
             if(selectedMarkers&&selectedMarkers.length > 0){
                 selectedMarkers.forEach((marker,ind1)=>{
+                    // console.info('marker1',marker,marker.getLatLng(),marker.getLatLng().lat);
+                    marker = findPropertiesByLatlng(marker.getLatLng(),parallelData);
+                    console.info('marker2',marker);
                     if(marker && marker[option.field.marker] === key){
                         parallelData[key].forEach((item,ind2)=>{
                             oneData.push(item[option.field.value]);
@@ -547,6 +561,8 @@ class Chart extends Component{
         let scatterData = [];
         if(type === 'scatter') 
             scatterData =  this.scatterData = data;
+        console.info('this.scatterData2',this.scatterData);
+
         let iconUrl = option.iconUrl || require('./common/imgs/point.png');
         option = _.defaultsDeep({},{
             size:5,
@@ -673,20 +689,13 @@ class Chart extends Component{
      */
     markerEvent(marker,data){
         if(!Array.isArray(data)) throw new Error('data should be Array');
-        let len = data.length;
-        let findPropertiesByLatlng = (latlng)=>{
-            for (var i = 0; i < len; i++) {
-                let lat = data[i].lat,
-                    lng = data[i].lng;
-                if(lat&&lng&&latlng&&lat == latlng.lat && lng == latlng.lng){
-                    return data[i];
-                }
-            }
-        }
+        
         marker.on('click',(e)=>{
-            let item = findPropertiesByLatlng(e.latlng);
-            if(__DEV__) console.log('twoMarkerClicked',[item]);
-            if(item) Eventful.dispatch('twoMarkerClicked',[item]);
+            console.log('e',e.target);
+            if(__DEV__) console.log('twoMarkerClicked',[e.target]);
+            if(e.target && e.target instanceof L.Marker) {
+               Eventful.dispatch('twoMarkerClicked',[e.target]);  
+            }
         })        
     }
     componentDidMount(){
@@ -715,7 +724,7 @@ class Chart extends Component{
     }
     componentWillUnmount(){
         Eventful.unSubscribe('twoMarkerClicked');
-                                       if(this.parallelEchart){
+        if(this.parallelEchart){
             this.parallelEchart.dispose();
             this.parallelEchart = null;
         }        
@@ -729,6 +738,14 @@ class Chart extends Component{
                 this.initParallelChart();
             })
         });
+        Eventful.subscribe('twoSelectFeature',(features)=>{
+            this.setState({
+                selectedMarkers:features
+            },()=>{
+                console.log(this.state);
+                this.initParallelChart();
+            })
+        });        
     }
     /**
      * 基于WebGL，暂时不使用
