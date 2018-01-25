@@ -9,6 +9,14 @@
  *  [maptypebar] 是否显示地图切换按钮
  *  [center] 中心点坐标 
  *  [zoom]   zoomLevel
+ *
+ *  height = '400px'
+    width = '100%'
+ *  
+    adapt = {false}
+    adaptOtherHeight = {105}
+    adaptTime = {300}
+ *  
  * <Lbasemap mapType="geoq_normalm3" scale={true} osmGeocoder={true} maptypebar={true}>
  *  </Lbasemap>
  */
@@ -37,8 +45,12 @@ class Lbasemap extends Component{
     }
     
     componentDidMount(){
-		util.adaptHeight('lmap',105,300);//高度自适应
-
+        let  {adapt,adaptOtherHeight,adaptTime,height,width} = this.props;
+		if(adapt&&!height) util.adaptHeight('lmap',adaptOtherHeight||105,adaptTime||300);//高度自适应
+        let dom = document.getElementById('lmap');
+        dom.style.height = height || '400px';
+        dom.style.width = width || '100%';
+        
 		let map = L.map('lmap',{
 			crs:L.CRS.EPSG3857 //默认墨卡托投影 ESPG：3857
 		});

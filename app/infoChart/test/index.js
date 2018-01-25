@@ -17,6 +17,8 @@ import HeatLayerTest from './heatLayerTest';
 import ThematicMapTest from './thematicMapTest';
 
 import TimeLineTest from './timeLineTest';
+/*平行坐标*/
+import ParallelTest from './parallelTest';
 
 /*地理分析*/
 import GeoAnalyseTest from './geoAnalyseTest';
@@ -25,4 +27,4 @@ import GeoAnalyse3DTest from './geoAnalyse3DTest';
 export {LMapTest,LiquidFillTest,ScatterChartTest,SvgScatterChartTest,
 	SvgScatterChartTest2,PieChartTest,BarChartTest,CesiumMapTest,Chart3DTest,Chart3DTest2,
 	SpaceCubeTest,FlowMapTest,HeatLayerTest,ThematicMapTest,TimeLineTest,
-	GeoAnalyseTest,GeoAnalyse3DTest};
+	GeoAnalyseTest,GeoAnalyse3DTest,ParallelTest};

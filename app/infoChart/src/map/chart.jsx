@@ -4,6 +4,7 @@
 import React,{Component} from 'react';
 import L from 'leaflet';
 import * as d3 from 'd3';
+import echarts from 'echarts';
 import axios from 'axios';
 import './common/leaflet-plugin/L.D3SvgOverlay';
 import  './common/Leaflet.WebGL/src/L.WebGL.js';
@@ -48,8 +49,99 @@ class Chart extends Component{
     			break;    
 			case 'multiScatter':
                 this.initMultiScatterChart();
-    			break;       		   					
+    			break; 
+            case 'parallel':
+                this.initParallelChart();
+                break;                    		   					
     	}
+    }
+    initParallelChart(){
+        let {data} = this.state;  
+        let {option} = this.props;
+        if(!data) throw new Error('data is required');
+        let genParallelAxis = (arr)=>{
+            let parallelAxis = [];
+            arr.forEach((item,index)=>{
+                parallelAxis.push({
+                    dim:index,
+                    name:item[option.field.name]
+                })
+
+            }) 
+            return parallelAxis;           
+        }
+        option = Object.assign({},{
+            field:{
+                name:'name',  
+                value:'value' 
+            },
+            height:'300px',
+            width:'100%', 
+            // echarts option
+            backgroundColor: '#333',
+            parallelAxis:[],
+            parallel: {
+                left: '10%',
+                right: '30%',
+                bottom: 100,
+                parallelAxisDefault: {
+                    type: 'value',
+                    name: '',
+                    nameLocation: 'end',
+                    nameGap: 20,
+                    nameTextStyle: {
+                        color: '#fff',
+                        fontSize: 12
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#aaa'
+                        }
+                    },
+                    axisTick: {
+                        lineStyle: {
+                            color: '#777'
+                        }
+                    },
+                    splitLine: {
+                        show: false
+                    },
+                    axisLabel: {
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'parallel',
+                lineStyle: {
+                    width: 4
+                },
+                smooth: true,
+                data: []
+            }]                       
+        },option);  
+        let index = 0,seriesData = [];
+        for (let key in data) {
+            if(index === 0 )      
+                option.parallelAxis = genParallelAxis(data[key]);
+            let oneData =  [];
+            data[key].forEach((item,index)=>{
+                oneData.push(item[option.field.value]);
+            })
+            seriesData.push(oneData);
+        }      
+        option.series[0].data = seriesData;
+        if(__DEV__) console.log('option',option);
+        let dom = document.getElementById('default-info-chart');
+        dom.style.width = option.width;
+        dom.style.height = option.height;
+        dom.style.margin = '0 auto';
+        if(option.backgroundColor) dom.style.backgroundColor = option.backgroundColor;
+        let myChart = echarts.init(dom);   
+        myChart.setOption(option); 
+
     }
     initBarChart(zoom){
         this.map = gVar.map;
