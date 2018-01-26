@@ -162,10 +162,8 @@ class Chart extends Component{
             let oneData =  [];
             if(selectedMarkers&&selectedMarkers.length > 0){
                 selectedMarkers.forEach((marker,ind1)=>{
-                    // console.info('marker1',marker,marker.getLatLng(),marker.getLatLng().lat);
                     marker = findPropertiesByLatlng(marker.getLatLng(),parallelData);
-                    console.info('marker2',marker);
-                    if(marker && marker[option.field.marker] === key){
+                    if(marker && marker[0][option.field.marker] === key){
                         parallelData[key].forEach((item,ind2)=>{
                             oneData.push(item[option.field.value]);
                         })                        
@@ -241,7 +239,7 @@ class Chart extends Component{
             }
         }
         
-        let DefaultOption = {          
+        let defaultOption = {          
             tooltip: {
                 trigger: 'item',
                 formatter: "{a} <br/>{b} : {c}"
@@ -322,7 +320,7 @@ class Chart extends Component{
                 }
             }]
         };        
-        option = _.defaultsDeep({},DefaultOption,option);
+        option = _.defaultsDeep({},defaultOption,option);
         option.datas = optionDatas;
         option.radius = radius;
 
@@ -724,6 +722,8 @@ class Chart extends Component{
     }
     componentWillUnmount(){
         Eventful.unSubscribe('twoMarkerClicked');
+        Eventful.unSubscribe('twoSelectFeature');
+        Eventful.unSubscribe('twoSelectFeatureClear');
         if(this.parallelEchart){
             this.parallelEchart.dispose();
             this.parallelEchart = null;
@@ -734,7 +734,6 @@ class Chart extends Component{
             this.setState({
                 selectedMarkers:item
             },()=>{
-                console.log(this.state);
                 this.initParallelChart();
             })
         });
@@ -742,10 +741,17 @@ class Chart extends Component{
             this.setState({
                 selectedMarkers:features
             },()=>{
-                console.log(this.state);
                 this.initParallelChart();
             })
-        });        
+        });
+        Eventful.subscribe('twoSelectFeatureClear',()=>{
+            this.setState({
+                selectedMarkers:[]
+            },()=>{
+                this.initParallelChart();
+            })
+        });              
+             
     }
     /**
      * 基于WebGL，暂时不使用
