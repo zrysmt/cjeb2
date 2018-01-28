@@ -65,21 +65,27 @@ class LMapTest extends React.Component{
 		return(
 			<div >	
 				<Chart 
-					mapType="geoq_normalm3"  
+                    show = {true}
 					data={data}
-					zoom = {5}
-					center = {[30,104]}
                     type = 'scatter'
 					option={{
 						size:5,
                         iconUrl:require('./assets/imgs/point.png')
 					}}
-				    scale={true} 
-				    osmGeocoder={false} 
-				    maptypebar={true}
-				    handleInfoModal = {this.handleInfoModal}
 				>
 				</Chart>
+                <Lbasemap 
+                    show = {true}
+                    mapType={"geoq_normalm3"}
+                    zoom = {5}
+                    center = {[30,104]}
+                    option={{size:5,color:['#44a3e5']}}
+                    scale={true} 
+                    osmGeocoder={false} 
+                    maptypebar={true}
+                    height = {'500px'}
+                >
+                </Lbasemap>                
 				<div id="infomodal-div">
                 	<InfoModal info={info}/>
             	</div>					
