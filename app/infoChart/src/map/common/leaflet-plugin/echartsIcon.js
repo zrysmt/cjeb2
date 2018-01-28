@@ -43,6 +43,10 @@ function echartsIcon(map, latlngs, option ,layerGroup) {
     if(option.radius) radius = +(option.radius).replace('%','');
     for (var i = 0; i < latlngs.length; i++) {
         var latlng = latlngs[i];
+        if(option.offset){
+            latlng[0] = latlng[0] + option.offset.x;
+            latlng[1] = latlng[1] + option.offset.y;
+        }
         var newClassName = 'icon-' + latlng.join('-');
         var myIcon = L.divIcon({
             className: 'my-div-icon',

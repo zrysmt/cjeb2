@@ -94,7 +94,7 @@ class Chart extends Component{
             }) 
             return parallelAxis;           
         }
-        option = _.defaultsDeep({},{
+        option = _.defaultsDeep({},{           
             field:{
                 name:'name',  
                 value:'value' 
@@ -153,7 +153,7 @@ class Chart extends Component{
                 data: []
             }]                       
         },option);  
-        console.log('selectedMarkers',selectedMarkers);
+    
         let index = 0,seriesData = [];
         for (let key in parallelData) {
             if(index === 0 )      
@@ -239,7 +239,11 @@ class Chart extends Component{
             }
         }
         
-        let defaultOption = {          
+        let defaultOption = {
+            offset:{
+                x:0,
+                y:0
+            },                   
             tooltip: {
                 trigger: 'item',
                 formatter: "{a} <br/>{b} : {c}"
@@ -320,7 +324,7 @@ class Chart extends Component{
                 }
             }]
         };        
-        option = _.defaultsDeep({},defaultOption,option);
+        option = _.defaultsDeep({},option,defaultOption);
         option.datas = optionDatas;
         option.radius = radius;
 
@@ -362,6 +366,10 @@ class Chart extends Component{
         }    
 
 		let defaultOption = {
+            offset:{
+                x:0,
+                y:0
+            },            
             tooltip: {
                 trigger: 'item',
                 formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -397,7 +405,7 @@ class Chart extends Component{
             }]
         };
 
-        option = _.defaultsDeep({},defaultOption,option);
+        option = _.defaultsDeep({},option,defaultOption);
         if(__DEV__) console.log('option',option);
         //经纬度不能相同
         let latlngs = [],legend = [],optionDatas = [];
@@ -453,9 +461,20 @@ class Chart extends Component{
         }        
 
         let legend = [],optionDatas = [];
-        let size = option.size?option.size : 5;
-        let classifyField = option.classify&&option.classify.field
-                            ?option.classify.field  : 'name';
+
+        option = _.defaultsDeep({},option,{
+            size:5,
+            offset:{
+                x:0,
+                y:0
+            },
+            classify:{
+                numbers:1,
+                field:'name'
+            }
+        });        
+        let size = option.size;
+        let classifyField = option.classify.field;
         let total = 0;
         for (let key in multiData) {
             if(multiData[key]){
@@ -519,7 +538,8 @@ class Chart extends Component{
                 if(j >= legendLen) break;
                 if(!this.props.geocode){
                     if(lat && lng){
-                        layerGroup.addLayer(L.marker([lat,lng], { icon: iconArr[j] }));     
+                        layerGroup.addLayer(L.marker([lat+option.offset.x,lng+option.offset.y], 
+                            { icon: iconArr[j] }));     
                     }
                 }else{
                     let qName = dataj[this.props.geocode];
@@ -528,7 +548,8 @@ class Chart extends Component{
                         let lat1 = +results.data[0].lat,
                             lng1 = +results.data[0].lon;
                         if(lat1 && lng1){
-                            layerGroup.addLayer(L.marker([lat1,lng1], { icon: iconArr[j] })); 
+                            layerGroup.addLayer(L.marker([lat1+option.offset.x,lng1+option.offset.y], 
+                                { icon: iconArr[j] })); 
                         }                                          
                     })
                 }                       
@@ -559,16 +580,19 @@ class Chart extends Component{
         let scatterData = [];
         if(type === 'scatter') 
             scatterData =  this.scatterData = data;
-        console.info('this.scatterData2',this.scatterData);
 
         let iconUrl = option.iconUrl || require('./common/imgs/point.png');
-        option = _.defaultsDeep({},{
+        option = _.defaultsDeep({},option,{
             size:5,
+            offset:{
+                x:0,
+                y:0
+            },
             classify:{
                 numbers:1,
                 field:'value'
             }
-        },option);
+        });
         let size = option.size,
             classifyNums = option.classify.numbers,
             classifyField = option.classify.field;
@@ -603,7 +627,7 @@ class Chart extends Component{
             let lat = scatterData[i].lat,
                 lng = scatterData[i].lng;
             if(lat&&lng){
-                let marker = L.marker([lat,lng], { icon: iconArr[Math.floor(i/classifyDataLen)] });
+                let marker = L.marker([lat+option.offset.x,lng+option.offset.y], { icon: iconArr[Math.floor(i/classifyDataLen)] });
                 this.markerEvent(marker,scatterData);                 
                 layerGroup.addLayer(marker);
             }

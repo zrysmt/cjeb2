@@ -63,7 +63,21 @@ class LMapTest extends React.Component{
 	render(){
 		let {data,info} = this.state;
 		return(
-			<div >	
+			<div>
+                <Chart 
+                    show = {true}
+                    data={data}
+                    type = 'scatter'
+                    option={{
+                        size:5,
+                        offset:{
+                            x:0.1,
+                            y:0.2
+                        }
+                        // iconUrl:require('./assets/imgs/point.png')
+                    }}
+                >
+                </Chart>                	
 				<Chart 
                     show = {true}
 					data={data}
