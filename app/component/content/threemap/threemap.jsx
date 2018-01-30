@@ -230,7 +230,7 @@ class Threemap extends React.Component {
         }
 
         function createSphereArc(P, Q) {
-            var sphereArc = new THREE.Curve();
+            let sphereArc = new THREE.Curve();
             sphereArc.getPoint = greatCircleFunction(P, Q);
             return sphereArc;
         }
@@ -252,7 +252,7 @@ class Threemap extends React.Component {
      * 绘制点
      */
     addMarker(lat, lon, radius,colory) {
-        var marker = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 8), new THREE.MeshBasicMaterial({ color: colory }));
+        let marker = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 8), new THREE.MeshBasicMaterial({ color: colory }));
         let coord = this.convertLatLonToCood(lat, lon,radius);
         marker.position.x = coord.x;
         marker.position.y = coord.y;

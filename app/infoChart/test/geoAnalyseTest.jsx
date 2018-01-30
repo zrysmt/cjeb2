@@ -124,7 +124,7 @@ class GeoAnalyseTest extends React.Component{
 					mapBind = 'Lbasemap'
 					type = 'buffer'
     				data = {data}	
-    				show = {false}
+    				show = {true}
     				option = {{
     					show:{
     						point:true,
@@ -145,7 +145,7 @@ class GeoAnalyseTest extends React.Component{
 					mapBind = 'Lbasemap'
 					type = 'isolines'
     				data = {data}	
-    				show = {true}
+    				show = {false}
     				option = {{
     					show:{
     						point:true,
