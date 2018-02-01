@@ -204,9 +204,9 @@ let util = {
         return promise;
     },
     /**
-     * [genGeoJson json=>geojson]
-     * @param  {[type]} data [description]
-     * @return {[type]}      [description]
+     * [genGeoJson 将json格式数据转化为geojson格式]
+     * @param  {Array} data [json格式数据，数组形如[{},{},{}]]
+     * @return {GeoJSON}      [返回GeoJSON数据]
      */
     genGeoJson(data) {
         let nodes = {

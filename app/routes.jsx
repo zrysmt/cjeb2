@@ -46,6 +46,7 @@ let routes = (
 		<Route path="/makemap" component={Makemap}/>
 		<Route path="/mapmod" component={Mapmod}/>
 		
+		<Route path="/lf" component={LiquidFillTest}/>
 		<Route path="/ic" component={LMapTest}/>
 		<Route path="/sc" component={ScatterChartTest}/>
 		<Route path="/ssc" component={SvgScatterChartTest}/>

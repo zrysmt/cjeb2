@@ -65,7 +65,7 @@ class LMapTest extends React.Component{
 		return(
 			<div>
                 <Chart 
-                    show = {true}
+                    show = {false}
                     data={data}
                     type = 'scatter'
                     option={{

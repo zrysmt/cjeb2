@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {SpaceCube} from '../src/index';
+import {CesiumMap,SpaceCube} from '../src/index';
 
 import axios from 'axios';
 const server = "http://localhost:8000/";

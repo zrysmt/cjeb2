@@ -745,6 +745,12 @@ class Chart extends Component{
         this.handleEvents();
     }
     componentWillUnmount(){
+        this.map = gVar.map;
+        if(this.map){
+            this.map.eachLayer((layer)=>{
+                this.map.removeLayer(layer);
+            })         
+        }
         Eventful.unSubscribe('twoMarkerClicked');
         Eventful.unSubscribe('twoSelectFeature');
         Eventful.unSubscribe('twoSelectFeatureClear');

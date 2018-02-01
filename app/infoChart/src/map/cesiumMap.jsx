@@ -1,3 +1,13 @@
+/*
+ *  height = {height}
+ *  center = {center}    
+    viewerOption = {{
+        sceneMode : Cesium.SceneMode.SCENE3D,  //MORPHING  SCENE2D COLUMBUS_VIEW  SCENE3D 
+        // imageryProvider:'OpenStreetMap',
+    }}        
+ *
+ */
+
 import './cesiumMap.scss';
 import 'cesium/Widgets/widgets.css';
 
