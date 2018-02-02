@@ -65,7 +65,7 @@ class GeoAnalyse3DTest extends React.Component{
                     mapBind = 'CesiumMap'
                     type = 'voronoi3D'
                     data = {data}   
-                    show = {true}
+                    show = {false}
                     option = {{
                         show:{
                             point:true
@@ -119,7 +119,7 @@ class GeoAnalyse3DTest extends React.Component{
 					mapBind = 'CesiumMap'
 					type = 'tin'
                     data = {data}   
-                    show = {false}
+                    show = {true}
                     option = {{
                         show:{
                             point:true
