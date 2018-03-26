@@ -2,20 +2,20 @@
 import gVar from './map/global.js'
 
 /***二维平面图***/
-import Lbasemap from './map/map2D';
+import Map2D from './map/map2D';
 /*二维地图作为底图*/
-import Chart from './map/chart';
+import Chart from './chart/chart';
 
 /***cesium 三维地球***/
-import CesiumMap from './map/cesiumMap';
-import Chart3D from './map/chart3D';
-import SpaceCube from './map/spaceCube';
+import Map3D from './map/map3D';
+import Chart3D from './chart/chart3D';
+import SpaceCube from './chart/spaceCube';
 
 
-import FlowMap from './map/flowMap';
-import HeatLayer from './map/heatLayer';
-import ThematicMap from './map/thematicMap';
-import MigrateLayer from './map/migrateLayer';
+import FlowMap from './chart/flowMap';
+import HeatLayer from './chart/heatLayer';
+import ThematicMap from './chart/thematicMap';
+import MigrateLayer from './chart/migrateLayer';
 /***工具库***/
 
 import LiquidChart from './tools/liquidchart/liquidchart';
@@ -28,6 +28,6 @@ import GeoAnalyse from './geo/geoAnalyse';
 import GeoAnalyse3D from './geo/geoAnalyse3D';
 
 
-export {gVar,Lbasemap,Chart,CesiumMap,SpaceCube,Chart3D,FlowMap,HeatLayer,ThematicMap,
+export {gVar,Map2D,Chart,Map3D,SpaceCube,Chart3D,FlowMap,HeatLayer,ThematicMap,
     MigrateLayer,LiquidChart,InfoModal,TimeLine,SelectPane,
 	GeoAnalyse,GeoAnalyse3D};

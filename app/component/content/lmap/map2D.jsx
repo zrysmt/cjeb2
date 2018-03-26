@@ -7,10 +7,10 @@
  *  [maptypebar] 是否显示地图切换按钮
  *  [center] 中心点坐标 
  *  [zoom]   zoomLevel
- * <Lbasemap mapType="geoq_normalm3" scale={true} osmGeocoder={true} maptypebar={true}>
- *  </Lbasemap>
+ * <Map2D mapType="geoq_normalm3" scale={true} osmGeocoder={true} maptypebar={true}>
+ *  </Map2D>
  */
-import './lbasemap.scss';
+import './map2D.scss';
 
 import React,{Component} from 'react';
 import L from 'leaflet';
@@ -25,7 +25,7 @@ import Eventful from '../../../common/eventful.js';
 
 import mapTypes from './maptypes.js';
 
-class Lbasemap extends Component{
+class Map2D extends Component{
 	constructor(props){
         super(props);
         this.state = {
@@ -220,4 +220,4 @@ class Lbasemap extends Component{
 	}
 }
 
-export default Lbasemap;
+export default Map2D;

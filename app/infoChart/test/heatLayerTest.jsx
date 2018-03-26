@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {HeatLayer,Lbasemap} from '../src/index';
+import {HeatLayer,Map2D} from '../src/index';
 
 import Cesium from 'cesium/Cesium';
 import axios from 'axios';
@@ -46,7 +46,7 @@ class HeatLayerTest extends Component{
     		<div>
     			<HeatLayer
                     show = {true}
-    				mapBind = 'Lbasemap'
+    				mapBind = 'Map2D'
     				data = {data}
     				option = {{
     					size : 5,
@@ -54,7 +54,7 @@ class HeatLayerTest extends Component{
     				}}
     			>
     			</HeatLayer>
-    			<Lbasemap
+    			<Map2D
                     show = {true}
     				mapType="osm" 
 					zoom = {12}
@@ -63,7 +63,7 @@ class HeatLayerTest extends Component{
 				    osmGeocoder={false} 
 				    maptypebar={true}								
     			>
-    			</Lbasemap>
+    			</Map2D>
     		</div>
     	)
     }

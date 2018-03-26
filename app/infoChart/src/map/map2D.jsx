@@ -19,8 +19,8 @@
     adaptOtherHeight = {105}
     adaptTime = {300}
  *  
- * <Lbasemap mapType="geoq_normalm3" scale={true} osmGeocoder={true} maptypebar={true}>
- *  </Lbasemap>
+ * <Map2D mapType="geoq_normalm3" scale={true} osmGeocoder={true} maptypebar={true}>
+ *  </Map2D>
  */
 import './common/css/leaflet.css';
 import './map2D.scss';
@@ -37,7 +37,7 @@ import Eventful from './common/eventful.js';
 
 import mapTypes from './maptypes.js';
 
-class Lbasemap extends Component{
+class Map2D extends Component{
 	constructor(props){
         super(props);
         this.state = {
@@ -195,4 +195,4 @@ class Lbasemap extends Component{
 	}
 }
 
-export default Lbasemap;
+export default Map2D;

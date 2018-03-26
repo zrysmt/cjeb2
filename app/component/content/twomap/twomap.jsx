@@ -4,7 +4,7 @@ import React from 'react';
 
 import Eventful from '../../../common/eventful.js';
 
-import Lbasemap from '../lmap/lbasemap';
+import Map2D from '../lmap/map2D';
 import InfoModal from "../infoModal/infoModal";
 
 class Twomap extends React.Component{
@@ -62,7 +62,7 @@ class Twomap extends React.Component{
         console.log('info info',info);
         return(
             <div>
-                <Lbasemap
+                <Map2D
                     mapType="geoq_normalm3"
                     scale={true}
                     osmGeocoder={false}
@@ -72,7 +72,7 @@ class Twomap extends React.Component{
                     data = {data}
                     handleInfoModal = {this.handleInfoModal}
                 >
-                </Lbasemap>
+                </Map2D>
                 <div id="infomodal-div">
                     <InfoModal info={info}/>
                 </div>

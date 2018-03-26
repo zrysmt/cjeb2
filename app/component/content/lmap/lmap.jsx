@@ -5,21 +5,21 @@
  *  scale  是否显示比例尺
  *  osmGeocoder 是否显示osmGeocoder
  *  maptypebar 是否显示地图切换按钮
- * <Lbasemap mapType="geoq_normalm3"  scale={true} osmGeocoder={false} maptypebar={true}>
- *	</Lbasemap>
+ * <Map2D mapType="geoq_normalm3"  scale={true} osmGeocoder={false} maptypebar={true}>
+ *	</Map2D>
  * 
  */
 import '../../../common/css/leaflet.css';
 
 import React from 'react';
-import Lbasemap from './lbasemap';
+import Map2D from './map2D';
 
 class Lmap extends React.Component{
 	render(){
 		return(
 			<div id="lmap">
-				<Lbasemap mapType="geoq_normalm3"  scale={true} osmGeocoder={false} maptypebar={true}>
-				</Lbasemap>
+				<Map2D mapType="geoq_normalm3"  scale={true} osmGeocoder={false} maptypebar={true}>
+				</Map2D>
 			</div>
 		)
 	}

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import L from 'leaflet';
-import './common/leaflet-plugin/HeatLayer.js'; //Leaflet.heat
+import '../common/leaflet-plugin/HeatLayer.js'; //Leaflet.heat
 
-import gVar from './global';
+import gVar from '../map/global';
 
 class HeatLayer extends Component {
     constructor(props) {
@@ -19,7 +19,7 @@ class HeatLayer extends Component {
 
         if (!data) console.warn('FlowMap data is error');
 
-        if (mapBind == 'CesiumMap') {
+        if (mapBind == 'Map3D') {
             viewer = gVar.viewer;
         } else {
             this.map = map = gVar.map;

@@ -8,7 +8,7 @@
  *
  */
 
-import './cesiumMap.scss';
+import './map3D.scss';
 import 'cesium/Widgets/widgets.css';
 
 import React,{Component} from 'react';
@@ -20,7 +20,7 @@ import Eventful from './common/eventful.js';
 
 import gVar from './global';
 
-class CesiumMap extends Component{
+class Map3D extends Component{
 	constructor(props){
         super(props);
         this.state = {
@@ -122,4 +122,4 @@ class CesiumMap extends Component{
 }
 
 
-export default CesiumMap;
+export default Map3D;

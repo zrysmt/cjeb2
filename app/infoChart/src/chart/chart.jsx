@@ -7,14 +7,13 @@ import * as d3 from 'd3';
 import lodash from 'lodash';
 import echarts from 'echarts';
 import axios from 'axios';
-import './common/leaflet-plugin/L.D3SvgOverlay';
-import  './common/Leaflet.WebGL/src/L.WebGL.js';
-import echartsIcon from './common/leaflet-plugin/echartsIcon.js'; //echartsLegend
-import echartsLegend from './common/leaflet-plugin/echartsLegend.js'; //echartsLegend
+import '../common/leaflet-plugin/L.D3SvgOverlay';
+import  '../common/Leaflet.WebGL/src/L.WebGL.js';
+import echartsIcon from '../common/leaflet-plugin/echartsIcon.js'; //echartsLegend
+import echartsLegend from '../common/leaflet-plugin/echartsLegend.js'; //echartsLegend
 
-import Eventful from './common/eventful.js';
-import util from './common/util.jsx';
-import gVar from './global';
+import Eventful from '../common/eventful.js';
+import gVar from '../map/global';
 
 class Chart extends Component{
 	constructor(props){
@@ -493,7 +492,7 @@ class Chart extends Component{
         let legendLen = legend.length;
         //按照大小来区分不同类型
         if(option.classify&&option.classify.type=== 'size'){
-            let iconUrl = option.iconUrl[0] || require('./common/imgs/point.svg');                 
+            let iconUrl = option.iconUrl[0] || require('../common/imgs/point.svg');
 
             for (let i = 1; i <= legendLen; i++) {
                 let iconSize = (size + i - legendLen) * zoom;
@@ -581,7 +580,7 @@ class Chart extends Component{
         if(type === 'scatter') 
             scatterData =  this.scatterData = data;
 
-        let iconUrl = option.iconUrl || require('./common/imgs/point.png');
+        let iconUrl = option.iconUrl || require('../common/imgs/point.png');
         option = _.defaultsDeep({},option,{
             size:5,
             offset:{
@@ -804,25 +803,25 @@ class Chart extends Component{
         let defalutIconUrl;
         switch(i-1) {
             case 0:
-                defalutIconUrl = require('./common/imgs/point.svg');
+                defalutIconUrl = require('../common/imgs/point.svg');
                 break;
             case 1:
-                defalutIconUrl = require('./common/imgs/point1.svg');
+                defalutIconUrl = require('../common/imgs/point1.svg');
                 break;
             case 2:
-                defalutIconUrl = require('./common/imgs/point2.svg');
+                defalutIconUrl = require('../common/imgs/point2.svg');
                 break;                    
             case 3:
-                defalutIconUrl = require('./common/imgs/point3.svg');
+                defalutIconUrl = require('../common/imgs/point3.svg');
                 break;    
             case 4:
-                defalutIconUrl = require('./common/imgs/point4.svg');
+                defalutIconUrl = require('../common/imgs/point4.svg');
                 break;                      
             case 5:
-                defalutIconUrl = require('./common/imgs/point5.svg');
+                defalutIconUrl = require('../common/imgs/point5.svg');
                 break;  
             default:
-                defalutIconUrl = require('./common/imgs/point.svg');
+                defalutIconUrl = require('../common/imgs/point.svg');
                 break;                                                            
         }        
         return defalutIconUrl;

@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {MigrateLayer,Lbasemap} from '../src/index';
+import {MigrateLayer,Map2D} from '../src/index';
 
 import axios from 'axios';
 const server = "http://localhost:8000/";
@@ -81,7 +81,7 @@ class MigrateTest extends Component{
     		<div>
     			<MigrateLayer
                     show = {true}
-    				mapBind = 'Lbasemap'
+    				mapBind = 'Map2D'
     				data = {data}
     				option = {{
     					size : 5,
@@ -89,7 +89,7 @@ class MigrateTest extends Component{
     				}}
     			>
     			</MigrateLayer>
-    			<Lbasemap
+    			<Map2D
                     show = {true}
     				mapType="darkV9"
 					zoom = {zoom}
@@ -99,7 +99,7 @@ class MigrateTest extends Component{
 				    osmGeocoder={false} 
 				    maptypebar={true}								
     			>
-    			</Lbasemap>
+    			</Map2D>
     		</div>
     	)
     }

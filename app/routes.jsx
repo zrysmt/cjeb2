@@ -11,7 +11,7 @@ import Twothreemap from './page/twothreemap/twothreemap';
 
 //测试infoChart
 import {LMapTest,ScatterChartTest,SvgScatterChartTest,SvgScatterChartTest2,
-	LiquidFillTest,PieChartTest,BarChartTest,RadarChartTest,CesiumMapTest,
+	LiquidFillTest,PieChartTest,BarChartTest,RadarChartTest,Map3DTest,
 	Chart3DTest,Chart3DTest2,SpaceCubeTest,FlowMapTest,HeatLayerTest,
 	ThematicMapTest,MigrateTest,TimeLineTest ,GeoAnalyseTest,GeoAnalyse3DTest,ParallelTest}
     from './infoChart/test/index';
@@ -54,7 +54,7 @@ let routes = (
 		<Route path="/pc" component={PieChartTest}/>
 		<Route path="/bc" component={BarChartTest}/>
 
-		<Route path="/cm" component={CesiumMapTest}/>
+		<Route path="/cm" component={Map3DTest}/>
 		<Route path="/cm1" component={Chart3DTest}/>
 		<Route path="/cm2" component={Chart3DTest2}/>
 		<Route path="/space" component={SpaceCubeTest}/>

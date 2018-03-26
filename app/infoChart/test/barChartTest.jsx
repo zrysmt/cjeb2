@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {Lbasemap,Chart,InfoModal} from '../src/index';
+import {Map2D,Chart,InfoModal} from '../src/index';
 import axios from 'axios';
 const server = "http://localhost:8000/";
 
@@ -77,7 +77,7 @@ class BarChartTest extends React.Component{
 					}}
 				>
 				</Chart>
-                <Lbasemap 
+                <Map2D
                     show = {true}
                     mapType={mapType||"geoq_normalm3"}
                     zoom = {zoom||5}
@@ -87,7 +87,7 @@ class BarChartTest extends React.Component{
                     osmGeocoder={osmGeocoder||false} 
                     maptypebar={maptypebar||true}
                 >
-                </Lbasemap>                
+                </Map2D>
 				<div id="infomodal-div">
                 	<InfoModal info={info}/>
             	</div>					

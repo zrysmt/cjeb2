@@ -3,11 +3,7 @@ import './spaceCube.scss';
 import React,{Component} from 'react';
 import Cesium from 'cesium/Cesium';
 
-import CesiumMap from './cesiumMap';
-import util from './common/util.jsx';
-import Eventful from './common/eventful.js';
-
-import gVar from './global';
+import gVar from '../map/global';
 
 class SpaceCube extends Component{
 	constructor(props){

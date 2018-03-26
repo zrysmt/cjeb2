@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {FlowMap,Lbasemap} from '../src/index';
+import {FlowMap,Map2D} from '../src/index';
 
 import Cesium from 'cesium/Cesium';
 import axios from 'axios';
@@ -51,7 +51,7 @@ class FlowMapTest extends Component{
     		<div>
     			<FlowMap
                     show = {true}
-    				mapBind = 'Lbasemap'
+    				mapBind = 'Map2D'
     				data = {data}
     				links = {links}
     				dataCenter = {'SH'}
@@ -61,7 +61,7 @@ class FlowMapTest extends Component{
     				}}
     			>
     			</FlowMap>
-    			<Lbasemap
+    			<Map2D
                     show = {true}
     				mapType="geoq_normalm3" 
 					zoom = {5}
@@ -70,7 +70,7 @@ class FlowMapTest extends Component{
 				    osmGeocoder={false} 
 				    maptypebar={true}								
     			>
-    			</Lbasemap>
+    			</Map2D>
     		</div>
     	)
     }

@@ -7,7 +7,7 @@ import SvgScatterChartTest2 from './svgScatterChartTest2';
 import PieChartTest from './pieChartTest';
 import BarChartTest from './barChartTest';
 
-import CesiumMapTest from './cesiumMapTest';
+import Map3DTest from './cesiumMapTest';
 import Chart3DTest from './chart3DTest';
 import Chart3DTest2 from './chart3DTest2';
 
@@ -26,6 +26,6 @@ import GeoAnalyseTest from './geoAnalyseTest';
 import GeoAnalyse3DTest from './geoAnalyse3DTest';
 
 export {LMapTest,LiquidFillTest,ScatterChartTest,SvgScatterChartTest,
-	SvgScatterChartTest2,PieChartTest,BarChartTest,CesiumMapTest,Chart3DTest,Chart3DTest2,
+	SvgScatterChartTest2,PieChartTest,BarChartTest,Map3DTest,Chart3DTest,Chart3DTest2,
 	SpaceCubeTest,FlowMapTest,HeatLayerTest,ThematicMapTest,MigrateTest,TimeLineTest,
 	GeoAnalyseTest,GeoAnalyse3DTest,ParallelTest};

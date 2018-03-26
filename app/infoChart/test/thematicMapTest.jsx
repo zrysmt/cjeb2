@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {ThematicMap,Lbasemap} from '../src/index';
+import {ThematicMap,Map2D} from '../src/index';
 
 import Cesium from 'cesium/Cesium';
 import axios from 'axios';
@@ -47,7 +47,7 @@ class ThematicMapTest extends Component{
     		<div>
     			<ThematicMap
                     show = {true}
-    				mapBind = 'Lbasemap'
+    				mapBind = 'Map2D'
     				data = {data}        //
                     geojson = {''}
                     fieldId = {'province'}  //
@@ -62,7 +62,7 @@ class ThematicMapTest extends Component{
     				}}
     			>
     			</ThematicMap>
-    			<Lbasemap
+    			<Map2D
                     show = {true}
     				mapType="osm" 
 					zoom = {5}
@@ -71,7 +71,7 @@ class ThematicMapTest extends Component{
 				    osmGeocoder={false} 
 				    maptypebar={true}								
     			>
-    			</Lbasemap>
+    			</Map2D>
     		</div>
     	)
     }

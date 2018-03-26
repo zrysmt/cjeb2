@@ -3,11 +3,9 @@ import L from 'leaflet';
 import lodash from 'lodash';
 import Autolinker from 'autolinker';
 
-import util from './common/util.jsx';
-import Eventful from './common/eventful.js';
 
-import gVar from './global';
-import chinaJson from './common/data/china.json';
+import gVar from '../map/global';
+import chinaJson from '../common/data/china.json';
 
 class ThematicMap extends Component {
     constructor(props) {
@@ -24,7 +22,7 @@ class ThematicMap extends Component {
 
         if (!data) console.warn('FlowMap data is error');
  
-        if (mapBind == 'CesiumMap') {
+        if (mapBind == 'Map3D') {
             viewer = gVar.viewer;
         } else {
             this.map = map = gVar.map;

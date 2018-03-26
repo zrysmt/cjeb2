@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {Lbasemap,GeoAnalyse} from '../src/index';
+import {Map2D,GeoAnalyse} from '../src/index';
 import axios from 'axios';
 const server = "http://localhost:8000/";
 
@@ -59,7 +59,7 @@ class GeoAnalyseTest extends React.Component{
 		return(
 			<div>	
 				<GeoAnalyse 
-					mapBind = 'Lbasemap'
+					mapBind = 'Map2D'
 					type = 'opreate'
     				data = {data}	
     				//data1 = {}      // 可以是第二份数据
@@ -82,7 +82,7 @@ class GeoAnalyseTest extends React.Component{
 				>     
 				</GeoAnalyse>			
 				<GeoAnalyse 
-					mapBind = 'Lbasemap'
+					mapBind = 'Map2D'
 					type = 'voronoi'
     				data = {data}	
     				show = {false}
@@ -101,7 +101,7 @@ class GeoAnalyseTest extends React.Component{
 				>     
 				</GeoAnalyse>			
 				<GeoAnalyse 
-					mapBind = 'Lbasemap'
+					mapBind = 'Map2D'
 					type = 'tin'
     				data = {data}	
     				show = {false}
@@ -121,7 +121,7 @@ class GeoAnalyseTest extends React.Component{
 				>
 				</GeoAnalyse>				
 				<GeoAnalyse 
-					mapBind = 'Lbasemap'
+					mapBind = 'Map2D'
 					type = 'buffer'
     				data = {data}	
     				show = {true}
@@ -142,7 +142,7 @@ class GeoAnalyseTest extends React.Component{
 				>
 				</GeoAnalyse>				
 				<GeoAnalyse 
-					mapBind = 'Lbasemap'
+					mapBind = 'Map2D'
 					type = 'isolines'
     				data = {data}	
     				show = {false}
@@ -169,7 +169,7 @@ class GeoAnalyseTest extends React.Component{
     				}}			
 				>
 				</GeoAnalyse>
-				<Lbasemap
+				<Map2D
                     show = {true}
     				mapType="geoq_normalm3" 
 					zoom = {5}
@@ -178,7 +178,7 @@ class GeoAnalyseTest extends React.Component{
 				    osmGeocoder={false} 
 				    maptypebar={true}								
     			>
-    			</Lbasemap>								
+    			</Map2D>
 			</div>						
 		)
 	}

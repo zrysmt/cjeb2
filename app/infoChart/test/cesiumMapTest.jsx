@@ -1,10 +1,10 @@
 import React,{Component} from 'react';
-import {CesiumMap} from '../src/index';
+import {Map3D} from '../src/index';
 
 import axios from 'axios';
 const server = "http://localhost:8000/";
 
-class CesiumMapTest extends Component{
+class Map3DTest extends Component{
 	constructor(props){
         super(props);
         this.state = {
@@ -20,15 +20,15 @@ class CesiumMapTest extends Component{
 
     	return(
     		<div>
-    			<CesiumMap
+    			<Map3D
     				zoom = {zoom}
     				center = {center}
     			>	
-    			</CesiumMap>
+    			</Map3D>
     		</div>
     	)
     }
 }
 
 
-export default CesiumMapTest;
+export default Map3DTest;

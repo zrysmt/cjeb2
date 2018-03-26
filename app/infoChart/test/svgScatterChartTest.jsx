@@ -3,12 +3,12 @@
  *  scale  是否显示比例尺
  *  osmGeocoder 是否显示osmGeocoder
  *  maptypebar 是否显示地图切换按钮
- * <Lbasemap mapType="geoq_normalm3" scale={true} osmGeocoder={false} maptypebar={true}>
- *	</Lbasemap>
+ * <Map2D mapType="geoq_normalm3" scale={true} osmGeocoder={false} maptypebar={true}>
+ *	</Map2D>
  * 
  */
 import React from 'react';
-import {Lbasemap,Chart,InfoModal} from '../src/index';
+import {Map2D,Chart,InfoModal} from '../src/index';
 import axios from 'axios';
 const server = "http://localhost:8000/";
 
@@ -80,7 +80,7 @@ class SvgScatterChartTest extends React.Component{
 					}}
 				>
 				</Chart>
-                <Lbasemap 
+                <Map2D
                     show = {true}
                     mapType={mapType||"geoq_normalm3"}
                     zoom = {zoom||5}
@@ -90,7 +90,7 @@ class SvgScatterChartTest extends React.Component{
                     osmGeocoder={osmGeocoder||false} 
                     maptypebar={maptypebar||true}
                 >
-                </Lbasemap>                 
+                </Map2D>
 				<div id="infomodal-div">
                 	<InfoModal info={info}/>
             	</div>					

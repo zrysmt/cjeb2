@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {CesiumMap,GeoAnalyse3D} from '../src/index';
+import {Map3D,GeoAnalyse3D} from '../src/index';
 import axios from 'axios';
 const server = "http://localhost:8000/";
 
@@ -62,7 +62,7 @@ class GeoAnalyse3DTest extends React.Component{
 		return(	
             <div>
                 <GeoAnalyse3D 
-                    mapBind = 'CesiumMap'
+                    mapBind = 'Map3D'
                     type = 'voronoi3D'
                     data = {data}   
                     show = {false}
@@ -81,7 +81,7 @@ class GeoAnalyse3DTest extends React.Component{
                 >
                 </GeoAnalyse3D>                
                 <GeoAnalyse3D 
-                    mapBind = 'CesiumMap'
+                    mapBind = 'Map3D'
                     type = 'voronoi'
                     data = {data}   
                     show = {false}
@@ -97,7 +97,7 @@ class GeoAnalyse3DTest extends React.Component{
                 >
                 </GeoAnalyse3D>                 
                 <GeoAnalyse3D 
-                    mapBind = 'CesiumMap'
+                    mapBind = 'Map3D'
                     type = 'tin3D'
                     data = {data}   
                     show = {false}
@@ -116,7 +116,7 @@ class GeoAnalyse3DTest extends React.Component{
                 >
                 </GeoAnalyse3D>                			
 				<GeoAnalyse3D 
-					mapBind = 'CesiumMap'
+					mapBind = 'Map3D'
 					type = 'tin'
                     data = {data}   
                     show = {true}
@@ -132,14 +132,14 @@ class GeoAnalyse3DTest extends React.Component{
                     }}	
 				>
 				</GeoAnalyse3D>
-				<CesiumMap
+				<Map3D
 					center = {center}
 					height = {height}  
                     viewerOption = {{
                         imageryProvider : 'OpenStreetMap'
                     }}  							
     			>
-    			</CesiumMap>								
+    			</Map3D>
 			</div>						
 		)
 	}

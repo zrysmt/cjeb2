@@ -5,9 +5,9 @@ import lodash from 'lodash';
 /*import {config} from './migrateConfig.js';
 import echarts from 'echarts';
 import "./common/leaflet-plugin/leaflet-echarts3";*/
-import "./common/leaflet-plugin/migrateLayer";
+import "../common/leaflet-plugin/migrateLayer";
 
-import gVar from './global';
+import gVar from '../map/global';
 
 class MigrateLayer extends Component {
     constructor(props) {
@@ -25,7 +25,7 @@ class MigrateLayer extends Component {
             map = null;
         if (!data) console.warn('FlowMap data is error');
 
-        if (mapBind == 'CesiumMap') {
+        if (mapBind == 'Map3D') {
             viewer = gVar.viewer;
         } else {
             this.map = map = gVar.map;

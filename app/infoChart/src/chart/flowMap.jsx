@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
-import Cesium from 'cesium/Cesium';
-import lodash from 'lodash';
-/*import * as d3 from 'd3';
-import './common/leaflet-plugin/spatialsankey.js';*/
 
-import CesiumMap from './cesiumMap';
-import util from './common/util.jsx';
-import Eventful from './common/eventful.js';
-
-import gVar from './global';
+import Map3D from '../map/map3D';
+import gVar from '../map/global';
 
 class FlowMap extends Component {
     constructor(props) {
@@ -29,7 +22,7 @@ class FlowMap extends Component {
 
         if (!data) console.warn('FlowMap data is required');
 
-        if (mapBind == 'CesiumMap') {
+        if (mapBind == 'Map3D') {
             viewer = gVar.viewer;
         } else {
             this.map = map = gVar.map;

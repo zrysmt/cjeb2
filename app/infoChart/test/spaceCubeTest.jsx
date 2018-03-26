@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {CesiumMap,SpaceCube} from '../src/index';
+import {Map3D,SpaceCube} from '../src/index';
 
 import axios from 'axios';
 const server = "http://localhost:8000/";
@@ -60,11 +60,11 @@ class Chart3DTest extends Component{
     				}}
     			>	
     			</SpaceCube>
-                <CesiumMap
+                <Map3D
                     height = {height}
                     center = {center}    
                     viewerOption = {viewerOption||''}               
-                ></CesiumMap>                   
+                ></Map3D>
     		</div>
     	)
     }

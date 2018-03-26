@@ -1,14 +1,9 @@
 import './chart3D.scss';
 
 import React,{Component} from 'react';
-import Cesium from 'cesium/Cesium';
 
-import CesiumMap from './cesiumMap';
-import gVar from './global';
+import gVar from '../map/global';
 import WebGLGlobeDataSource from './webGLGlobeDataSource';
-
-import util from './common/util.jsx';
-import Eventful from './common/eventful.js';
 
 class Chart3D extends Component{
 	constructor(props){
