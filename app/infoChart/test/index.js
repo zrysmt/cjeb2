@@ -15,6 +15,7 @@ import SpaceCubeTest from './spaceCubeTest';
 import FlowMapTest from './flowMapTest';
 import HeatLayerTest from './heatLayerTest';
 import ThematicMapTest from './thematicMapTest';
+import MigrateTest from './migrateTest';
 
 import TimeLineTest from './timeLineTest';
 /*平行坐标*/
@@ -26,5 +27,5 @@ import GeoAnalyse3DTest from './geoAnalyse3DTest';
 
 export {LMapTest,LiquidFillTest,ScatterChartTest,SvgScatterChartTest,
 	SvgScatterChartTest2,PieChartTest,BarChartTest,CesiumMapTest,Chart3DTest,Chart3DTest2,
-	SpaceCubeTest,FlowMapTest,HeatLayerTest,ThematicMapTest,TimeLineTest,
+	SpaceCubeTest,FlowMapTest,HeatLayerTest,ThematicMapTest,MigrateTest,TimeLineTest,
 	GeoAnalyseTest,GeoAnalyse3DTest,ParallelTest};

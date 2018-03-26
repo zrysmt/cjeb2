@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import L from 'leaflet';
 import './common/leaflet-plugin/HeatLayer.js'; //Leaflet.heat
 
-import util from './common/util.jsx';
-import Eventful from './common/eventful.js';
-
 import gVar from './global';
 
 class HeatLayer extends Component {

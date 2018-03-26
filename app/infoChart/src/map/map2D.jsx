@@ -23,7 +23,7 @@
  *  </Lbasemap>
  */
 import './common/css/leaflet.css';
-import './lbasemap.scss';
+import './map2D.scss';
 import gVar from './global';
 
 import React,{Component} from 'react';
