@@ -81,7 +81,7 @@ class Map3D extends Component{
 			let zoom = Math.round(cg.alt/1000000);
 			this.index ++;
 			if(this.index > 1){
-				Eventful.dispatch('threeZoom',[cg.lat,cg.lng]);
+				Eventful.dispatch('threeCenter',[cg.lat,cg.lng]);
 				if(oldZoom - zoom > 0){ // zoom ++
 					Eventful.dispatch('threeZoom',Math.abs(oldZoom - zoom));
 					if(__DEV__) console.log('zoom+',Math.abs(oldZoom - zoom));
@@ -101,7 +101,7 @@ class Map3D extends Component{
 		let lat = Cesium.Math.toDegrees(cartographic.latitude);
 		let lng = Cesium.Math.toDegrees(cartographic.longitude);
 		let alt = cartographic.height;   
-		console.log(lat,lng,alt);
+		// console.log(lat,lng,alt);
 		return {
 			lat:lat,
 			lng:lng,
