@@ -21,7 +21,8 @@ class Map3DTest extends Component{
     	return(
     		<div>
     			<Map3D
-    				zoom = {zoom}
+                    show = {true}
+                    zoom = {zoom}
     				center = {center}
     			>	
     			</Map3D>

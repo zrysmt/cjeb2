@@ -20,7 +20,7 @@
 import './timeLine.scss';
 
 import React, {Component} from 'react';
-import Eventful from '../../map/common/eventful.js';
+import Eventful from '../../common/eventful.js';
 
 class TimeLine extends React.Component {
     constructor(props) {

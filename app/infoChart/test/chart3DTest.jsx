@@ -62,6 +62,7 @@ class Chart3DTest extends Component{
     			>	
     			</Chart3D>
                 <Map3D
+                    show = {true}
                     height = {height}
                     center = {center}    
                     viewerOption = {{

@@ -77,7 +77,7 @@ class LiquidChart extends React.Component{
 
 		return(
 			<div className="liquid-chart" style={{width:width,height:height}}>
-				<LiquidFill keyValue={this.props.keyValue} data = {data} style={style}/>
+				<LiquidFill keyValue={this.props.keyValue} data = {t} style={style}/>
 				<div className="liquid-text">{this.props.text}</div>
 			</div>
 		)

@@ -22,7 +22,7 @@ class LiquidFill extends React.Component{
 		}else{
 			optionData.push(parseFloat(data));
 		} 
-			
+			console.log('optionData',optionData)
 		option = {
 		    series: [{
 		        type: 'liquidFill',
@@ -81,8 +81,5 @@ class LiquidChart extends React.Component{
 	}
 }
 
-LiquidChart.propTypes ={
-	data:React.PropTypes.string.isRequired
-}
 
 export default LiquidChart;

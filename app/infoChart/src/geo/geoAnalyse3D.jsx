@@ -1,18 +1,13 @@
-/**
-
- */
-
 import React,{Component} from 'react';
 import Cesium from 'cesium/Cesium';
-import lodash from 'lodash';
+import _ from 'lodash';
 import {interpolate,featureEach,isolines,pointGrid,isobands,
 	buffer,tin,voronoi,bbox,polygonize,polygon,
 	intersect,union,difference} from '@turf/turf'
 import leafletLegend from './common/js/leafletLegend';
-import gVar from '../map/global';
 
-import util from '../map/common/util.jsx';
-import Eventful from '../map/common/eventful.js';
+import gVar from '../map/global';
+import util from '../common/util.jsx';
 
 class GeoAnalyse3D extends Component{
 	constructor(props){
@@ -178,18 +173,10 @@ class GeoAnalyse3D extends Component{
         	markerSymbol: option.markerSymbol||'',
     	}));    	
     }
-    componentDidMount(){
-    }
-    
-    
-    componentWillUnmount(){
-    	
-    }
     
 	render(){
 		return(
-			<div> 
-			</div>
+			<div></div>
 		)
 	}
 }

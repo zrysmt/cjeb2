@@ -22,18 +22,18 @@
  * <Map2D mapType="geoq_normalm3" scale={true} osmGeocoder={true} maptypebar={true}>
  *  </Map2D>
  */
-import './common/css/leaflet.css';
+import '../common/css/leaflet.css';
 import './map2D.scss';
 import gVar from './global';
 
 import React,{Component} from 'react';
 import L from 'leaflet';
-import "./common/css/Control.OSMGeocoder.css";
-import "./common/leaflet-plugin/Control.OSMGeocoder.js";
-import "./common/leaflet-plugin/Leaflet.SelectAreaFeature.js";
+import "../common/css/Control.OSMGeocoder.css";
+import "../common/leaflet-plugin/Control.OSMGeocoder.js";
+import "../common/leaflet-plugin/Leaflet.SelectAreaFeature.js";
 
-import util from './common/util.jsx';
-import Eventful from './common/eventful.js';
+import util from '../common/util.jsx';
+import Eventful from '../common/eventful.js';
 
 import mapTypes from './maptypes.js';
 
@@ -178,11 +178,11 @@ class Map2D extends Component{
                         display:show && selectbar?'block':'none'
                     }}
                 >
-                    <img type='enable' title='enable' src= {require('./common/imgs/select.png')}
+                    <img type='enable' title='enable' src= {require('../common/imgs/select.png')}
                         onClick={this.handleSelectBarClick}/>
-                    <img type='disabled' title='disabled' src= {require('./common/imgs/disabled.png')}
+                    <img type='disabled' title='disabled' src= {require('../common/imgs/disabled.png')}
                         onClick={this.handleSelectBarClick}/>
-                    <img type='clear' title='clear last draw' src= {require('./common/imgs/clear.png')}
+                    <img type='clear' title='clear last draw' src= {require('../common/imgs/clear.png')}
                         onClick={this.handleSelectBarClick}/>
                 </div>
     			<div id="lmap" 

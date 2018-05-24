@@ -3,11 +3,9 @@
  * @Date 2017-6-19
  */
 import L from 'leaflet';
-import './common/leaflet-plugin/leaflet.ChineseTmsProviders.js'; //源码上有修改
-// import './common/baiduMapAPI-2.0-min.js';
-
-import './common/leaflet-plugin/leaflet.baidu.js';
-import "./common/leaflet-plugin/tile.stamen.js";
+import '../common/leaflet-plugin/leaflet.ChineseTmsProviders.js'; //源码上有修改
+import '../common/leaflet-plugin/leaflet.baidu.js';
+import "../common/leaflet-plugin/tile.stamen.js";
 
 let maxMinZoom = {
     maxZoom: 18,

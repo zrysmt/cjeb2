@@ -10,7 +10,7 @@
 import React from 'react';
 import {Map2D,Chart,InfoModal,TimeLine} from '../src/index';
 import axios from 'axios';
-import Eventful from '../src/map/common/eventful.js';
+import Eventful from '../src/common/eventful.js';
 const server = "http://localhost:8000/";
 
 class TimeLineTest extends React.Component{

@@ -5,20 +5,14 @@
 import React,{Component} from 'react';
 import L from 'leaflet';
 import * as d3 from 'd3';
-import lodash from 'lodash';
-// import '../map/common/css/leaflet.css';
-import  './common/css/leaflet.css';
-
-// import isolines from '@turf/isolines';
-// import pointGrid from '@turf/point-grid';
+import _ from 'lodash';
+import  '../common/css/leaflet.css';
 import {interpolate,featureEach,isolines,pointGrid,isobands,
 	buffer,tin,voronoi,bbox,polygonize,polygon,
 	intersect,union,difference} from '@turf/turf'
 import leafletLegend from './common/js/leafletLegend';
 import gVar from '../map/global';
-
-import util from '../map/common/util.jsx';
-import Eventful from '../map/common/eventful.js';
+import util from '../common/util.jsx';
 
 class GeoAnalyse extends Component{
 	constructor(props){
@@ -342,14 +336,6 @@ class GeoAnalyse extends Component{
 				pointLayerGroup.addLayer(L.marker([lat,lng],{icon: myIcon}));
 		})
 		pointLayerGroup.addTo(map);    	
-    }
-    componentDidMount(){
-		
-    }
-    
-    
-    componentWillUnmount(){
-    	
     }
     
 	render(){

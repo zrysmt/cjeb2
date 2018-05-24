@@ -13,10 +13,8 @@ import 'cesium/Widgets/widgets.css';
 
 import React,{Component} from 'react';
 import Cesium from 'cesium/Cesium';
-import lodash from 'lodash';
-
-import util from './common/util.jsx';
-import Eventful from './common/eventful.js';
+import _ from 'lodash';
+import Eventful from '../common/eventful.js';
 
 import gVar from './global';
 
@@ -33,7 +31,8 @@ class Map3D extends Component{
     componentDidMount(){
     	// util.adaptHeight('cesiumContainer',105,300);//高度自适应
     	Cesium.BingMapsApi.defaultKey = 'AgiU9gCjKNfaR2yFSDfLw8e9zUlAYisRvRC2_L-LsGYN2bII5ZUvorfP3QJvxmjn';
-		let {center,height,viewerOption} = this.props;
+		let {show,center,height,viewerOption} = this.props;
+		if(!show) return;
 		height = height ? height : 10000000;
 		let option = {
     		// sceneMode : Cesium.SceneMode.SCENE3D,

@@ -133,7 +133,8 @@ class GeoAnalyse3DTest extends React.Component{
 				>
 				</GeoAnalyse3D>
 				<Map3D
-					center = {center}
+                    show = {true}
+                    center = {center}
 					height = {height}  
                     viewerOption = {{
                         imageryProvider : 'OpenStreetMap'
