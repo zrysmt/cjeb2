@@ -77,7 +77,7 @@ var glValidEnumContexts = {
   'getRenderbufferParameter': { 0:true, 1:true },
   'renderbufferStorage': { 0:true, 1:true },
 
-  // Frame buffer operations (clear, blend, depth test, stencil)
+  // Frame buffer operations (clear, blend, depth example, stencil)
 
   'clear': { 0:true },
   'depthFunc': { 0:true },

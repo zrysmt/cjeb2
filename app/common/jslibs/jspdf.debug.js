@@ -4540,7 +4540,7 @@ AcroForm.internal.setBitPosition = function (variable, position, value) {
   *
   * http://jsperf.com/encoding-xhr-image-data/31
   *
-  * Need to test if this is a better solution for larger files
+  * Need to example if this is a better solution for larger files
   *
   */
 	jsPDFAPI.arrayBufferToBase64 = function (arrayBuffer) {
@@ -4680,7 +4680,7 @@ AcroForm.internal.setBitPosition = function (variable, position, value) {
 				if (processMethodNotEnabled(format)) throw new Error('please ensure that the plugin for \'' + format + '\' support is added');
 
 				/**
-     * need to test if it's more efficient to convert all binary strings
+     * need to example if it's more efficient to convert all binary strings
      * to TypedArray - or should we just leave and process as string?
      */
 				if (this.supportsArrayBuffer()) {
@@ -5119,7 +5119,7 @@ AcroForm.internal.setBitPosition = function (variable, position, value) {
 * @name autoPrint
 * @example
 * var doc = new jsPDF()
-* doc.text(10, 10, 'This is a test')
+* doc.text(10, 10, 'This is a example')
 * doc.autoPrint()
 * doc.save('autoprint.pdf')
 */
@@ -9269,7 +9269,7 @@ MIT license.
 	/*
  # reference (Python) versions of 'compress' and 'uncompress'
  # only 'uncompress' function is featured lower as JavaScript
- # if you want to unit test "roundtrip", just transcribe the reference
+ # if you want to unit example "roundtrip", just transcribe the reference
  # 'compress' function from Python into JavaScript
  
  def compress(data):
@@ -11781,7 +11781,7 @@ var Deflater = (function(obj) {
 
 			if ((stored_len + 4 <= opt_lenb) && buf != -1) {
 				// 4: two words for the lengths
-				// The test buf != NULL is only necessary if LIT_BUFSIZE > WSIZE.
+				// The example buf != NULL is only necessary if LIT_BUFSIZE > WSIZE.
 				// Otherwise we can't have processed more than WSIZE input bytes
 				// since
 				// the last block flush, because compression would have been

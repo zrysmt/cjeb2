@@ -2476,7 +2476,7 @@ THREE.Vector4.prototype = {
 		if ( Math.abs( s ) < 0.001 ) s = 1;
 
 		// prevent divide by zero, should not happen if matrix is orthogonal and should be
-		// caught by singularity test above, but I've left it in just in case
+		// caught by singularity example above, but I've left it in just in case
 
 		this.x = ( m32 - m23 ) / s;
 		this.y = ( m13 - m31 ) / s;
@@ -31253,7 +31253,7 @@ THREE.CombinedCamera = function ( width, height, fov, near, far, orthoNear, orth
 	this.top = height / 2;
 	this.bottom = -height / 2;
 
-	// We could also handle the projectionMatrix internally, but just wanted to test nested camera objects
+	// We could also handle the projectionMatrix internally, but just wanted to example nested camera objects
 
 	this.cameraO = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 	orthoNear, orthoFar );
 	this.cameraP = new THREE.PerspectiveCamera( fov, width / height, near, far );

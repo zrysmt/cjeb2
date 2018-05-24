@@ -4314,7 +4314,7 @@
                 //console.log(pathArray)
                 var position = [transform.left, transform.top];
                 for (var i = 0, l = pathArray.length; i < l; i++) {
-                    /* for test
+                    /* for example
                     console.log(
                         mapData.features[i].properties.cp, // 经纬度度
                         pathArray[i].cp                    // 平面坐标
@@ -34107,7 +34107,7 @@
             })();
 
         } // if
-        else { // make the canvas test simple by kener.linfeng@gmail.com
+        else { // make the canvas example simple by kener.linfeng@gmail.com
             G_vmlCanvasManager = false;
         }
         return G_vmlCanvasManager;

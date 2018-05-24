@@ -6,8 +6,8 @@
  * width 尺寸
  */
 import React from 'react';
-import echarts from 'echarts';
 import  liquidFill from 'echarts-liquidfill';
+import echarts from 'echarts';
 
 import './liquidchart.scss'
 
@@ -22,7 +22,6 @@ class LiquidFill extends React.Component{
 		}else{
 			optionData.push(parseFloat(data));
 		} 
-			console.log('optionData',optionData)
 		option = {
 		    series: [{
 		        type: 'liquidFill',

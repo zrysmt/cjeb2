@@ -1,3 +1,5 @@
+import ExampleList from './exampleList';
+
 import LMapTest from './lMapTest';
 import LiquidFillTest from './liquidFillTest';
 
@@ -25,7 +27,7 @@ import ParallelTest from './parallelTest';
 import GeoAnalyseTest from './geoAnalyseTest';
 import GeoAnalyse3DTest from './geoAnalyse3DTest';
 
-export {LMapTest,LiquidFillTest,ScatterChartTest,SvgScatterChartTest,
+export {ExampleList,LMapTest,LiquidFillTest,ScatterChartTest,SvgScatterChartTest,
 	SvgScatterChartTest2,PieChartTest,BarChartTest,Map3DTest,Chart3DTest,Chart3DTest2,
 	SpaceCubeTest,FlowMapTest,HeatLayerTest,ThematicMapTest,MigrateTest,TimeLineTest,
 	GeoAnalyseTest,GeoAnalyse3DTest,ParallelTest};

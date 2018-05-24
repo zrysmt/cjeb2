@@ -10,11 +10,11 @@ import Mapmod from './page/mapmod/mapmod';
 import Twothreemap from './page/twothreemap/twothreemap';
 
 //测试infoChart
-import {LMapTest,ScatterChartTest,SvgScatterChartTest,SvgScatterChartTest2,
+import {ExampleList,LMapTest,ScatterChartTest,SvgScatterChartTest,SvgScatterChartTest2,
 	LiquidFillTest,PieChartTest,BarChartTest,RadarChartTest,Map3DTest,
 	Chart3DTest,Chart3DTest2,SpaceCubeTest,FlowMapTest,HeatLayerTest,
 	ThematicMapTest,MigrateTest,TimeLineTest ,GeoAnalyseTest,GeoAnalyse3DTest,ParallelTest}
-    from './infoChart/test/index';
+    from './infoChart/example/index';
 
 let gConfigClass = new gConfig();
 
@@ -45,7 +45,8 @@ let routes = (
 		<Route path="/twothreemap" component={Twothreemap}/>
 		<Route path="/makemap" component={Makemap}/>
 		<Route path="/mapmod" component={Mapmod}/>
-		
+
+        <Route path="/example" component={ExampleList}/>
 		<Route path="/lf" component={LiquidFillTest}/>
 		<Route path="/ic" component={LMapTest}/>
 		<Route path="/sc" component={ScatterChartTest}/>
@@ -53,7 +54,6 @@ let routes = (
 		<Route path="/ssc2" component={SvgScatterChartTest2}/>
 		<Route path="/pc" component={PieChartTest}/>
 		<Route path="/bc" component={BarChartTest}/>
-
 		<Route path="/cm" component={Map3DTest}/>
 		<Route path="/cm1" component={Chart3DTest}/>
 		<Route path="/cm2" component={Chart3DTest2}/>

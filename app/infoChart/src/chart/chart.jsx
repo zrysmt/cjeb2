@@ -3,8 +3,7 @@
  */
 import React,{Component} from 'react';
 import L from 'leaflet';
-import * as d3 from 'd3';
-import lodash from 'lodash';
+import _ from 'lodash';
 import echarts from 'echarts';
 import axios from 'axios';
 import '../common/leaflet-plugin/L.D3SvgOverlay';

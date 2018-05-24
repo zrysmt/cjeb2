@@ -9,8 +9,8 @@
  * <LiquidChart keyValue='lc1' data='0.21' text={text1} style={style}/>
  */
 import React from 'react';
-import echarts from 'echarts';
 import  liquidFill from 'echarts-liquidfill';
+import echarts from 'echarts';
 
 import './liquidchart.scss';
 
@@ -77,7 +77,7 @@ class LiquidChart extends React.Component{
 
 		return(
 			<div className="liquid-chart" style={{width:width,height:height}}>
-				<LiquidFill keyValue={this.props.keyValue} data = {t} style={style}/>
+				<LiquidFill keyValue={this.props.keyValue} data = {data} style={style}/>
 				<div className="liquid-text">{this.props.text}</div>
 			</div>
 		)

@@ -94,8 +94,8 @@ module.exports = {
                 loader: "style-loader/useable!css-loader"
             },
             /*下面两行的作用是分离css*/
-            /*{ test: /\.css$/, loader:ExtractTextPlugin.extract("style-loader", "css-loader") },
-              { test: /\.scss$/, loader:ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader") }, //sass加载器*/
+            /*{ example: /\.css$/, loader:ExtractTextPlugin.extract("style-loader", "css-loader") },
+              { example: /\.scss$/, loader:ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader") }, //sass加载器*/
             {
                 test: /\.js[x]?$/,
                 exclude: /node_modules/,
