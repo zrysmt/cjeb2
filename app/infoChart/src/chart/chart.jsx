@@ -168,7 +168,7 @@ class Chart extends Component{
                     }
                 })
             }else{
-                parallelData[key].forEach((item,ind2)=>{
+                parallelData[key].forEach((item)=>{
                     oneData.push(item[option.field.value]);
                 })                
             }
@@ -747,7 +747,9 @@ class Chart extends Component{
         if(this.map){
             this.map.eachLayer((layer)=>{
                 this.map.removeLayer(layer);
-            })         
+            })
+            this.map = null;
+            gVar.map = null;
         }
         Eventful.unSubscribe('twoMarkerClicked');
         Eventful.unSubscribe('twoSelectFeature');

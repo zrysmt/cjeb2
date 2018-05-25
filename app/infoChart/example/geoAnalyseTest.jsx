@@ -56,6 +56,29 @@ class GeoAnalyseTest extends React.Component{
     }    	
 	render(){
 		let {data,info} = this.state;
+		let {type} = this.props.params;
+		let layerCtl = {buffer:false,isolines:false,tin:false,voronoi:false,opreate:false}
+		switch (type){
+			case 'buffer':
+                layerCtl.buffer = true
+				break;
+            case 'isolines':
+                layerCtl.isolines = true
+                break;
+            case 'tin':
+                layerCtl.tin = true
+                break;
+            case 'voronoi':
+                layerCtl.voronoi = true
+                break;
+            case 'opreate':
+                layerCtl.opreate = true
+                break;
+			default :
+                layerCtl.buffer = true
+
+        }
+
 		return(
 			<div>	
 				<GeoAnalyse 
@@ -63,7 +86,7 @@ class GeoAnalyseTest extends React.Component{
 					type = 'opreate'
     				data = {data}	
     				//data1 = {}      // 可以是第二份数据
-    				show = {false}
+    				show = {layerCtl.opreate}
     				option = {{
     					show:{
     						point:true
@@ -85,7 +108,7 @@ class GeoAnalyseTest extends React.Component{
 					mapBind = 'Map2D'
 					type = 'voronoi'
     				data = {data}	
-    				show = {false}
+    				show = {layerCtl.voronoi}
     				option = {{
     					show:{
     						point:true
@@ -104,7 +127,7 @@ class GeoAnalyseTest extends React.Component{
 					mapBind = 'Map2D'
 					type = 'tin'
     				data = {data}	
-    				show = {false}
+    				show = {layerCtl.tin}
     				option = {{
     					show:{
     						point:true
@@ -124,7 +147,7 @@ class GeoAnalyseTest extends React.Component{
 					mapBind = 'Map2D'
 					type = 'buffer'
     				data = {data}	
-    				show = {true}
+    				show = {layerCtl.buffer}
     				option = {{
     					show:{
     						point:true,
@@ -145,7 +168,7 @@ class GeoAnalyseTest extends React.Component{
 					mapBind = 'Map2D'
 					type = 'isolines'
     				data = {data}	
-    				show = {false}
+    				show = {layerCtl.isolines}
     				option = {{
     					show:{
     						point:true,

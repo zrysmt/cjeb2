@@ -59,13 +59,32 @@ class GeoAnalyse3DTest extends React.Component{
     }    	
 	render(){
 		let {center,height,data,info} = this.state;
+        let {type} = this.props.params;
+        let layerCtl = {tin:false,tin3D:false,voronoi:false,voronoi3D:false}
+        switch (type){
+            case 'tin':
+                layerCtl.tin = true
+                break;
+            case 'tin3D':
+                layerCtl.tin3D = true
+                break;
+            case 'voronoi':
+                layerCtl.voronoi = true
+                break;
+            case 'voronoi3D':
+                layerCtl.voronoi3D = true
+                break;
+            default :
+                layerCtl.tin = true
+
+        }
 		return(	
             <div>
                 <GeoAnalyse3D 
                     mapBind = 'Map3D'
                     type = 'voronoi3D'
                     data = {data}   
-                    show = {false}
+                    show = {layerCtl.voronoi3D}
                     option = {{
                         show:{
                             point:true
@@ -84,7 +103,7 @@ class GeoAnalyse3DTest extends React.Component{
                     mapBind = 'Map3D'
                     type = 'voronoi'
                     data = {data}   
-                    show = {false}
+                    show = {layerCtl.voronoi}
                     option = {{
                         show:{
                             point:true
@@ -100,7 +119,7 @@ class GeoAnalyse3DTest extends React.Component{
                     mapBind = 'Map3D'
                     type = 'tin3D'
                     data = {data}   
-                    show = {false}
+                    show = {layerCtl.tin3D}
                     option = {{
                         show:{
                             point:true
@@ -119,7 +138,7 @@ class GeoAnalyse3DTest extends React.Component{
 					mapBind = 'Map3D'
 					type = 'tin'
                     data = {data}   
-                    show = {true}
+                    show = {layerCtl.tin}
                     option = {{
                         show:{
                             point:true

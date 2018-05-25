@@ -61,7 +61,8 @@ class ScatterChartTest extends React.Component{
         });
     }    	
 	render(){
-		let {data,info,mapType,zoom,center,option,scale,osmGeocoder,maptypebar} = this.state;
+		const {data,info} = this.state;
+
 		return(
 			<div >	
 				<Chart 
@@ -80,13 +81,13 @@ class ScatterChartTest extends React.Component{
 				</Chart>
                 <Map2D
                     show = {true}
-                    mapType={mapType||"geoq_normalm3"}
-                    zoom = {zoom||5}
-                    center = {center||[30,104]}
-                    option={option||{size:5,color:['#44a3e5']}}
-                    scale={scale||true} 
-                    osmGeocoder={osmGeocoder||false} 
-                    maptypebar={maptypebar||true}
+                    mapType={"geoq_normalm3"}
+                    zoom = {5}
+                    center = {[30,104]}
+                    option={{size:5,color:['#44a3e5']}}
+                    scale={true}
+                    osmGeocoder={false}
+                    maptypebar={true}
                 >
                 </Map2D>
 				<div id="infomodal-div">

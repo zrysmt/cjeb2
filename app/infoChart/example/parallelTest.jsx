@@ -118,7 +118,7 @@ class ParallelTest extends React.Component{
                             require('./assets/imgs/point1.svg'),require('./assets/imgs/point3.svg')]
                     }}
                 >
-                </Chart> }                                
+                </Chart>
 				<Chart  
                     show = {true}
 					data={data}

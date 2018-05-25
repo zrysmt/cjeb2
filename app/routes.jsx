@@ -66,8 +66,8 @@ let routes = (
 
 		<Route path="/parallel" component={ParallelTest}/>
 
-		<Route path="/geo1" component={GeoAnalyseTest}/>  
-		<Route path="/geo2" component={GeoAnalyse3DTest}/>
+		<Route path="/geo1/:type" component={GeoAnalyseTest}/>
+		<Route path="/geo2/:type" component={GeoAnalyse3DTest}/>
 	</Route>
 );
 
